@@ -34,6 +34,10 @@ uint32_t *framebuffer = NULL;
 
 #pragma endregion GRAPHIC_ENGINE_INSTANCE_PROPERTIES
 
+// use for gameloop condition
+#define ON_GAME_RUNNING true
+
+
 /**
  * Initializes the SDL screen with the given width and height.
  *
