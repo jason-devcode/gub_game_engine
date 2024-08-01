@@ -3,8 +3,14 @@
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 
+void onSpaceKeyPressed()
+{
+    puts("Hola");
+}
+
 void *gameLoop(void *arg)
 {
+    addKeyEventListener(SDLK_SPACE, onSpaceKeyPressed);
     do
     {
         clearScreen();
@@ -18,6 +24,8 @@ void *gameLoop(void *arg)
 
         renderDelay(16); // Limit to 60  FPS
     } while (ON_GAME_RUNNING);
+
+    removeKeyEventListener(SDLK_SPACE, onSpaceKeyPressed);
 
     return NULL;
 }
