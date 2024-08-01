@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "graphic_engine.h": "c",
-        "algorithm": "c",
-        "format": "c",
-        "sdl.h": "c"
-    }
-}
