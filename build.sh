@@ -1,0 +1,1 @@
+gcc src/sample.c -o sample -lm -lSDL -O3
