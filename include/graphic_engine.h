@@ -7,6 +7,7 @@
 #include <pthread.h> // For POSIX thread functions
 
 #include "utils/timers.h" // For timers and time functions utilities
+#include "managers/key_event_manager.h"
 
 #pragma region GRAPHIC_ENGINE_INSTANCE_PROPERTIES
 
@@ -23,6 +24,9 @@ typedef struct
 // TODO: The global prefix 'g' denotes global variables for simplicity and performance
 
 EngineInstance gInstance; // Global instance of the EngineInstance structure
+
+// global key event manager
+KeyEventManager gKeyEventManager;
 
 // Global screen dimensions
 uint32_t gScreenWidth = 0;       // Width of the screen in pixels
@@ -100,6 +104,13 @@ void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *
         exit(EXIT_FAILURE);
     }
 
+    // Initialize Key Event Manager
+    if (KeyEventManager_init(&gKeyEventManager))
+    {
+        fputs("ERROR: Cannot initialize keyevent manager", stderr);
+        exit(EXIT_FAILURE);
+    }
+
     // Initialize the screen with the provided dimensions
     if (!initializeScreen(screenWidth, screenHeight))
         exit(EXIT_FAILURE);
@@ -142,11 +153,16 @@ void handleEvents(bool *running)
     // Process all pending events
     while (SDL_PollEvent(&event))
     {
+        if (event.type == SDL_KEYDOWN)
+        {
+            int keyPressed = event.key.keysym.sym;
+            KeyEventManager_handleEvent(gKeyEventManager, keyPressed);
+        }
+
         if (event.type == SDL_QUIT)
         {
             // Set running to false if a quit event is detected
             ON_GAME_RUNNING = false;
-
             *running = false;
         }
     }
@@ -216,5 +232,15 @@ void pixel(int x, int y, unsigned int color)
     register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                              \
     for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator) \
         *pixelsIterator = 0x0000000000000000LL;
+
+#pragma region KEYBOARD_UTILS
+
+#define addKeyEventListener(key, onKeyEvent) \
+    KeyEventManager_addKeyEventListener(&gKeyEventManager, key, onKeyEvent)
+
+#define removeKeyEventListener(key, onKeyEvent) \
+    KeyEventManager_removeKeyEventListener(&gKeyEventManager, key, onKeyEvent)
+
+#pragma endregion
 
 #endif
