@@ -6,6 +6,8 @@
 #include <SDL/SDL.h> // For SDL graphics functions
 #include <pthread.h> // For POSIX thread functions
 
+#include "utils/timers.h" // For timers and time functions utilities
+
 #pragma region GRAPHIC_ENGINE_INSTANCE_PROPERTIES
 
 // TODO: Use global properties for avoid innecesary memory address calculations and for simplicity
@@ -23,8 +25,9 @@ typedef struct
 EngineInstance gInstance; // Global instance of the EngineInstance structure
 
 // Global screen dimensions
-uint32_t gScreenWidth = 0;  // Width of the screen in pixels
-uint32_t gScreenHeight = 0; // Height of the screen in pixels
+uint32_t gScreenWidth = 0;       // Width of the screen in pixels
+uint32_t gScreenHeight = 0;      // Height of the screen in pixels
+uint32_t gScreenTotalPixels = 0; // Total pixels in the screen
 
 // Corrected pixel width for handling SDL screen pitch
 uint32_t gCorrectPixelsWidth = 0; // Number of pixels per row in framebuffer
@@ -35,8 +38,7 @@ uint32_t *framebuffer = NULL;
 #pragma endregion GRAPHIC_ENGINE_INSTANCE_PROPERTIES
 
 // use for gameloop condition
-#define ON_GAME_RUNNING true
-
+bool ON_GAME_RUNNING = true;
 
 /**
  * Initializes the SDL screen with the given width and height.
@@ -62,6 +64,8 @@ bool initializeScreen(uint16_t screenWidth, uint16_t screenHeight)
 
     // Correct the pixel width calculation based on screen pitch
     gCorrectPixelsWidth = gInstance.screen->pitch >> 2; // >> 2 is equivalent to / 4
+
+    gScreenTotalPixels = gCorrectPixelsWidth * screenHeight;
 
     // Set framebuffer pointer to the screen’s pixel data
     framebuffer = (uint32_t *)gInstance.screen->pixels;
@@ -141,6 +145,8 @@ void handleEvents(bool *running)
         if (event.type == SDL_QUIT)
         {
             // Set running to false if a quit event is detected
+            ON_GAME_RUNNING = false;
+
             *running = false;
         }
     }
@@ -152,12 +158,12 @@ void handleEvents(bool *running)
 void runEngine()
 {
     bool running = true;
+    ON_GAME_RUNNING = true;
 
     // Main loop of the engine
     while (running)
     {
         handleEvents(&running); // Handle events
-        SDL_Delay(16);          // Delay to achieve approximately 60 FPS
     }
 }
 
@@ -166,8 +172,8 @@ void runEngine()
  */
 void clearGameLoopThread()
 {
-    pthread_cancel(gInstance.gameThread);     // Cancel the game loop thread
-    pthread_join(gInstance.gameThread, NULL); // Wait for the thread to finish
+    ON_GAME_RUNNING = false;
+    pthread_join(gInstance.gameThread, NULL);
 }
 
 /**
@@ -177,6 +183,7 @@ void clearEngine()
 {
     clearGameLoopThread(); // Clean up the game loop thread
     SDL_Quit();            // Shut down SDL
+    exit(EXIT_SUCCESS);
 }
 
 /**
@@ -200,11 +207,14 @@ void pixel(int x, int y, unsigned int color)
 }
 
 // Macro to update the screen with the current framebuffer contents
-#define drawScreen() \
-    SDL_Flip(gInstance.screen);
+#define drawScreen()            \
+    SDL_Flip(gInstance.screen); \
+    UPDATE_TIMERS()
 
 // Macro to fill the screen with black color
-#define clearScreen() \
-    SDL_FillRect(gInstance.screen, NULL, SDL_MapRGB(gInstance.screen->format, 0, 0, 0));
+#define clearScreen()                                                                                               \
+    register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                              \
+    for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator) \
+        *pixelsIterator = 0x0000000000000000LL;
 
 #endif
