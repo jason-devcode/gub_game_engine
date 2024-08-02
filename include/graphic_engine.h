@@ -115,37 +115,48 @@ bool initializeGameLoop(void *(*gameLoop)(void *args))
     return true;
 }
 
-/**
- * Handles SDL events such as window close requests.
- */
+static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
+
 void handleEvents()
 {
     SDL_Event event;
+
     // Process all pending events
     while (SDL_PollEvent(&event))
     {
         if (event.type == SDL_KEYDOWN)
         {
-            int keyPressed = event.key.keysym.sym;
-            triggerEvent(gKeyPressEventManager, keyPressed);
-            continue;
+            int key = event.key.keysym.sym;
+            if (!keysPressed[key])
+            {
+                keysPressed[key] = true;
+                triggerEvent(gKeyPressEventManager, key);
+            }
         }
-
-        if (event.type == SDL_KEYUP)
+        else if (event.type == SDL_KEYUP)
         {
-            int keyPressed = event.key.keysym.sym;
-            triggerEvent(gKeyReleaseEventManager, keyPressed);
-            continue;
+            int key = event.key.keysym.sym;
+            if (keysPressed[key])
+            {
+                keysPressed[key] = false;
+                triggerEvent(gKeyReleaseEventManager, key);
+            }
         }
-
-        if (event.type == SDL_QUIT)
+        else if (event.type == SDL_QUIT)
         {
-            // Set running to false if a quit event is detected
             ON_GAME_RUNNING = false;
         }
     }
-}
 
+    // Trigger events for all keys still pressed
+    for (register int i = 0; i < MAX_KEY_LISTENER_LISTS_COUNT; ++i)
+    {
+        if (keysPressed[i])
+        {
+            triggerEvent(gKeyPressEventManager, i);
+        }
+    }
+}
 /**
  * Runs the main engine loop, handling events and maintaining the engine state.
  */
@@ -186,6 +197,7 @@ void clearKeyboardManagers()
  */
 void clearEngine()
 {
+    clearKeyboardManagers();
     clearGameLoopThread(); // Clean up the game loop thread
     SDL_Quit();            // Shut down SDL
     exit(EXIT_SUCCESS);
