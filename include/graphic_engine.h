@@ -8,6 +8,9 @@
 
 #include "utils/timers.h"   // For timers and time functions utilities
 #include "utils/keyboard.h" // For keyboard utils
+#include "utils/mouse.h"    // For mouse utils
+
+#include "managers/event_processors.h" // For main event processors
 
 #include "engine_properties/engine_instance_props.h" // For engine instance properties
 
@@ -84,6 +87,12 @@ void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *
         exit(EXIT_FAILURE);
     }
 
+    if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
+    {
+        fputs("ERROR: Cannot initialize mouse event manager", stderr);
+        exit(EXIT_FAILURE);
+    }
+
     // Initialize the screen with the provided dimensions
     if (!initializeScreen(screenWidth, screenHeight))
         exit(EXIT_FAILURE);
@@ -116,47 +125,46 @@ bool initializeGameLoop(void *(*gameLoop)(void *args))
 }
 
 static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
+static bool mouseButtonsPressed[MOUSE_LAST + 1] = {false}; // For left, middle, right, wheel up, wheel down
 
-void handleEvents()
+// Main function
+void processAllEvents()
 {
     SDL_Event event;
 
     // Process all pending events
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_KEYDOWN)
+        switch (event.type)
         {
-            int key = event.key.keysym.sym;
-            if (!keysPressed[key])
-            {
-                keysPressed[key] = true;
-                triggerEvent(gKeyPressEventManager, key);
-            }
-        }
-        else if (event.type == SDL_KEYUP)
-        {
-            int key = event.key.keysym.sym;
-            if (keysPressed[key])
-            {
-                keysPressed[key] = false;
-                triggerEvent(gKeyReleaseEventManager, key);
-            }
-        }
-        else if (event.type == SDL_QUIT)
-        {
-            ON_GAME_RUNNING = false;
+        case SDL_KEYDOWN:
+            PROCESS_KEYDOWN(event);
+            break;
+        case SDL_KEYUP:
+            PROCESS_KEYUP(event);
+            break;
+        case SDL_MOUSEMOTION:
+            PROCESS_MOUSEMOTION(event);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            PROCESS_MOUSEBUTTONDOWN(event);
+            break;
+        case SDL_MOUSEBUTTONUP:
+            PROCESS_MOUSEBUTTONUP(event);
+            break;
+        case SDL_QUIT:
+            PROCESS_QUIT(event);
+            break;
         }
     }
 
     // Trigger events for all keys still pressed
-    for (register int i = 0; i < MAX_KEY_LISTENER_LISTS_COUNT; ++i)
-    {
-        if (keysPressed[i])
-        {
-            triggerEvent(gKeyPressEventManager, i);
-        }
-    }
+    TRIGGER_PRESSED_KEYS();
+
+    // Trigger events for all mouse buttons still pressed
+    TRIGGER_PRESSED_MOUSE_BUTTONS();
 }
+
 /**
  * Runs the main engine loop, handling events and maintaining the engine state.
  */
@@ -169,7 +177,7 @@ void runEngine()
     {
         do
         {
-            handleEvents(); // Handle events
+            processAllEvents(); // Handle events
         } while (ON_GAME_RUNNING);
     }
 }
@@ -188,6 +196,7 @@ void clearGameLoopThread()
  */
 void clearKeyboardManagers()
 {
+    freeEventManager(&gMouseEventManager, true);
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
 }
