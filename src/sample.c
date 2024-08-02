@@ -1,24 +1,43 @@
-#include "../include/graphic_engine.h"
+#include "../include/game_engine.h"
 #include "../include/utils/geometry.h"
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 
 #include "../include/managers/event_manager.h"
 
-void onSpaceKeyPressed()
+typedef struct Vec2f
 {
-    printf("deltatime: %f\n", getDeltatime());
+    double x, y;
+} Vec2f;
+
+Vec2f playerPosition = {0, 0};
+
+void onPlayerMoveForward()
+{
+    playerPosition.y += getDeltatime() * 0.001;
 }
 
-void message()
+void onPlayerMoveBackward()
 {
-    puts("hola");
+    playerPosition.y -= getDeltatime() * 0.001;
+}
+
+void onPlayerRotateRight()
+{
+    playerPosition.x += getDeltatime() * 0.001;
+}
+
+void onPlayerRotateLeft()
+{
+    playerPosition.x -= getDeltatime() * 0.001;
 }
 
 void *gameLoop(void *arg)
 {
-    addKeyPressEventListener(SDLK_SPACE, onSpaceKeyPressed);
-    addKeyReleaseEventListener(SDLK_SPACE, message);
+    addKeyPressEventListener(SDLK_w, onPlayerMoveForward);
+    addKeyPressEventListener(SDLK_s, onPlayerMoveBackward);
+    addKeyPressEventListener(SDLK_a, onPlayerRotateLeft);
+    addKeyPressEventListener(SDLK_d, onPlayerRotateRight);
 
     do
     {
@@ -26,25 +45,16 @@ void *gameLoop(void *arg)
 
         drawFormattedText(
             10, 10, 0xFFFFFF00,
-            "FPS: %d\ndeltatime: %lf",
-            getFps(), getDeltatime());
+            "FPS: %d\ndeltatime: %lf\nplayer coords: (%lf, %lf,) \n",
+            getFps(), getDeltatime(),
+            playerPosition.x, playerPosition.y);
 
         drawScreen();
 
         renderDelay(16); // Limit to 60  FPS
     } while (ON_GAME_RUNNING);
 
-    removeKeyPressEventListener(SDLK_SPACE, onSpaceKeyPressed);
-    removeKeyReleaseEventListener(SDLK_SPACE, message);
-
     return NULL;
 }
 
-int main()
-{
-    initGraphicEngine(640, 480, "Basic SDL Engine");
-    initializeGameLoop(gameLoop);
-    runEngine();
-    clearEngine();
-    return EXIT_SUCCESS;
-}
+CREATE_GAME( 640, 480, "Basic Game Engine" );
