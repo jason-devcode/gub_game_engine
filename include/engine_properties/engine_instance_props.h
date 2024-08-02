@@ -21,18 +21,8 @@ typedef struct
 
 EngineInstance gInstance; // Global instance of the EngineInstance structure
 
-// Global screen dimensions
-uint32_t gScreenWidth = 0;       // Width of the screen in pixels
-uint32_t gScreenHeight = 0;      // Height of the screen in pixels
-uint32_t gScreenTotalPixels = 0; // Total pixels in the screen
-
-// Corrected pixel width for handling SDL screen pitch
-uint32_t gCorrectPixelsWidth = 0; // Number of pixels per row in framebuffer
-
-// Pointer to the framebuffer, where pixel data is stored
-uint32_t *framebuffer = NULL;
-
-// use for gameloop condition
-bool ON_GAME_RUNNING = true;
+#include "screen_dimensions.h"
+#include "framebuffer.h"
+#include "running_state.h"
 
 #endif

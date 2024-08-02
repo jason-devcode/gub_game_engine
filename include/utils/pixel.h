@@ -1,7 +1,8 @@
 #ifndef PIXEL_UTILS
 #define PIXEL_UTILS
 
-#include "../engine_properties/engine_instance_props.h"
+#include "../engine_properties/framebuffer.h"
+#include "../engine_properties/screen_dimensions.h"
 
 /**
  * Sets a pixel at (x, y) to the specified color.
