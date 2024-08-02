@@ -1,6 +1,14 @@
 #ifndef EVENT_PROCESSORS_H
 #define EVENT_PROCESSORS_H
 
+#include <stdbool.h> // For bool utils
+
+static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
+
+static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
+    false,
+}; // For left, middle, right, wheel up, wheel down
+
 /**
  * Macro to handle SDL_KEYDOWN events.
  * This macro checks if the key is already pressed. If not, it updates the
@@ -56,14 +64,13 @@
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_MOUSEBUTTONDOWN(event)                \
-    {                                                 \
-        int button = (event).button.button;           \
-        if (!mouseButtonsPressed[button - 1])         \
-        {                                             \
-            mouseButtonsPressed[button - 1] = true;   \
-            triggerEvent(gMouseEventManager, button); \
-        }                                             \
+#define PROCESS_MOUSEBUTTONDOWN(event)                                    \
+    int button = (event).button.button;                                   \
+    if (!gMouseButtonsPressed[button - 1])                                \
+    {                                                                     \
+        if (button != SDL_BUTTON_WHEELUP || button != SDL_BUTTON_WHEELUP) \
+            gMouseButtonsPressed[button - 1] = true;                      \
+        triggerEvent(gMouseEventManager, button);                         \
     }
 
 /**
@@ -76,9 +83,9 @@
 #define PROCESS_MOUSEBUTTONUP(event)                      \
     {                                                     \
         int button = (event).button.button;               \
-        if (mouseButtonsPressed[button - 1])              \
+        if (gMouseButtonsPressed[button - 1])             \
         {                                                 \
-            mouseButtonsPressed[button - 1] = false;      \
+            gMouseButtonsPressed[button - 1] = false;     \
             triggerEvent(gMouseEventManager, button + 5); \
         }                                                 \
     }
@@ -120,7 +127,7 @@
     {                                                \
         for (int i = 1; i < MOUSE_LAST + 1; ++i)     \
         {                                            \
-            if (mouseButtonsPressed[i - 1])          \
+            if (gMouseButtonsPressed[i - 1])         \
             {                                        \
                 triggerEvent(gMouseEventManager, i); \
             }                                        \

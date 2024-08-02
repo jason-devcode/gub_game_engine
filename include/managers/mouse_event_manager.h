@@ -16,8 +16,8 @@ typedef enum
     MOUSE_LEFT_BUTTON_DOWN,   /**< Event for mouse left button press. */
     MOUSE_MIDDLE_BUTTON_DOWN, /**< Event for mouse middle button press. */
     MOUSE_RIGHT_BUTTON_DOWN,  /**< Event for mouse right button press. */
-    MOUSE_WHELL_BUTTON_DOWN,  /**< Event for mouse wheel down. */
     MOUSE_WHELL_BUTTON_UP,    /**< Event for mouse wheel up. */
+    MOUSE_WHELL_BUTTON_DOWN,  /**< Event for mouse wheel down. */
     MOUSE_LEFT_BUTTON_UP,     /**< Event for mouse left button release. */
     MOUSE_MIDDLE_BUTTON_UP,   /**< Event for mouse middle button release. */
     MOUSE_RIGHT_BUTTON_UP,    /**< Event for mouse right button release. */
