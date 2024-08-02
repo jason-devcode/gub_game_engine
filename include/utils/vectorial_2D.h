@@ -2,7 +2,7 @@
 #define VECTORIAL_2D_CALCULUS_H
 
 #include <math.h>
-#include <fast_math.h> // For fast inv_sqrt and fast sqrt
+#include "fast_math.h" // For fast inv_sqrt and fast sqrt
 
 // Inline keyword for potentially faster function calls
 #define INLINE static inline
@@ -81,6 +81,49 @@ INLINE Vec2f vec2f_normalize(Vec2f v)
 {
     double inv_mag = vec2f_inv_magnitude(v);
     return (Vec2f){v.x * inv_mag, v.y * inv_mag};
+}
+
+/**
+ * @brief Rotates a 2D vector by a specified angle and returns a new vector.
+ *
+ * This function calculates the rotated position of a vector based on
+ * the provided angle (in radians) and returns a new `Vec2f` vector with
+ * the rotated coordinates.
+ *
+ * @param v The original 2D vector to be rotated.
+ * @param angleInRadians The angle by which to rotate the vector, in radians.
+ * @return A new `Vec2f` vector representing the rotated vector.
+ */
+INLINE Vec2f vec2f_rotate_by_angle(Vec2f v, float angleInRadians)
+{
+    const double sine_value = fast_sine(angleInRadians);
+    const double cosine_value = fast_cosine(angleInRadians);
+
+    return (Vec2f){
+        v.x * cosine_value - v.y * sine_value,
+        v.y * cosine_value + v.x * sine_value};
+}
+
+/**
+ * @brief Rotates a 2D vector in place by a specified angle.
+ *
+ * This function rotates the original vector (pointed to by the input pointer)
+ * based on the provided angle (in radians) and updates the vector's coordinates
+ * in place.
+ *
+ * @param v Pointer to the `Vec2f` vector to be rotated in place.
+ * @param angleInRadians The angle by which to rotate the vector, in radians.
+ */
+INLINE void vec2f_rotate_in_place(Vec2f *v, float angleInRadians)
+{
+    const double sine_value = fast_sine(angleInRadians);
+    const double cosine_value = fast_cosine(angleInRadians);
+
+    const double tempX = v->x;
+    const double tempY = v->y;
+
+    v->x = tempX * cosine_value - tempY * sine_value;
+    v->y = tempY * cosine_value + tempX * sine_value;
 }
 
 #endif // VECTORIAL_2D_CALCULUS_H
