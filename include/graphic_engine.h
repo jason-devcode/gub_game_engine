@@ -9,44 +9,11 @@
 #include "utils/timers.h"   // For timers and time utils
 #include "utils/keyboard.h" // For keyboard utils
 #include "utils/mouse.h"    // For mouse utils
-#include "utils/pixel.h"    // For pixel utils
+#include "utils/screen.h"   // For screen utils
 
 #include "managers/event_processors.h" // For main event processors
 
 #include "engine_properties/engine_instance_props.h" // For engine instance properties
-
-/**
- * Initializes the SDL screen with the given width and height.
- *
- * @param screenWidth Width of the screen in pixels.
- * @param screenHeight Height of the screen in pixels.
- * @return Returns true if the screen is initialized successfully, false otherwise.
- */
-bool initializeScreen(uint16_t screenWidth, uint16_t screenHeight)
-{
-    // Set the video mode with the given screen dimensions and 32-bit color depth
-    gInstance.screen = SDL_SetVideoMode(screenWidth, screenHeight, 32, SDL_SWSURFACE);
-    if (gInstance.screen == NULL)
-    {
-        // Print an error message if screen initialization fails
-        fprintf(stderr, "Cannot set video mode: %s\n", SDL_GetError());
-        return false;
-    }
-
-    // Initialize global screen properties
-    gScreenWidth = screenWidth;
-    gScreenHeight = screenHeight;
-
-    // Correct the pixel width calculation based on screen pitch
-    gCorrectPixelsWidth = gInstance.screen->pitch >> 2; // >> 2 is equivalent to / 4
-
-    gScreenTotalPixels = gCorrectPixelsWidth * screenHeight;
-
-    // Set framebuffer pointer to the screen’s pixel data
-    framebuffer = (uint32_t *)gInstance.screen->pixels;
-
-    return true;
-}
 
 /**
  * Sets the window title for the SDL window.
@@ -125,10 +92,6 @@ bool initializeGameLoop(void *(*gameLoop)(void *args))
     return true;
 }
 
-static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
-static bool mouseButtonsPressed[MOUSE_LAST + 1] = {false}; // For left, middle, right, wheel up, wheel down
-
-// Main function
 void processAllEvents()
 {
     SDL_Event event;
@@ -212,18 +175,5 @@ void clearEngine()
     SDL_Quit();            // Shut down SDL
     exit(EXIT_SUCCESS);
 }
-
-
-
-// Macro to update the screen with the current framebuffer contents
-#define drawScreen()            \
-    SDL_Flip(gInstance.screen); \
-    UPDATE_TIMERS()
-
-// Macro to fill the screen with black color
-#define clearScreen()                                                                                               \
-    register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                              \
-    for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator) \
-        *pixelsIterator = 0x0000000000000000LL;
 
 #endif
