@@ -6,43 +6,10 @@
 #include <SDL/SDL.h> // For SDL graphics functions
 #include <pthread.h> // For POSIX thread functions
 
-#include "utils/timers.h" // For timers and time functions utilities
-#include "managers/key_event_manager.h"
+#include "utils/timers.h"   // For timers and time functions utilities
+#include "utils/keyboard.h" // For keyboard utils
 
-#pragma region GRAPHIC_ENGINE_INSTANCE_PROPERTIES
-
-// TODO: Use global properties for avoid innecesary memory address calculations and for simplicity
-
-// Define a structure to hold the state of the graphics engine
-typedef struct
-{
-    SDL_Surface *screen;           // Pointer to the SDL surface representing the screen
-    pthread_t gameThread;          // Thread identifier for the game loop
-    void *(*gameLoop)(void *args); // Function pointer to the game loop function
-} EngineInstance;
-
-// TODO: The global prefix 'g' denotes global variables for simplicity and performance
-
-EngineInstance gInstance; // Global instance of the EngineInstance structure
-
-// global key event manager
-KeyEventManager gKeyEventManager;
-
-// Global screen dimensions
-uint32_t gScreenWidth = 0;       // Width of the screen in pixels
-uint32_t gScreenHeight = 0;      // Height of the screen in pixels
-uint32_t gScreenTotalPixels = 0; // Total pixels in the screen
-
-// Corrected pixel width for handling SDL screen pitch
-uint32_t gCorrectPixelsWidth = 0; // Number of pixels per row in framebuffer
-
-// Pointer to the framebuffer, where pixel data is stored
-uint32_t *framebuffer = NULL;
-
-#pragma endregion GRAPHIC_ENGINE_INSTANCE_PROPERTIES
-
-// use for gameloop condition
-bool ON_GAME_RUNNING = true;
+#include "engine_properties/engine_instance_props.h" // For engine instance properties
 
 /**
  * Initializes the SDL screen with the given width and height.
@@ -105,9 +72,15 @@ void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *
     }
 
     // Initialize Key Event Manager
-    if (KeyEventManager_init(&gKeyEventManager))
+    if (!initializeEventManager(&gKeyPressEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
     {
-        fputs("ERROR: Cannot initialize keyevent manager", stderr);
+        fputs("ERROR: Cannot initialize key press event manager", stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    if (!initializeEventManager(&gKeyReleaseEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
+    {
+        fputs("ERROR: Cannot initialize key release event manager", stderr);
         exit(EXIT_FAILURE);
     }
 
@@ -144,10 +117,8 @@ bool initializeGameLoop(void *(*gameLoop)(void *args))
 
 /**
  * Handles SDL events such as window close requests.
- *
- * @param running Pointer to a boolean indicating whether the engine should keep running.
  */
-void handleEvents(bool *running)
+void handleEvents()
 {
     SDL_Event event;
     // Process all pending events
@@ -156,14 +127,21 @@ void handleEvents(bool *running)
         if (event.type == SDL_KEYDOWN)
         {
             int keyPressed = event.key.keysym.sym;
-            KeyEventManager_handleEvent(gKeyEventManager, keyPressed);
+            triggerEvent(gKeyPressEventManager, keyPressed);
+            continue;
+        }
+
+        if (event.type == SDL_KEYUP)
+        {
+            int keyPressed = event.key.keysym.sym;
+            triggerEvent(gKeyReleaseEventManager, keyPressed);
+            continue;
         }
 
         if (event.type == SDL_QUIT)
         {
             // Set running to false if a quit event is detected
             ON_GAME_RUNNING = false;
-            *running = false;
         }
     }
 }
@@ -173,13 +151,15 @@ void handleEvents(bool *running)
  */
 void runEngine()
 {
-    bool running = true;
     ON_GAME_RUNNING = true;
 
     // Main loop of the engine
-    while (running)
+    if (ON_GAME_RUNNING)
     {
-        handleEvents(&running); // Handle events
+        do
+        {
+            handleEvents(); // Handle events
+        } while (ON_GAME_RUNNING);
     }
 }
 
@@ -190,6 +170,15 @@ void clearGameLoopThread()
 {
     ON_GAME_RUNNING = false;
     pthread_join(gInstance.gameThread, NULL);
+}
+
+/**
+ * clear keyboard event managers resources
+ */
+void clearKeyboardManagers()
+{
+    freeEventManager(&gKeyPressEventManager, true);
+    freeEventManager(&gKeyReleaseEventManager, true);
 }
 
 /**
@@ -232,15 +221,5 @@ void pixel(int x, int y, unsigned int color)
     register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                              \
     for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator) \
         *pixelsIterator = 0x0000000000000000LL;
-
-#pragma region KEYBOARD_UTILS
-
-#define addKeyEventListener(key, onKeyEvent) \
-    KeyEventManager_addKeyEventListener(&gKeyEventManager, key, onKeyEvent)
-
-#define removeKeyEventListener(key, onKeyEvent) \
-    KeyEventManager_removeKeyEventListener(&gKeyEventManager, key, onKeyEvent)
-
-#pragma endregion
 
 #endif

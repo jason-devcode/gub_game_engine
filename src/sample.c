@@ -3,14 +3,23 @@
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 
+#include "../include/managers/event_manager.h"
+
 void onSpaceKeyPressed()
 {
-    puts("Hola");
+    printf("deltatime: %f\n", getDeltatime());
+}
+
+void message()
+{
+    puts("hola");
 }
 
 void *gameLoop(void *arg)
 {
-    addKeyEventListener(SDLK_SPACE, onSpaceKeyPressed);
+    addKeyPressEventListener(SDLK_SPACE, onSpaceKeyPressed);
+    addKeyReleaseEventListener(SDLK_SPACE, message);
+
     do
     {
         clearScreen();
@@ -25,14 +34,14 @@ void *gameLoop(void *arg)
         renderDelay(16); // Limit to 60  FPS
     } while (ON_GAME_RUNNING);
 
-    removeKeyEventListener(SDLK_SPACE, onSpaceKeyPressed);
+    removeKeyPressEventListener(SDLK_SPACE, onSpaceKeyPressed);
+    removeKeyReleaseEventListener(SDLK_SPACE, message);
 
     return NULL;
 }
 
 int main()
 {
-    // 4:3 screen ratio size
     initGraphicEngine(640, 480, "Basic SDL Engine");
     initializeGameLoop(gameLoop);
     runEngine();
