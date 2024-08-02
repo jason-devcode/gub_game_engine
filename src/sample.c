@@ -54,11 +54,11 @@ void *gameLoop(void *arg)
     addKeyPressEventListener(SDLK_a, onPlayerRotateLeft);
     addKeyPressEventListener(SDLK_d, onPlayerRotateRight);
 
-    addMouseEventListener(MOUSE_MOVE, onCursorMotion);
-    addMouseEventListener(MOUSE_LEFT_BUTTON_DOWN, onPlayerRotateLeft);
-    addMouseEventListener(MOUSE_RIGHT_BUTTON_DOWN, onPlayerRotateRight);
-    addMouseEventListener(MOUSE_LEFT_BUTTON_UP, onLeftUpClick);
-    addMouseEventListener(MOUSE_RIGHT_BUTTON_UP, onRightUpClick);
+    // addMouseEventListener(MOUSE_MOVE, onCursorMotion);
+    // addMouseEventListener(MOUSE_LEFT_BUTTON_DOWN, onPlayerRotateLeft);
+    // addMouseEventListener(MOUSE_RIGHT_BUTTON_DOWN, onPlayerRotateRight);
+    // addMouseEventListener(MOUSE_LEFT_BUTTON_UP, onLeftUpClick);
+    // addMouseEventListener(MOUSE_RIGHT_BUTTON_UP, onRightUpClick);
 
     do
     {
@@ -66,13 +66,14 @@ void *gameLoop(void *arg)
 
         drawFormattedText(
             10, 10, 0xFFFFFF00,
-            "FPS: %d\ndeltatime: %lf\nplayer coords: (%lf, %lf,) \n",
+            "FPS: %d\ndeltatime: %lf\nplayer coords: (%lf, %lf,)\nmouse coords: (%d, %d,)\n",
             getFps(), getDeltatime(),
-            playerPosition.x, playerPosition.y);
+            playerPosition.x, playerPosition.y,
+            GET_MOUSE_X(), GET_MOUSE_Y());
 
         drawScreen();
 
-        renderDelay(16); // Limit to 60  FPS
+        // renderDelay(16); // Limit to 60  FPS
     } while (ON_GAME_RUNNING);
 
     return NULL;
