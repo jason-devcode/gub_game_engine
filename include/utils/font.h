@@ -14,8 +14,11 @@
 #include <stdio.h>   ///< For standard I/O functions.
 #include <stdbool.h> ///< For boolean type.
 
-#include "font_data/font_data.h" ///< Font bitmap data.
-#include "../utils/pixel.h"      ///< For pixel utils.
+#include "../utils/pixel.h" ///< For pixel utils.
+
+const uint8_t font_data[256 * 8] = {
+#include "font_data/font_bitmap_table.data" ///< Font bitmap data.
+};
 
 /**
  * @brief Draw a single character at a specified position.
