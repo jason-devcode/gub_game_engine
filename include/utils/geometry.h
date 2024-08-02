@@ -2,7 +2,7 @@
 #define GEOMETRY_H
 
 #include <stdint.h>
-#include "../prototypes/graphic_engine_prototypes.h"
+#include "pixel.h"
 
 // use r*r = x*x + y*y circle formula for find points inside the circle
 void drawFilledCircle(int cx, int cy, int radius, uint32_t color)

@@ -6,9 +6,10 @@
 #include <SDL/SDL.h> // For SDL graphics functions
 #include <pthread.h> // For POSIX thread functions
 
-#include "utils/timers.h"   // For timers and time functions utilities
+#include "utils/timers.h"   // For timers and time utils
 #include "utils/keyboard.h" // For keyboard utils
 #include "utils/mouse.h"    // For mouse utils
+#include "utils/pixel.h"    // For pixel utils
 
 #include "managers/event_processors.h" // For main event processors
 
@@ -212,25 +213,7 @@ void clearEngine()
     exit(EXIT_SUCCESS);
 }
 
-/**
- * Sets a pixel at (x, y) to the specified color.
- *
- * @param x The x-coordinate of the pixel.
- * @param y The y-coordinate of the pixel.
- * @param color The color to set the pixel to.
- */
-void pixel(int x, int y, unsigned int color)
-{
-    // Check if the coordinates are within screen bounds
-    if (x < 0 || x >= gScreenWidth || y < 0 || y >= gScreenHeight)
-        return;
 
-    // Calculate the pixel index in the framebuffer
-    register uint32_t pixelIndex = (y * gCorrectPixelsWidth) + x;
-
-    // Set the pixel color
-    framebuffer[pixelIndex] = color;
-}
 
 // Macro to update the screen with the current framebuffer contents
 #define drawScreen()            \
