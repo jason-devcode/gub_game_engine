@@ -14,7 +14,7 @@
 #include <stdio.h>   ///< For standard I/O functions.
 #include <stdbool.h> ///< For boolean type.
 
-#include "font_data.h"                               ///< Font bitmap data.
+#include "font_data/font_data.h"                     ///< Font bitmap data.
 #include "../prototypes/graphic_engine_prototypes.h" ///< Graphics engine prototypes for pixel drawing functions.
 
 /**

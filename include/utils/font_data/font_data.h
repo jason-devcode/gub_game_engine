@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 const uint8_t font_data[256 * 8] = {
-    #include "font_data/font_bitmap_table.h"
+#include "font_bitmap_table.data"
 };
 
 #endif
