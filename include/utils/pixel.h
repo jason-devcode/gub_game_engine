@@ -24,4 +24,17 @@ void pixel(int x, int y, unsigned int color)
     framebuffer[pixelIndex] = color;
 }
 
+/**
+ * A macro to calculate the index of a pixel in a 1D array representation of a 2D image.
+ * This macro converts 2D coordinates (x, y) into a 1D index, assuming a row-major order
+ * layout where each row of the image is stored consecutively in memory.
+ *
+ * @param x      The x-coordinate of the pixel (column index).
+ * @param y      The y-coordinate of the pixel (row index).
+ * @param width  The width of the image or framebuffer in pixels.
+ *
+ * @return       The index of the pixel in the 1D array.
+ */
+#define calculatePixelIndex(x, y, width) ((int)(((y) * width) + (x)))
+
 #endif
