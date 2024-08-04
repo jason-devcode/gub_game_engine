@@ -97,7 +97,7 @@ static inline void drawScreenCartesianPlane()
  * @return The corresponding Cartesian 2D y-coordinate.
  */
 #define convertScreenYToCartesian2DY(y) \
-    ((double)(int)(-((int)(y) - (gHalfScreenHeight)) * gCartesianMaxYAxisValue) / (double)gScreenHeight)
+    ((double)(int)(-((int)(y) - (gHalfScreenHeight)) * gCartesianMaxYAxisValue) / (double)gHalfScreenHeight)
 
 /**
  * @brief Converts a Cartesian 2D x-coordinate to a screen x-coordinate.
@@ -125,7 +125,7 @@ static inline void drawScreenCartesianPlane()
  * @param color The color of the pixel.
  */
 #define pixelCartesian2D(x, y, color) \
-    pixel(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y), color)
+    pixel(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y), color);
 
 /**
  * @brief Sets the current line drawing position to the specified Cartesian 2D coordinates.
@@ -134,7 +134,7 @@ static inline void drawScreenCartesianPlane()
  * @param y The Cartesian 2D y-coordinate.
  */
 #define setCurrentLineToCoordsCartesian2D(x, y) \
-    setCurrentLineToCoords(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y))
+    setCurrentLineToCoords(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y));
 
 /**
  * @brief Draws a line to the specified Cartesian 2D coordinates.
@@ -144,7 +144,7 @@ static inline void drawScreenCartesianPlane()
  * @param color The color of the line.
  */
 #define drawLineToCartesian2DCoords(x, y, color) \
-    drawLineTo(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y), color)
+    drawLineTo(convertCartesian2DXToScreenX(x), convertCartesian2DYToScreenY(y), color);
 
 /**
  * @brief Draws a filled circle at the specified Cartesian 2D coordinates.
@@ -155,7 +155,7 @@ static inline void drawScreenCartesianPlane()
  * @param color The color of the circle.
  */
 #define drawCircleFillCartesian2D(cx, cy, radius, color) \
-    drawFilledCircle(convertCartesian2DXToScreenX(cx), convertCartesian2DYToScreenY(cy), radius, color)
+    drawFilledCircle(convertCartesian2DXToScreenX(cx), convertCartesian2DYToScreenY(cy), radius, color);
 
 /**
  * @brief Draws a wireframe parallelogram at the specified Cartesian 2D coordinates.
