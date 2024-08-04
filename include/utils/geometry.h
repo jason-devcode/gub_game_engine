@@ -282,4 +282,31 @@ void drawFilledCircle(int cx, int cy, int radius, uint32_t color)
     }
 }
 
+/**
+ * @brief Global variables for storing current line coordinates.
+ */
+static int gCurrentLineToXCoord = 0;
+static int gCurrentLineToYCoord = 0;
+
+/**
+ * @brief Sets the current line coordinates for subsequent line drawing.
+ *
+ * @param x The new x-coordinate.
+ * @param y The new y-coordinate.
+ */
+#define setCurrentLineToCoords(x, y) \
+    gCurrentLineToXCoord = x;        \
+    gCurrentLineToYCoord = y;
+
+/**
+ * @brief Draws a line to the specified coordinates and updates current coordinates.
+ *
+ * @param nextX The x-coordinate of the next point.
+ * @param nextY The y-coordinate of the next point.
+ * @param color The color of the line.
+ */
+#define drawLineTo(nextX, nextY, color)                                        \
+    drawLine(gCurrentLineToXCoord, gCurrentLineToYCoord, nextX, nextY, color); \
+    setCurrentLineToCoords(nextX, nextY);
+
 #endif
