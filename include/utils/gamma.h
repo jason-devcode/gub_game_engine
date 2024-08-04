@@ -99,7 +99,7 @@ static inline void generateGammaTable(uint8_t gammaTable[GAMMA_TABLE_SIZE], doub
  * @param color The original RGB color.
  * @return The gamma-corrected RGB color.
  */
-#define fast_apply_gamma_correction(color) \
+#define fast_applyGammaCorrection(color) \
     RGB(gammaTable[GETR(color)], gammaTable[GETG(color)], gammaTable[GETB(color)])
 
 #endif // GAMMA_CORRECTION_UTILS_H
