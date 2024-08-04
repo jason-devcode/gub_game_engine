@@ -8,63 +8,89 @@
 #include "fast_math.h"
 
 /**
- * Draws a filled circle on the framebuffer with the specified color. The circle is
- * centered at (cx, cy) with a given radius and line weight. The function fills the
- * area between two concentric circles: one with the specified radius and another
- * with a reduced radius determined by the line weight.
+ * @brief Draws a horizontal line on the framebuffer.
  *
- * @param cx      The x-coordinate of the center of the circle.
- * @param cy      The y-coordinate of the center of the circle.
- * @param radius  The radius of the circle.
- * @param weight  The weight of the circle's outline, which affects the thickness of the circle.
- * @param color   The color to use for filling the circle, represented as a 32-bit unsigned integer.
+ * This function draws a horizontal line from (x1, y) to (x2, y) with the specified color. The line will be clipped to the boundaries of the screen if necessary.
  *
- * TODO: PENDING OPTIMIZE THIS
+ * @param x1 The starting x-coordinate of the line.
+ * @param x2 The ending x-coordinate of the line.
+ * @param y The y-coordinate of the line.
+ * @param color The color of the line, represented as a 32-bit unsigned integer.
  */
-void drawCircle(int cx, int cy, int radius, int weight, uint32_t color)
+static inline void drawHorizontalLine(int x1, int x2, int y, uint32_t color)
 {
-    register int correctRadius = radius + (weight >> 1) + 1;
-    for (int Y = -radius; Y < radius; ++Y)
+    if (y < 0)
+        return; // protect up screen side
+
+    if (gScreenHeight < y)
+        return; // protect bottom screen side
+
+    if (x1 > x2) // correct x order
+        fast_swap_bitwise(x1, x2);
+
+    if (gScreenWidth < x1)
+        return; // protect right screen side
+
+    if (x2 < 0)
+        return; // protect left screen side
+
+    // Correct values
+    int correctX1 = x1 < 0 ? 0 : x1;
+    int correctX2 = gScreenWidth < x2 ? gScreenWidth - 1 : x2;
+
+    // Calculate framebuffer iterators
+    register uint32_t *beginPixelsRowIterator = &framebuffer[calculatePixelIndex(correctX1, y, gScreenWidth)];
+    register uint32_t *endPixelsRowIterator = &beginPixelsRowIterator[correctX2 - correctX1];
+
+    register uint32_t *pixelsIterator = beginPixelsRowIterator;
+
+    do
     {
-        for (int X = -radius; X < radius; ++X)
-        {
-            register unsigned int distance = (X * X + Y * Y);
-            register int innerRadius = radius - (weight + 1);
-            register int outRadius = radius;
-
-            register unsigned int squareOutRadius = outRadius * outRadius;
-            register unsigned int squareInnerRadius = innerRadius * innerRadius;
-
-            if (distance > squareInnerRadius && distance < squareOutRadius)
-                pixel(X + cx, Y + cy, color);
-        }
-    }
+        *pixelsIterator = color;
+    } while (++pixelsIterator < endPixelsRowIterator);
 }
 
 /**
- * Draws a filled circle on the framebuffer with the specified color. The circle is
- * centered at (cx, cy) with a given radius. The function fills the circle by iterating
- * over a bounding box around the circle and checking if each point lies within the circle.
+ * @brief Draws a vertical line on the framebuffer.
  *
- * @param cx      The x-coordinate of the center of the circle.
- * @param cy      The y-coordinate of the center of the circle.
- * @param radius  The radius of the circle.
- * @param color   The color to use for filling the circle, represented as a 32-bit unsigned integer.
+ * This function draws a vertical line from (x, y1) to (x, y2) with the specified color. The line will be clipped to the boundaries of the screen if necessary.
  *
- * TODO: PENDING OPTIMIZE THIS
+ * @param y1 The starting y-coordinate of the line.
+ * @param y2 The ending y-coordinate of the line.
+ * @param x The x-coordinate of the line.
+ * @param color The color of the line, represented as a 32-bit unsigned integer.
  */
-void drawFilledCircle(int cx, int cy, int radius, uint32_t color)
+static inline void drawVerticalLine(int y1, int y2, int x, uint32_t color)
 {
-    for (int Y = -radius; Y < radius; ++Y)
+    if (x < 0)
+        return; // protect left screen side
+
+    if (gScreenWidth < x)
+        return; // protect right screen side
+
+    if (y1 > y2) // correct y order
+        fast_swap_bitwise(y1, y2);
+
+    if (gScreenHeight < y1)
+        return; // protect bottom screen side
+
+    if (y2 < 0)
+        return; // protect up screen side
+
+    // Correct values
+    int correctY1 = y1 < 0 ? 0 : y1;
+    int correctY2 = gScreenHeight < y2 ? gScreenHeight - 1 : y2;
+
+    // Calculate framebuffer iterators
+    register uint32_t *beginPixelsRowIterator = &framebuffer[calculatePixelIndex(x, correctY1, gScreenWidth)];
+    register uint32_t *endPixelsRowIterator = &framebuffer[calculatePixelIndex(x, correctY2, gScreenWidth)];
+
+    register uint32_t *pixelsIterator = beginPixelsRowIterator;
+
+    do
     {
-        for (int X = -radius; X < radius; ++X)
-        {
-            if ((X * X + Y * Y) < radius * radius) // if the point is inside of the circle
-            {
-                pixel(X + cx, Y + cy, color);
-            }
-        }
-    }
+        *pixelsIterator = color;
+    } while ((pixelsIterator += gScreenWidth) < endPixelsRowIterator);
 }
 
 /**
@@ -194,6 +220,66 @@ static inline void drawRectangleFill(int32_t x1, int32_t y1, int32_t x2, int32_t
         } while (++pixelsIterator < endPixelRow);
         pixelRowIterator += pixelsRowWidth;
     } while (pixelRowIterator < endPixelsRowIterator);
+}
+
+/**
+ * Draws a filled circle on the framebuffer with the specified color. The circle is
+ * centered at (cx, cy) with a given radius and line weight. The function fills the
+ * area between two concentric circles: one with the specified radius and another
+ * with a reduced radius determined by the line weight.
+ *
+ * @param cx      The x-coordinate of the center of the circle.
+ * @param cy      The y-coordinate of the center of the circle.
+ * @param radius  The radius of the circle.
+ * @param weight  The weight of the circle's outline, which affects the thickness of the circle.
+ * @param color   The color to use for filling the circle, represented as a 32-bit unsigned integer.
+ *
+ * TODO: PENDING OPTIMIZE THIS
+ */
+void drawCircle(int cx, int cy, int radius, int weight, uint32_t color)
+{
+    register int correctRadius = radius + (weight >> 1) + 1;
+    for (int Y = -radius; Y < radius; ++Y)
+    {
+        for (int X = -radius; X < radius; ++X)
+        {
+            register unsigned int distance = (X * X + Y * Y);
+            register int innerRadius = radius - (weight + 1);
+            register int outRadius = radius;
+
+            register unsigned int squareOutRadius = outRadius * outRadius;
+            register unsigned int squareInnerRadius = innerRadius * innerRadius;
+
+            if (distance > squareInnerRadius && distance < squareOutRadius)
+                pixel(X + cx, Y + cy, color);
+        }
+    }
+}
+
+/**
+ * Draws a filled circle on the framebuffer with the specified color. The circle is
+ * centered at (cx, cy) with a given radius. The function fills the circle by iterating
+ * over a bounding box around the circle and checking if each point lies within the circle.
+ *
+ * @param cx      The x-coordinate of the center of the circle.
+ * @param cy      The y-coordinate of the center of the circle.
+ * @param radius  The radius of the circle.
+ * @param color   The color to use for filling the circle, represented as a 32-bit unsigned integer.
+ *
+ * TODO: PENDING OPTIMIZE THIS
+ */
+void drawFilledCircle(int cx, int cy, int radius, uint32_t color)
+{
+    for (int Y = -radius; Y < radius; ++Y)
+    {
+        for (int X = -radius; X < radius; ++X)
+        {
+            if ((X * X + Y * Y) < radius * radius) // if the point is inside of the circle
+            {
+                pixel(X + cx, Y + cy, color);
+            }
+        }
+    }
 }
 
 #endif
