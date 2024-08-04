@@ -1,4 +1,4 @@
-# Basic SDL Graphic Engine
+# GUB Game Engine
 
 This project is a basic graphics engine using SDL (Simple DirectMedia Layer) 1.2. It demonstrates how to create a simple game loop, handle screen updates, and manage threads for rendering.
 
