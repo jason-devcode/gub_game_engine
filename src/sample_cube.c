@@ -2,9 +2,9 @@
 #include "../include/utils/geometry.h"
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
-#include "../include/utils/trigonometry.h"
+#include "../include/utils/math_constants.h"
 #include "../include/utils/vectorial_2D.h"
-#include "../include/utils/vectorial_3D.h"
+#include "../include/utils/3DEngine/vectorial_3D.h"
 
 void *gameLoop(void *arg)
 {
