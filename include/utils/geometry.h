@@ -6,6 +6,8 @@
 #include "pixel.h"
 #include "swap.h"
 #include "fast_math.h"
+#include "analytic_geometry.h"
+#include "color.h"
 
 /**
  * @brief Draws a horizontal line on the framebuffer.
@@ -329,6 +331,68 @@ static inline void drawTriangleWire(int x1, int y1, int x2, int y2, int x3, int 
     drawLine(x1, y1, x2, y2, color);
     drawLine(x2, y2, x3, y3, color);
     drawLine(x3, y3, x1, y1, color);
+}
+
+/**
+ * @brief Draws a filled triangle with a gradient defined by three colors.
+ *
+ * Renders a filled triangle with vertices at (x1, y1), (x2, y2), and (x3, y3). The interior of the
+ * triangle is filled with a gradient color determined by linearly interpolating the provided
+ * colors `color1`, `color2`, and `color3` based on barycentric coordinates.
+ *
+ * @param x1 The x-coordinate of the first vertex.
+ * @param y1 The y-coordinate of the first vertex.
+ * @param x2 The x-coordinate of the second vertex.
+ * @param y2 The y-coordinate of the second vertex.
+ * @param x3 The x-coordinate of the third vertex.
+ * @param y3 The y-coordinate of the third vertex.  
+
+ * @param color1 The color at the first vertex.
+ * @param color2 The color at the second vertex.
+ * @param color3 The color at the third vertex.
+ *
+ * TODO: PENDING OPTIMIZE MORE
+ */
+static void drawFilledTriangleGradient(int x1, int y1, int x2, int y2, int x3, int y3, uint32_t color1, uint32_t color2, uint32_t color3)
+{
+    int minX = get_min_value_of_three(x1, x2, x3);
+    int minY = get_min_value_of_three(y1, y2, y3);
+    int maxX = get_max_value_of_three(x1, x2, x3);
+    int maxY = get_max_value_of_three(y1, y2, y3);
+
+    if (maxX < 0 || minX > gScreenWidth)
+        return; // protect left and right screen side
+    if (maxY < 0 || minY > gScreenHeight)
+        return; // protect top and bottom screen side
+
+    minX = get_max_value(minX, 0);             // cut rect left screen side
+    maxX = get_min_value(gScreenWidth, maxX);  // cut rect left screen side
+    minY = get_max_value(minY, 0);             // cut rect top screen side
+    maxY = get_min_value(gScreenHeight, maxY); // cut rect bottom screen side
+
+    register int tempTriangleArea = calculateTriangleAreaFromCoords(x1, y1, x2, y2, x3, y3);
+    tempTriangleArea += !tempTriangleArea;
+    register double invTriangleArea = 1.0 / tempTriangleArea;
+
+    for (register int Y = minY; Y < maxY; ++Y)
+    {
+        for (register int X = minX; X < maxX; ++X)
+        {
+            register int areaAlpha = calculateTriangleAreaFromCoords(X, Y, x2, y2, x3, y3);
+            register int areaBeta = calculateTriangleAreaFromCoords(x1, y1, X, Y, x3, y3);
+            register int areaGamma = calculateTriangleAreaFromCoords(x1, y1, x2, y2, X, Y);
+
+            if ((areaAlpha < 0 && areaBeta < 0 && areaGamma < 0) || (areaAlpha > 0 && areaBeta > 0 && areaGamma > 0))
+            {
+                register double alpha = (double)areaAlpha * invTriangleArea;
+                register double beta = (double)areaBeta * invTriangleArea;
+                register double gamma = (double)areaGamma * invTriangleArea;
+
+                uint32_t color = triangularColorMix(color1, color2, color3, alpha, beta, gamma);
+                pixel(X, Y, color);
+            }
+        }
+    }
 }
 
 #endif
