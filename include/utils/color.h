@@ -64,7 +64,7 @@
 
 /**
  * @brief Adjust the brightness of an RGB color.
- * 
+ *
  * Adjust the brightness of the given color by the specified factor.
  * A factor greater than 1.0 increases brightness, while a factor less than 1.0 decreases brightness.
  *
@@ -80,5 +80,26 @@ static inline uint32_t adjustColorBrightness(uint32_t color, double factor)
 
     return RGB(R, G, B);
 }
+
+/**
+ * @brief Linearly interpolates three colors based on given weights.
+ *
+ * Calculates a new color by linearly interpolating the input colors `color1`, `color2`, and `color3`
+ * using the corresponding weights `alpha`, `beta`, and `gamma`. The weights should sum to 1.0.
+ *
+ * @param color1 The first color to interpolate.
+ * @param color2 The second color to interpolate.
+ * @param color3 The third color to interpolate.
+ * @param alpha The weight for the first color.
+ * @param beta The weight for the second color.
+ * @param gamma The weight for the third color.
+ *
+ * @return A new color representing the interpolated result.
+ */
+#define triangularColorMix(color1, color2, color3, alpha, beta, gamma)                                          \
+    RGB(                                                                                                        \
+        ((uint8_t)((double)GETR(color1) * alpha + (double)GETR(color2) * beta + (double)GETR(color3) * gamma)), \
+        ((uint8_t)((double)GETG(color1) * alpha + (double)GETG(color2) * beta + (double)GETG(color3) * gamma)), \
+        ((uint8_t)((double)GETB(color1) * alpha + (double)GETB(color2) * beta + (double)GETB(color3) * gamma)))
 
 #endif // COLOR_UTILS
