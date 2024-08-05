@@ -5,6 +5,61 @@
 
 #include "camera/camera_properties.h"
 
+/**
+ * @brief Moves the camera forward in the direction it is currently facing.
+ */
+static void moveCameraForward()
+{
+    cameraPosition.x += cameraDirection.x * getDeltatime() * 0.01;
+    cameraPosition.y += cameraDirection.y * getDeltatime() * 0.01;
+    cameraPosition.z += cameraDirection.z * getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Moves the camera backward opposite to the direction it is currently facing.
+ */
+static void moveCameraBackward()
+{
+    cameraPosition.x -= cameraDirection.x * getDeltatime() * 0.01;
+    cameraPosition.y -= cameraDirection.y * getDeltatime() * 0.01;
+    cameraPosition.z -= cameraDirection.z * getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Moves the camera to the left relative to its current position.
+ */
+static void moveCameraLeft()
+{
+    cameraPosition.x -= getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Moves the camera to the right relative to its current position.
+ */
+static void moveCameraRight()
+{
+    cameraPosition.x += getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Moves the camera upwards relative to its current position.
+ */
+static void moveCameraUp()
+{
+    cameraPosition.y += getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Moves the camera downwards relative to its current position.
+ */
+static void moveCameraDown()
+{
+    cameraPosition.y -= getDeltatime() * 0.01;
+}
+
+/**
+ * @brief Updates the direction vector of the camera based on its pitch, yaw, and roll angles.
+ */
 static void updateCameraDirection()
 {
     cosineCameraPitch = fast_cosine(cameraPitch), sineCameraPitch = fast_sine(cameraPitch);
@@ -36,6 +91,61 @@ static void updateCameraDirection()
     cameraDirection.x = tempX;
     cameraDirection.y = tempY;
     cameraDirection.z = tempZ;
+}
+
+/**
+ * @brief Rotates the camera around the yaw axis.
+ *
+ * @param angle The angle to rotate the camera by, in radians.
+ */
+static void rotateCameraYaw(double angle)
+{
+    cameraYaw += angle * getDeltatime() * 0.01;
+    updateCameraDirection();
+}
+
+/**
+ * @brief Rotates the camera around the pitch axis.
+ *
+ * @param angle The angle to rotate the camera by, in radians.
+ */
+static void rotateCameraPitch(double angle)
+{
+    cameraPitch += angle * getDeltatime() * 0.01;
+    updateCameraDirection();
+}
+
+/**
+ * @brief Rotates the camera around the roll axis.
+ *
+ * @param angle The angle to rotate the camera by, in radians.
+ */
+static void rotateCameraRoll(double angle)
+{
+    cameraRoll += angle * getDeltatime() * 0.01;
+    updateCameraDirection();
+}
+
+/**
+ * @brief Initializes the 3D camera with the given position, angles, and horizontal field of view.
+ *
+ * @param initialPosition The initial position of the camera.
+ * @param initialAngle The initial pitch, yaw, and roll angles of the camera.
+ * @param horizontalFov The horizontal field of view of the camera.
+ */
+static void initializeCamera3D(Vec3f initialPosition, Vec3f initialAngle, double horizontalFov)
+{
+    cameraFrustumHorizontalFov = horizontalFov;
+
+    cameraPosition.x = initialPosition.x;
+    cameraPosition.y = initialPosition.y;
+    cameraPosition.z = initialPosition.z;
+
+    cameraPitch = initialAngle.x;
+    cameraYaw = initialAngle.y;
+    cameraRoll = initialAngle.z;
+
+    updateCameraDirection();
 }
 
 #endif
