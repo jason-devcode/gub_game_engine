@@ -2,7 +2,7 @@
 #define VECTORIAL_3D_CALCULUS_H
 
 #include <math.h>
-#include "fast_math.h" // For fast math operations
+#include "../fast_math.h" // For fast math operations
 
 // Inline keyword for potentially faster function calls
 #define INLINE static inline
@@ -63,6 +63,11 @@ INLINE Vec3f vec3f_cross(Vec3f v1, Vec3f v2)
         v1.z * v2.x - v1.x * v2.z,
         v1.x * v2.y - v1.y * v2.x};
 }
+
+// INLINE Vec3f vec3f_reflect( Vec3f v1 )
+// {
+    // return 
+// }
 
 /**
  * @brief Calculates the inverse of the magnitude (1 / magnitude) of a 3D vector.
