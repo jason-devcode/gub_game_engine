@@ -44,6 +44,8 @@ void onPressKey_Right_D()
 
 void *gameLoop(void *arg)
 {
+    initializeCamera3D((Vec3f){.x = 0, .y = 0, .z = -2}, (Vec3f){.x = 0, .y = 0, .z = 0}, degreesToRadians(60));
+
     addKeyPressEventListener(SDLK_w, onPressKey_Up_W);
     addKeyPressEventListener(SDLK_UP, onPressKey_Up_W);
     addKeyPressEventListener(SDLK_s, onPressKey_Down_S);
