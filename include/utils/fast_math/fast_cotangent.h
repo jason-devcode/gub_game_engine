@@ -1,7 +1,7 @@
 #ifndef FAST_COTANGENT_FUNCTION_H
 #define FAST_COTANGENT_FUNCTION_H
 
-#include "../trigonometry.h" // For trigonometry utilities
+#include "../math_constants.h" // For trigonometry utilities
 #include "fast_abs.h"        // For fast abs
 
 /**
@@ -26,7 +26,7 @@ static const double cotangent_table[360] = {
 static inline double fast_cotangent(double angleInRadians)
 {
     int angleInDegrees = ((int)radiansToDegrees(angleInRadians) % 360);
-    angleInDegrees = fast_abs(angleInDegrees);
+    angleInDegrees = (angleInDegrees < 0) ? 360 + angleInDegrees : angleInDegrees;
     return cotangent_table[angleInDegrees];
 }
 

@@ -1,8 +1,8 @@
 #ifndef FAST_SINE_FUNCTION_H
 #define FAST_SINE_FUNCTION_H
 
-#include "../trigonometry.h" // For trigonometry utilities
-#include "fast_abs.h"        // For fast abs
+#include "../math_constants.h" // For trigonometry utilities
+#include "fast_abs.h"          // For fast abs
 
 /**
  * @brief Precomputed table of sine values for angles from 0 to 359 degrees.
@@ -26,7 +26,7 @@ static const double sine_table[360] = {
 static inline double fast_sine(double angleInRadians)
 {
     int angleInDegrees = ((int)radiansToDegrees(angleInRadians) % 360);
-    angleInDegrees = fast_abs(angleInDegrees);
+    angleInDegrees = (angleInDegrees < 0) ? 360 + angleInDegrees : angleInDegrees;
     return sine_table[angleInDegrees];
 }
 
