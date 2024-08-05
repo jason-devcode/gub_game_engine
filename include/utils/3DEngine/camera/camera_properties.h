@@ -4,5 +4,6 @@
 #include "camera_position.h"
 #include "camera_direction.h"
 #include "camera_angle.h"
+#include "camera_frutum.h"
 
 #endif
