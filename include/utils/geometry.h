@@ -309,4 +309,26 @@ static int gCurrentLineToYCoord = 0;
     drawLine(gCurrentLineToXCoord, gCurrentLineToYCoord, nextX, nextY, color); \
     setCurrentLineToCoords(nextX, nextY);
 
+/**
+ * @brief Draws the outline of a triangle (wireframe) on the screen.
+ *
+ * This function draws a wireframe triangle by connecting three specified vertices
+ * using straight lines. Each vertex is defined by its (x, y) coordinates, and the
+ * lines are drawn in the specified color.
+ *
+ * @param x1 The x-coordinate of the first vertex.
+ * @param y1 The y-coordinate of the first vertex.
+ * @param x2 The x-coordinate of the second vertex.
+ * @param y2 The y-coordinate of the second vertex.
+ * @param x3 The x-coordinate of the third vertex.
+ * @param y3 The y-coordinate of the third vertex.
+ * @param color The color of the triangle outline.
+ */
+static inline void drawTriangleWire(int x1, int y1, int x2, int y2, int x3, int y3, uint32_t color)
+{
+    drawLine(x1, y1, x2, y2, color);
+    drawLine(x2, y2, x3, y3, color);
+    drawLine(x3, y3, x1, y1, color);
+}
+
 #endif
