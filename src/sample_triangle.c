@@ -4,6 +4,7 @@
 #include "../include/utils/color_palette.h"
 #include "../include/utils/raster.h"
 #include "../include/utils/geometry.h"
+#include "../include/utils/analytic_geometry.h"
 #include "../include/utils/gamma.h"
 #include "../include/utils/vectorial_2D.h"
 #include "../include/utils/cartesian_2D.h"
@@ -16,21 +17,14 @@ Vec2f parallelogramPoints[2] = {
 
 Vec2f trianglePoints[] = {{100, 100}, {500, 300}, {200, 500}};
 
-#define calculateAreaParallelogram(x1, y1, x2, y2) \
-    (((x1) * (y2)) - ((x2) * (y1)))
-
-#define calculateAreaTriangle(A, B, C) \
-    calculateAreaParallelogram(B.x - A.x, B.y - A.y, C.x - A.x, C.y - A.y)
-
-#define draw_info()                                                                                                                             \
-    drawFormattedText(                                                                                                                          \
-        10, 10, 0xFFFFFF00,                                                                                                                     \
-        "FPS: %d\ndeltatime: %lf\nmouse screen position: ( %d, %d )\nmouse cartesian position: ( %0.2lf, %0.2lf )\narea parallelogram: %0.2lf", \
-        getFps(), getDeltatime(),                                                                                                               \
-        GET_MOUSE_X(), GET_MOUSE_Y(),                                                                                                           \
-        mouseCartesianPosition.x, mouseCartesianPosition.y,                                                                                     \
-        calculateAreaParallelogram(                                                                                                             \
-            parallelogramPoints[0].x, parallelogramPoints[0].y, parallelogramPoints[1].x, parallelogramPoints[1].y))
+#define draw_info()                                                                                                                        \
+    drawFormattedText(                                                                                                                     \
+        10, 10, 0xFFFFFF00,                                                                                                                \
+        "FPS: %d\ndeltatime: %lf\nmouse screen position: ( %d, %d )\nmouse cartesian position: ( %0.2lf, %0.2lf )\narea triangle: %0.2lf", \
+        getFps(), getDeltatime(),                                                                                                          \
+        GET_MOUSE_X(), GET_MOUSE_Y(),                                                                                                      \
+        mouseCartesianPosition.x, mouseCartesianPosition.y,                                                                                \
+        calculateTriangleAreaFromPoints(trianglePoints[0], trianglePoints[1], trianglePoints[2]))
 
 void onMouseMotion()
 {
@@ -56,7 +50,7 @@ void onMouseLeftClickDownParallelogram()
 
 void onMouseLeftClickDownTriangle()
 {
-    static const double MOVE_ZONE = 10.0;
+    static const double MOVE_ZONE = 25.0;
 
     for (int i = 0; i < 3; ++i)
     {
@@ -87,18 +81,16 @@ void *gameLoop(void *arg)
         // drawCircleFillCartesian2D(parallelogramPoints[0].x, parallelogramPoints[0].y, 10, RED);
         // drawCircleFillCartesian2D(parallelogramPoints[1].x, parallelogramPoints[1].y, 10, RED);
 
-        drawTriangleWire(
+        drawFilledTriangleGradient(
             trianglePoints[0].x, trianglePoints[0].y,
             trianglePoints[1].x, trianglePoints[1].y,
             trianglePoints[2].x, trianglePoints[2].y,
-            BLUE);
+            RED, GREEN, BLUE);
 
         for (int i = 0; i < 3; ++i)
         {
-            drawFilledCircle(trianglePoints[i].x, trianglePoints[i].y, 4, RED);
+            drawFilledCircle(trianglePoints[i].x, trianglePoints[i].y, 10, RED);
         }
-
-        drawFormattedText(50, 400, WHITE, "Triangle area: %0.2lf", calculateAreaTriangle(trianglePoints[0], trianglePoints[1], trianglePoints[2]) / 2);
 
         draw_info();
         drawScreen();
