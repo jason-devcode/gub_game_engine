@@ -38,6 +38,19 @@ INLINE Vec3f vec3f_subtract(Vec3f v1, Vec3f v2)
 }
 
 /**
+ * @brief Scales a 3D vector by a given factor.
+ * 
+ * @param v1 The input 3D vector to be scaled.
+ * @param factor The scaling factor to be applied to each component of the vector.
+ * @return Vec3f The resulting scaled 3D vector.
+ */
+INLINE Vec3f vec3f_scalar(Vec3f v1, double factor)
+{
+    return (Vec3f){v1.x * factor, v1.y * factor, v1.z * factor};
+}
+
+
+/**
  * @brief Calculates the dot product of two 3D vectors.
  *
  * @param v1 First vector.
