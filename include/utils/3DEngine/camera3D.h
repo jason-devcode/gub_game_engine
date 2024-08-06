@@ -10,9 +10,9 @@
  */
 static void moveCameraForward()
 {
-    cameraPosition.x += cameraDirection.x * getDeltatime() * 0.01;
-    cameraPosition.y += cameraDirection.y * getDeltatime() * 0.01;
-    cameraPosition.z += cameraDirection.z * getDeltatime() * 0.01;
+    cameraPosition.x += cameraDirection.x * deltatime * 0.001;
+    cameraPosition.y += cameraDirection.y * deltatime * 0.001;
+    cameraPosition.z += cameraDirection.z * deltatime * 0.001;
 }
 
 /**
@@ -20,9 +20,9 @@ static void moveCameraForward()
  */
 static void moveCameraBackward()
 {
-    cameraPosition.x -= cameraDirection.x * getDeltatime() * 0.01;
-    cameraPosition.y -= cameraDirection.y * getDeltatime() * 0.01;
-    cameraPosition.z -= cameraDirection.z * getDeltatime() * 0.01;
+    cameraPosition.x -= cameraDirection.x * deltatime * 0.001;
+    cameraPosition.y -= cameraDirection.y * deltatime * 0.001;
+    cameraPosition.z -= cameraDirection.z * deltatime * 0.001;
 }
 
 /**
