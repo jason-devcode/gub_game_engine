@@ -6,9 +6,13 @@
 #include <SDL/SDL_video.h> // For SDL_Flip
 
 #include "timers.h"                                 // For UPDATE_TIMERS
-#include "../engine_properties/framebuffer.h"       // For framebufer
+#include "../engine_properties/depthbuffer.h"       // For depthbuffer
+#include "../engine_properties/framebuffer.h"       // For framebuffer
 #include "../engine_properties/engine_instance.h"   // For engine instance
 #include "../engine_properties/screen_dimensions.h" // For framebufer
+
+// Global variable for the clear screen color
+static uint64_t gClearScreenColor = 0x0000000000000000LL;
 
 /**
  * Initializes the SDL screen with the given width and height.
@@ -40,18 +44,45 @@ bool initializeScreen(uint16_t screenWidth, uint16_t screenHeight)
     // Set framebuffer pointer to the screen’s pixel data
     framebuffer = (uint32_t *)gInstance.screen->pixels;
 
+    // Allocate memory for the depth buffer
+    depthbuffer = (double *)malloc(sizeof(double[gScreenTotalPixels]));
+
     return true;
 }
 
-// Macro to update the screen with the current framebuffer contents
+/**
+ * Macro to update the screen with the current framebuffer contents.
+ */
 #define drawScreen()            \
     SDL_Flip(gInstance.screen); \
     UPDATE_TIMERS()
 
-// Macro to fill the screen with black color
+/**
+ * Macro to fill the screen with the clear screen color.
+ */
 #define clearScreen()                                                                                               \
     register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                              \
     for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator) \
-        *pixelsIterator = 0x0000000000000000LL;
+        *pixelsIterator = gClearScreenColor;
+
+/**
+ * Macro to fill the screen with the clear screen color and clear the depth buffer.
+ */
+#define clearScreenDepth()                                                                                                                \
+    register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                                                    \
+    register double *pixelDepthIterator = depthbuffer;                                                                                    \
+    for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator, ++pixelDepthIterator) \
+    {                                                                                                                                     \
+        *pixelsIterator = gClearScreenColor;                                                                                              \
+        *pixelDepthIterator = 999999.0;                                                                                                   \
+        *++pixelDepthIterator = 999999.0;                                                                                                 \
+    }
+
+/**
+ * Macro to set the clear screen color.
+ *
+ * @param color The color value to set for clearing the screen.
+ */
+#define setClearScreenColor(color) (gClearScreenColor = ((uint64_t)(color) | ((uint64_t)(color) << 32)))
 
 #endif

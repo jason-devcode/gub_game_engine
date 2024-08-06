@@ -395,4 +395,97 @@ static void drawFilledTriangleGradient(int x1, int y1, int x2, int y2, int x3, i
     }
 }
 
+/**
+ * @brief Mixes three values using the provided weights.
+ *
+ * This macro calculates a weighted sum of three values using the provided alpha, beta, and gamma weights.
+ *
+ * @param value1 The first value to be mixed.
+ * @param value2 The second value to be mixed.
+ * @param value3 The third value to be mixed.
+ * @param alpha The weight for the first value.
+ * @param beta The weight for the second value.
+ * @param gamma The weight for the third value.
+ *
+ * @return The weighted sum of the three values.
+ */
+#define triangularValueMix(value1, value2, value3, alpha, beta, gamma) \
+    ((double)(value1) * (alpha) + (double)(value2) * (beta) + (double)(value3) * (gamma))
+
+/**
+ * @brief Draws a filled triangle with a gradient defined by three colors.
+ *
+ * Renders a filled triangle with vertices at (x1, y1), (x2, y2), and (x3, y3). The interior of the
+ * triangle is filled with a gradient color determined by linearly interpolating the provided
+ * colors `color1`, `color2`, and `color3` based on barycentric coordinates. Also performs depth
+ * testing to ensure correct rendering order.
+ *
+ * @param x1 The x-coordinate of the first vertex.
+ * @param y1 The y-coordinate of the first vertex.
+ * @param z1 The depth (z-coordinate) of the first vertex.
+ * @param x2 The x-coordinate of the second vertex.
+ * @param y2 The y-coordinate of the second vertex.
+ * @param z2 The depth (z-coordinate) of the second vertex.
+ * @param x3 The x-coordinate of the third vertex.
+ * @param y3 The y-coordinate of the third vertex.
+ * @param z3 The depth (z-coordinate) of the third vertex.
+ * @param color1 The color at the first vertex.
+ * @param color2 The color at the second vertex.
+ * @param color3 The color at the third vertex.
+ *
+ * TODO: Optimize this function further for performance improvements.
+ */
+static void drawFilledTriangleGradientDepthTest(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, uint32_t color1, uint32_t color2, uint32_t color3)
+{
+    // Determine the bounding box of the triangle
+    int minX = get_min_value_of_three(x1, x2, x3);
+    int minY = get_min_value_of_three(y1, y2, y3);
+    int maxX = get_max_value_of_three(x1, x2, x3);
+    int maxY = get_max_value_of_three(y1, y2, y3);
+
+    // Clip the bounding box to the screen dimensions
+    if (maxX < 0 || minX > gScreenWidth)
+        return; // Protect left and right screen sides
+    if (maxY < 0 || minY > gScreenHeight)
+        return; // Protect top and bottom screen sides
+
+    minX = get_max_value(minX, 0);             // Cut rect left screen side
+    maxX = get_min_value(gScreenWidth, maxX);  // Cut rect right screen side
+    minY = get_max_value(minY, 0);             // Cut rect top screen side
+    maxY = get_min_value(gScreenHeight, maxY); // Cut rect bottom screen side
+
+    // Calculate the area of the triangle and its inverse for interpolation
+    register int tempTriangleArea = calculateTriangleAreaFromCoords(x1, y1, x2, y2, x3, y3);
+    tempTriangleArea += !tempTriangleArea; // Avoid division by zero
+    register double invTriangleArea = 1.0 / tempTriangleArea;
+
+    // Iterate over the bounding box
+    for (register int Y = minY; Y < maxY; ++Y)
+    {
+        for (register int X = minX; X < maxX; ++X)
+        {
+            // Calculate the areas for barycentric coordinates
+            register int areaAlpha = calculateTriangleAreaFromCoords(X, Y, x2, y2, x3, y3);
+            register int areaBeta = calculateTriangleAreaFromCoords(x1, y1, X, Y);
+            register int areaGamma = calculateTriangleAreaFromCoords(x1, y1, x2, y2, X, Y);
+
+            // Check if the point (X, Y) is inside the triangle
+            if ((areaAlpha < 1 && areaBeta < 1 && areaGamma < 1) || (areaAlpha > -1 && areaBeta > -1 && areaGamma > -1))
+            {
+                // Calculate barycentric coordinates
+                register double alpha = (double)areaAlpha * invTriangleArea;
+                register double beta = (double)areaBeta * invTriangleArea;
+                register double gamma = (double)areaGamma * invTriangleArea;
+
+                // Interpolate the color and depth value
+                uint32_t color = triangularColorMix(color1, color2, color3, alpha, beta, gamma);
+                double Z = triangularValueMix(z1, z2, z3, alpha, beta, gamma);
+
+                // Set the pixel color if it passes the depth test
+                pixelDepthTest(X, Y, Z, color);
+            }
+        }
+    }
+}
+
 #endif

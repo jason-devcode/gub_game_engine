@@ -56,14 +56,14 @@ int cubeMatrix[MATRIX_SIZE_X][MATRIX_SIZE_Y][MATRIX_SIZE_Z] = {
         {1, 1, 1}
     },
     {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}
+        {1, 1, 1},
+        {1, 1, 1},
+        {1, 1, 1}
     },
     {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}
+        {1, 1, 1},
+        {1, 1, 1},
+        {1, 1, 1}
     }
 };
 
@@ -71,6 +71,8 @@ int cubeMatrix[MATRIX_SIZE_X][MATRIX_SIZE_Y][MATRIX_SIZE_Z] = {
 void *gameLoop(void *arg)
 {
     initializeCamera3D((Vec3f){0, 0, -10}, (Vec3f){0, 0, 0}, degreesToRadians(60));
+
+    setClearScreenColor( 0x22222222 );
 
     addKeyPressEventListener(SDLK_w, onMoveForwardCamera);
     addKeyPressEventListener(SDLK_s, onMoveBackwardCamera);
@@ -118,7 +120,7 @@ void *gameLoop(void *arg)
 
     do
     {
-        clearScreen();
+        clearScreenDepth();
 
         for (int x = 0; x < MATRIX_SIZE_X; ++x)
         {
@@ -164,13 +166,16 @@ void *gameLoop(void *arg)
                             
                             // backface culling
                             if (calculateParallelogramAreaFromCoords(projCx - projAx, projCy - projAy, projCx - projBx, projCy - projBy) > 0)
-                                drawFilledTriangleGradient(
+                                drawFilledTriangleGradientDepthTest(
                                     (gScreenWidth >> 1) + (projAx * cubeSize),
                                     (gScreenHeight >> 1) + (projAy * -cubeSize),
+                                    vertexA->z,
                                     (gScreenWidth >> 1) + (projBx * cubeSize),
                                     (gScreenHeight >> 1) + (projBy * -cubeSize),
+                                    vertexB->z,
                                     (gScreenWidth >> 1) + (projCx * cubeSize),
                                     (gScreenHeight >> 1) + (projCy * -cubeSize),
+                                    vertexC->z,
                                     RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 0, 255));
                         }
                     }

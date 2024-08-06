@@ -8,6 +8,7 @@
 #include "engine_instance.h"
 #include "screen_dimensions.h"
 #include "framebuffer.h"
+#include "depthbuffer.h"
 #include "running_state.h"
 
 // managers
