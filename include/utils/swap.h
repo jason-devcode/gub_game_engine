@@ -1,6 +1,14 @@
 #ifndef SWAP_UTILS_H
 #define SWAP_UTILS_H
 
+#define swap_values(a, b, T) \
+    do                       \
+    {                        \
+        T c = a;             \
+        a = b;               \
+        b = c;               \
+    } while (0);
+
 /**
  * A macro to swap the values of two variables using bitwise XOR operations.
  * This method performs the swap without using a temporary variable and is
