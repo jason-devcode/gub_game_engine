@@ -382,7 +382,7 @@ static void drawFilledTriangleGradient(int x1, int y1, int x2, int y2, int x3, i
             register int areaBeta = calculateTriangleAreaFromCoords(x1, y1, X, Y, x3, y3);
             register int areaGamma = calculateTriangleAreaFromCoords(x1, y1, x2, y2, X, Y);
 
-            if ((areaAlpha < 0 && areaBeta < 0 && areaGamma < 0) || (areaAlpha > 0 && areaBeta > 0 && areaGamma > 0))
+            if ((areaAlpha < 1 && areaBeta < 1 && areaGamma < 1) || (areaAlpha > -1 && areaBeta > -1 && areaGamma > -1))
             {
                 register double alpha = (double)areaAlpha * invTriangleArea;
                 register double beta = (double)areaBeta * invTriangleArea;
