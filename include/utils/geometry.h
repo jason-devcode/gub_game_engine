@@ -466,7 +466,7 @@ static void drawFilledTriangleGradientDepthTest(int x1, int y1, int z1, int x2, 
         {
             // Calculate the areas for barycentric coordinates
             register int areaAlpha = calculateTriangleAreaFromCoords(X, Y, x2, y2, x3, y3);
-            register int areaBeta = calculateTriangleAreaFromCoords(x1, y1, X, Y);
+            register int areaBeta = calculateTriangleAreaFromCoords(x1, y1, X, Y, x3, y3);
             register int areaGamma = calculateTriangleAreaFromCoords(x1, y1, x2, y2, X, Y);
 
             // Check if the point (X, Y) is inside the triangle
