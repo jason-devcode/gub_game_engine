@@ -28,9 +28,6 @@ static inline void fast_drawTriangleFill(int x1, int y1, int x2, int y2, int x3,
         fast_swap_bitwise(y2, y3);
     }
 
-    if (y3 < 0 || gScreenHeight < y1)
-        return; // protect top and bottom screen sides
-
     int DY_AB = y2 - y1;
     int DY_BC = y3 - y2;
     int DY_AC = y3 - y1;
@@ -54,39 +51,40 @@ static inline void fast_drawTriangleFill(int x1, int y1, int x2, int y2, int x3,
     double xLeft, xRight;
     xLeft = xRight = x1;
 
-    if (DY_AB < 1)
-    {
-        xLeft = x1;
-        xRight = x2;
-        if (xLeft > xRight)
-            swap_values(x1, x2, double);
-        goto bottom_triangle;
-    }
+    register uint32_t *currentRowPixels = &framebuffer[y1 * gCorrectPixelsWidth];
+    register uint32_t *rowPixelSegmentIterator = currentRowPixels;
+    register uint32_t *endRowPixelSegment = currentRowPixels;
 
 top_triangle:
+    goto check_first_iteration;
     do
     {
-        int tempLeftX = xLeft + 1;
+        rowPixelSegmentIterator = currentRowPixels + (int)xLeft;
+        endRowPixelSegment = currentRowPixels + (int)xRight;
         do
         {
-            pixel(tempLeftX, y1, color);
-        } while (++tempLeftX < xRight);
+            *rowPixelSegmentIterator = color;
+        } while (++rowPixelSegmentIterator < endRowPixelSegment);
+    check_first_iteration:
         xLeft += slopeLeftX;
         xRight += slopeRightX;
-    } while (++y1 < y2);
+        currentRowPixels += gCorrectPixelsWidth;
+    } while (++y1 < y2 - 1);
 
 bottom_triangle:
-
     do
     {
-        int tempLeftX = xLeft + 1;
+        rowPixelSegmentIterator = currentRowPixels + (int)xLeft;
+        endRowPixelSegment = currentRowPixels + (int)xRight;
+
         do
         {
-            pixel(tempLeftX, y1, color);
-        } while (++tempLeftX < xRight);
+            *rowPixelSegmentIterator = color;
+        } while (++rowPixelSegmentIterator < endRowPixelSegment);
         xLeft += slopeLeftXBC;
         xRight += slopeRightXBC;
-    } while (++y1 < y3);
+        currentRowPixels += gCorrectPixelsWidth;
+    } while (++y1 < y3 - 1);
 }
 
 #endif
