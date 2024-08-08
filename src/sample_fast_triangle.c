@@ -16,7 +16,7 @@ Vec2f parallelogramPoints[2] = {
     {.x = 4, .y = 0},
     {.x = 4, .y = 4}};
 
-Vec2f trianglePoints[] = {{100, 100}, {500, 300}, {200, 500}};
+Vec2f trianglePoints[] = {{0, 0}, {640, 0}, {0, 640}};
 
 #define draw_info()                                                                                                                        \
     drawFormattedText(                                                                                                                     \
@@ -82,18 +82,25 @@ void *gameLoop(void *arg)
         // drawCircleFillCartesian2D(parallelogramPoints[0].x, parallelogramPoints[0].y, 10, RED);
         // drawCircleFillCartesian2D(parallelogramPoints[1].x, parallelogramPoints[1].y, 10, RED);
 
-        drawTriangleWire(
-            trianglePoints[0].x, trianglePoints[0].y,
-            trianglePoints[1].x, trianglePoints[1].y,
-            trianglePoints[2].x, trianglePoints[2].y,
-            CYAN_300);
+        // drawTriangleWire(
+        //     trianglePoints[0].x, trianglePoints[0].y,
+        //     trianglePoints[1].x, trianglePoints[1].y,
+        //     trianglePoints[2].x, trianglePoints[2].y,
+        //     CYAN_300);
 
         fast_drawTriangleFill(
             trianglePoints[0].x, trianglePoints[0].y,
             trianglePoints[1].x, trianglePoints[1].y,
             trianglePoints[2].x, trianglePoints[2].y,
             RED_800);
-
+        
+        fast_drawTriangleFill(
+            640, 0,
+            640,640,
+            0,640,
+            RED_800);
+        
+ 
         for (int i = 0; i < 3; ++i)
         {
             drawFilledCircle(trianglePoints[i].x, trianglePoints[i].y, 10, RED);
@@ -101,7 +108,7 @@ void *gameLoop(void *arg)
 
         draw_info();
         drawScreen();
-        // renderDelay(16); // Limit to 60 FPS
+        renderDelay(16); // Limit to 60 FPS
     } while (ON_GAME_RUNNING);
 
     return NULL;
