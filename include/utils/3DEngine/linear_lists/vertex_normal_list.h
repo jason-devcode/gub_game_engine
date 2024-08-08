@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../../vectorial_3D.h"
+#include "../vectorial_3D.h"
 
 /**
  * @brief Node of the vertex normal linear list.

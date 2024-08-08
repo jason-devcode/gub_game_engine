@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "../mesh.h"
 
@@ -12,7 +13,7 @@
  */
 typedef struct MeshListNode
 {
-    Mesh3D mesh;                  /**< The mesh itself. */
+    Mesh3D mesh;               /**< The mesh itself. */
     struct MeshListNode *next; /**< Pointer to the next node in the list. */
 } MeshListNode;
 
@@ -87,7 +88,7 @@ static inline void addMesh(MeshLinearList *list, Mesh3D mesh)
  *
  * @param list Pointer to the mesh list structure.
  */
-static inline void freeMeshLinearList(MeshLinearList *list)
+static inline void freeMeshLinearList(MeshLinearList *list, bool releaseMeshesData)
 {
     MeshListNode *current = list->head;
     MeshListNode *nextNode;
@@ -97,6 +98,8 @@ static inline void freeMeshLinearList(MeshLinearList *list)
         nextNode = current->next;
         // Free the mesh's dynamically allocated data if needed
         // e.g., freeMeshData(&current->mesh);
+        if (releaseMeshesData)
+            releaseMesh3DResources(&current->mesh);
         free(current);
         current = nextNode;
     }
@@ -185,7 +188,7 @@ static inline Mesh3D *convertMeshListToArray(MeshLinearList *list)
     MeshListNode *current = list->head;
     for (int i = 0; i < list->countMeshes; i++)
     {
-        array[i] = current->mesh;
+        memcpy(&array[i], &current->mesh, sizeof(Mesh3D));
         current = current->next;
     }
 

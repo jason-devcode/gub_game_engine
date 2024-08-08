@@ -163,7 +163,7 @@ static inline int findVertexIndex(VertexLinearList *list, Vec3f vertex)
  * @param list Pointer to the vertex list structure.
  * @return Pointer to the array of vertices or NULL if the list is empty.
  */
-static inline Vec3f *convertListToArray(VertexLinearList *list)
+static inline Vec3f *convertVertexListToArray(VertexLinearList *list)
 {
     if (list->countVertices == 0)
     {
