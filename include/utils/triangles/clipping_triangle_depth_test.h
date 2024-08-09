@@ -1,19 +1,22 @@
 #ifndef CUT_TRIANGLE_H
 #define CUT_TRIANGLE_H
 
-#include <stdint.h>
-#include "../../engine_properties/screen_dimensions.h"
 #include "../swap.h"
-#include "fast_triangle_fill.h"
-#include "../geometry.h"
+#include "./fast_triangle_zbuffer.h"
+
+#include "../../engine_properties/screen_dimensions.h"
+
+#include <stdint.h>
 
 #define MAX_POLYGON_POINTS 10
 #define EDGES_COUNT 6 // LEFT -> TOP -> RIGHT -> BOTTOM -> NEAR -> FAR
 
 typedef struct Point3D
 {
-    int x, y, z;
+    double x, y, z;
 } Point3D;
+
+#define CLIP_REGION 0
 
 void clippingLeftScreenSide(Point3D *points, int *count)
 {
@@ -25,16 +28,16 @@ void clippingLeftScreenSide(Point3D *points, int *count)
         Point3D current = points[i];
         Point3D next = points[(i + 1) % *count];
 
-        if (current.x >= 100)
+        if (current.x >= CLIP_REGION)
         {
             newPoints[newCount++] = current;
         }
 
-        if ((current.x >= 100) != (next.x >= 100))
+        if ((current.x >= CLIP_REGION) != (next.x >= CLIP_REGION))
         {
-            int x = 100;
-            int y = current.y + (next.y - current.y) * (x - current.x) / (next.x - current.x);
-            int z = current.z + (next.z - current.z) * (x - current.x) / (next.x - current.x);
+            double x = CLIP_REGION;
+            double y = current.y + (next.y - current.y) * (x - current.x) / (next.x - current.x);
+            double z = current.z + (next.z - current.z) * (x - current.x) / (next.x - current.x);
             newPoints[newCount++] = (Point3D){x, y, z};
         }
     }
@@ -56,16 +59,16 @@ void clippingRightScreenSide(Point3D *points, int *count)
         Point3D current = points[i];
         Point3D next = points[(i + 1) % *count];
 
-        if (current.x <= gScreenWidth - 100)
+        if (current.x <= gScreenWidth - CLIP_REGION)
         {
             newPoints[newCount++] = current;
         }
 
-        if ((current.x <= gScreenWidth - 100) != (next.x <= gScreenWidth - 100))
+        if ((current.x <= gScreenWidth - CLIP_REGION) != (next.x <= gScreenWidth - CLIP_REGION))
         {
-            int x = gScreenWidth - 100;
-            int y = current.y + (next.y - current.y) * (x - current.x) / (next.x - current.x);
-            int z = current.z + (next.z - current.z) * (x - current.x) / (next.x - current.x);
+            double x = gScreenWidth - CLIP_REGION;
+            double y = current.y + (next.y - current.y) * (x - current.x) / (next.x - current.x);
+            double z = current.z + (next.z - current.z) * (x - current.x) / (next.x - current.x);
             newPoints[newCount++] = (Point3D){x, y, z};
         }
     }
@@ -87,16 +90,16 @@ void clippingTopScreenSide(Point3D *points, int *count)
         Point3D current = points[i];
         Point3D next = points[(i + 1) % *count];
 
-        if (current.y >= 100)
+        if (current.y >= CLIP_REGION)
         {
             newPoints[newCount++] = current;
         }
 
-        if ((current.y >= 100) != (next.y >= 100))
+        if ((current.y >= CLIP_REGION) != (next.y >= CLIP_REGION))
         {
-            int y = 100;
-            int x = current.x + (next.x - current.x) * (y - current.y) / (next.y - current.y);
-            int z = current.z + (next.z - current.z) * (y - current.y) / (next.y - current.y);
+            double y = CLIP_REGION;
+            double x = current.x + (next.x - current.x) * (y - current.y) / (next.y - current.y);
+            double z = current.z + (next.z - current.z) * (y - current.y) / (next.y - current.y);
             newPoints[newCount++] = (Point3D){x, y, z};
         }
     }
@@ -118,16 +121,16 @@ void clippingBottomScreenSide(Point3D *points, int *count)
         Point3D current = points[i];
         Point3D next = points[(i + 1) % *count];
 
-        if (current.y <= gScreenHeight - 100)
+        if (current.y <= gScreenHeight - CLIP_REGION)
         {
             newPoints[newCount++] = current;
         }
 
-        if ((current.y <= gScreenHeight - 100) != (next.y <= gScreenHeight - 100))
+        if ((current.y <= gScreenHeight - CLIP_REGION) != (next.y <= gScreenHeight - CLIP_REGION))
         {
-            int y = gScreenHeight - 100;
-            int x = current.x + (next.x - current.x) * (y - current.y) / (next.y - current.y);
-            int z = current.z + (next.z - current.z) * (y - current.y) / (next.y - current.y);
+            double y = gScreenHeight - CLIP_REGION;
+            double x = current.x + (next.x - current.x) * (y - current.y) / (next.y - current.y);
+            double z = current.z + (next.z - current.z) * (y - current.y) / (next.y - current.y);
             newPoints[newCount++] = (Point3D){x, y, z};
         }
     }
@@ -143,7 +146,7 @@ void clippingNearScreenSide(Point3D *points, int *count)
 {
     Point3D newPoints[MAX_POLYGON_POINTS];
     int newCount = 0;
-    int near = 0; // near plane distance
+    double near = 0.25; // near plane distance
 
     for (int i = 0; i < *count; i++)
     {
@@ -158,9 +161,9 @@ void clippingNearScreenSide(Point3D *points, int *count)
         if ((current.z >= near) != (next.z >= near))
         {
             // Calculate intersection point with near plane
-            int x = current.x + (next.x - current.x) * (near - current.z) / (next.z - current.z);
-            int y = current.y + (next.y - current.y) * (near - current.z) / (next.z - current.z);
-            int z = near; // Intersection point on the near plane
+            double x = current.x + (next.x - current.x) * (near - current.z) / (next.z - current.z);
+            double y = current.y + (next.y - current.y) * (near - current.z) / (next.z - current.z);
+            double z = near; // Intersection point on the near plane
 
             newPoints[newCount++] = (Point3D){x, y, z};
         }
@@ -177,7 +180,7 @@ void clippingFarScreenSide(Point3D *points, int *count)
 {
     Point3D newPoints[MAX_POLYGON_POINTS];
     int newCount = 0;
-    int far = 1000; // far plane distance
+    double far = 40; // far plane distance
 
     for (int i = 0; i < *count; i++)
     {
@@ -191,9 +194,9 @@ void clippingFarScreenSide(Point3D *points, int *count)
 
         if ((current.z <= far) != (next.z <= far))
         {
-            int z = far;
-            int x = current.x + (next.x - current.x) * (z - current.z) / (next.z - current.z);
-            int y = current.y + (next.y - current.y) * (z - current.z) / (next.z - current.z);
+            double z = far;
+            double x = current.x + (next.x - current.x) * (z - current.z) / (next.z - current.z);
+            double y = current.y + (next.y - current.y) * (z - current.z) / (next.z - current.z);
             newPoints[newCount++] = (Point3D){x, y, z};
         }
     }
@@ -205,51 +208,18 @@ void clippingFarScreenSide(Point3D *points, int *count)
     }
 }
 
-void (*clippingSideFunctions[EDGES_COUNT])(Point3D *points, int *count) = {
-    clippingLeftScreenSide,
-    clippingTopScreenSide,
-    clippingRightScreenSide,
-    clippingBottomScreenSide,
-    clippingNearScreenSide,
-    clippingFarScreenSide};
-
-void drawTriangleScreenClippingDepthTest(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, uint32_t color)
+void drawTriangleScreenClippingXYZ(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, uint32_t color)
 {
-    if (y1 > y2)
-    {
-        fast_swap_bitwise(x1, x2);
-        fast_swap_bitwise(y1, y2);
-        fast_swap_bitwise(z1, z2);
-    }
-    if (y1 > y3)
-    {
-        fast_swap_bitwise(x1, x3);
-        fast_swap_bitwise(y1, y3);
-        fast_swap_bitwise(z1, z3);
-    }
-    if (y2 > y3)
-    {
-        fast_swap_bitwise(x2, x3);
-        fast_swap_bitwise(y2, y3);
-        fast_swap_bitwise(z2, z3);
-    }
 
-    if (gScreenHeight < y1 || y3 < 0)
-    {
-        return; // protect top and bottom screen sides
-    }
-
+    // if (gScreenHeight < y1 || y3 < 0)
+    // {
+    //     return; // protect top and bottom screen sides
+    // }
     int currentPointsCount = 3; // initial polygon points
 
     Point3D points[MAX_POLYGON_POINTS] = {
         {x1, y1, z1}, {x2, y2, z2}, {x3, y3, z3}};
 
-    clippingNearScreenSide(points, &currentPointsCount);
-    if (currentPointsCount == 0)
-        return; // No points left after clipping
-    clippingFarScreenSide(points, &currentPointsCount);
-    if (currentPointsCount == 0)
-        return; // No points left after clipping
     clippingLeftScreenSide(points, &currentPointsCount);
     if (currentPointsCount == 0)
         return; // No points left after clipping
@@ -266,15 +236,76 @@ void drawTriangleScreenClippingDepthTest(int x1, int y1, int z1, int x2, int y2,
     int pointsIterator = 1;
     do
     {
-        drawFilledTriangleGradientDepthTest(
-            points[0].x, points[0].y, points[0].z,
-            points[(pointsIterator) % currentPointsCount].x,
-            points[(pointsIterator) % currentPointsCount].y,
-            points[(pointsIterator) % currentPointsCount].z,
-            points[(pointsIterator + 1) % currentPointsCount].x,
-            points[(pointsIterator + 1) % currentPointsCount].y,
-            points[(pointsIterator + 1) % currentPointsCount].z,
-            0xFFFF0000, 0xFF00FF00, 0xFF0000FF);
+        Point3D *pointA = &points[0];
+        Point3D *pointB = &points[(pointsIterator) % currentPointsCount];
+        Point3D *pointC = &points[(pointsIterator + 1) % currentPointsCount];
+
+        double projAx = pointA->x / pointA->z;
+        double projAy = pointA->y / pointA->z;
+
+        double projBx = pointB->x / pointB->z;
+        double projBy = pointB->y / pointB->z;
+
+        double projCx = pointC->x / pointC->z;
+        double projCy = pointC->y / pointC->z;
+
+        fast_TriangleDepthTest(
+            pointA->x, pointA->y, pointA->z / 20,
+            pointB->x, pointB->y, pointB->z / 20,
+            pointC->x, pointC->y, pointC->z / 20,
+            color);
+
+        // drawTriangleWireDepthTest(
+        //     pointA->x, pointA->y, pointA->z / 20 - 0.002,
+        //     pointB->x, pointB->y, pointB->z / 20 - 0.002,
+        //     pointC->x, pointC->y, pointC->z / 20 - 0.002,
+        //     0xFFFF00);
+
+    } while (++pointsIterator < currentPointsCount);
+}
+
+void drawTriangleScreenClippingDepthTest(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, uint32_t color)
+{
+    int currentPointsCount = 3; // initial polygon points
+
+    Point3D points[MAX_POLYGON_POINTS] = {
+        {x1, y1, z1}, {x2, y2, z2}, {x3, y3, z3}};
+
+    clippingNearScreenSide(points, &currentPointsCount);
+    if (currentPointsCount < 3)
+        return; // No points left after clipping
+    clippingFarScreenSide(points, &currentPointsCount);
+    if (currentPointsCount == 0)
+        return; // No points left after clipping
+
+    int pointsIterator = 1;
+
+    double Zconst = 1;
+
+    do
+    {
+        Point3D *pointA = &points[0];
+        Point3D *pointB = &points[(pointsIterator) % currentPointsCount];
+        Point3D *pointC = &points[(pointsIterator + 1) % currentPointsCount];
+
+        if (pointA->z <= 0 || pointB->z <= 0 || pointC->z <= 0)
+            continue;
+
+        double projAx = (pointA->x) / (pointA->z);
+        double projAy = (pointA->y) / (pointA->z);
+
+        double projBx = (pointB->x) / (pointB->z);
+        double projBy = (pointB->y) / (pointB->z);
+
+        double projCx = (pointC->x) / (pointC->z);
+        double projCy = (pointC->y) / (pointC->z);
+
+        drawTriangleScreenClippingXYZ(
+            floor(projAx * gHalfScreenWidth) + gHalfScreenWidth + 0.5, floor(projAy * -gHalfScreenHeight) + gHalfScreenHeight + 0.5, pointA->z,
+            floor(projBx * gHalfScreenWidth) + gHalfScreenWidth + 0.5, floor(projBy * -gHalfScreenHeight) + gHalfScreenHeight + 0.5, pointB->z,
+            floor(projCx * gHalfScreenWidth) + gHalfScreenWidth + 0.5, floor(projCy * -gHalfScreenHeight) + gHalfScreenHeight + 0.5, pointC->z,
+            color);
+
     } while (++pointsIterator < currentPointsCount);
 }
 
