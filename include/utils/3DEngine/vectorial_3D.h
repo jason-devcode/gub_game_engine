@@ -38,6 +38,43 @@ INLINE Vec3f vec3f_subtract(Vec3f v1, Vec3f v2)
 }
 
 /**
+ * @brief Multiplies two 3D vectors component-wise.
+ *
+ * This function multiplies the corresponding components of two input vectors `v1` and `v2`.
+ *
+ * @param v1 The first input vector of type `Vec3f`.
+ * @param v2 The second input vector of type `Vec3f`.
+ * @return A new `Vec3f` vector that is the result of the component-wise multiplication.
+ */
+INLINE Vec3f vec3f_multiply(Vec3f v1, Vec3f v2)
+{
+    Vec3f result;
+    result.x = v1.x * v2.x;
+    result.y = v1.y * v2.y;
+    result.z = v1.z * v2.z;
+    return result;
+}
+
+/**
+ * @brief Divides two 3D vectors component-wise.
+ *
+ * This function divides the corresponding components of the first input vector `v1` by the second input vector `v2`.
+ * Note that this function does not handle division by zero; ensure `v2` components are non-zero.
+ *
+ * @param v1 The first input vector of type `Vec3f`.
+ * @param v2 The second input vector of type `Vec3f`.
+ * @return A new `Vec3f` vector that is the result of the component-wise division.
+ */
+INLINE Vec3f vec3f_divide(Vec3f v1, Vec3f v2)
+{
+    Vec3f result;
+    result.x = v1.x / v2.x;
+    result.y = v1.y / v2.y;
+    result.z = v1.z / v2.z;
+    return result;
+}
+
+/**
  * @brief Scales a 3D vector by a given factor.
  *
  * @param v1 The input 3D vector to be scaled.
