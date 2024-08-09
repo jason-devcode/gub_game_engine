@@ -4,6 +4,7 @@
 #include "../include/utils/color_palette.h"
 #include "../include/utils/raster.h"
 #include "../include/utils/geometry.h"
+#include "../include/utils/triangles/fast_triangle_zbuffer.h"
 #include "../include/utils/analytic_geometry.h"
 #include "../include/utils/gamma.h"
 #include "../include/utils/vectorial_2D.h"
@@ -15,7 +16,7 @@ Vec2f parallelogramPoints[2] = {
     {.x = 4, .y = 0},
     {.x = 4, .y = 4}};
 
-Vec2f trianglePoints[] = {{100, 100}, {500, 300}, {200, 500}};
+Vec2f trianglePoints[] = {{300, 100}, {500, 320}, {200, 520}};
 
 #define draw_info()                                                                                                                        \
     drawFormattedText(                                                                                                                     \
@@ -73,7 +74,7 @@ void *gameLoop(void *arg)
 
     do
     {
-        clearScreen();
+        clearScreenDepth();
 
         drawScreenCartesianPlane();
 
@@ -81,16 +82,22 @@ void *gameLoop(void *arg)
         // drawCircleFillCartesian2D(parallelogramPoints[0].x, parallelogramPoints[0].y, 10, RED);
         // drawCircleFillCartesian2D(parallelogramPoints[1].x, parallelogramPoints[1].y, 10, RED);
 
-        drawFilledTriangleGradient(
-            trianglePoints[0].x, trianglePoints[0].y,
-            trianglePoints[1].x, trianglePoints[1].y,
-            trianglePoints[2].x, trianglePoints[2].y,
-            RED, GREEN, BLUE);
+        // drawFilledTriangleGradient(
+        //     trianglePoints[0].x, trianglePoints[0].y,
+        //     trianglePoints[1].x, trianglePoints[1].y,
+        //     trianglePoints[2].x, trianglePoints[2].y,
+        //     RED, GREEN, BLUE);
 
-        for (int i = 0; i < 3; ++i)
-        {
-            drawFilledCircle(trianglePoints[i].x, trianglePoints[i].y, 10, RED);
-        }
+        fast_TriangleDepthTest(
+            trianglePoints[0].x, trianglePoints[0].y, 0,
+            trianglePoints[1].x, trianglePoints[1].y, 1,
+            trianglePoints[2].x, trianglePoints[2].y, 0,
+            RED);
+
+        // for (int i = 0; i < 3; ++i)
+        // {
+        //     drawFilledCircle(trianglePoints[i].x, trianglePoints[i].y, 10, RED);
+        // }
 
         draw_info();
         drawScreen();
