@@ -5,6 +5,8 @@ if [ ! -d "build" ]; then
     mkdir build
 fi
 
-gcc src/sample_cube.c -o build/sample -lm -lSDL -O3
+# gcc src/sample_fast_triangle.c -o build/sample -lm -lSDL -O3
+# gcc src/sample_triangle.c -o build/sample -lm -lSDL -O3
+gcc src/sample_render_mesh.c -o build/sample -lm -lSDL -O3
 
 echo "Compilation completed."
