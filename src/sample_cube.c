@@ -7,13 +7,14 @@
 #include "../include/utils/3DEngine/camera3D.h"
 #include "../include/utils/3DEngine/vectorial_3D.h"
 
+#include "../include/utils/triangles/clipping_triangle_depth_test.h"
+
 #define draw_info()                                                                                                                                             \
     drawFormattedText(                                                                                                                                          \
         10, 10, 0xFFFFFF00,                                                                                                                                     \
         "FPS: %d\ndeltatime: %lf\nmouse screen position: ( %d, %d )\n\ncamera direction: ( %0.2lf, %0.2lf, %0.2lf)\ncamera angle: ( %0.2lf, %0.2lf, %0.2lf)\n", \
         getFps(), getDeltatime(),                                                                                                                               \
         GET_MOUSE_X(), GET_MOUSE_Y(), cameraDirection.x, cameraDirection.y, cameraDirection.z, cameraPitch, cameraYaw, cameraRoll)
-
 
 void onMoveForwardCamera()
 {
@@ -50,29 +51,21 @@ void onRotateCameraBottom()
 #define MATRIX_SIZE_Z 3
 
 int cubeMatrix[MATRIX_SIZE_X][MATRIX_SIZE_Y][MATRIX_SIZE_Z] = {
-    {
-        {1, 1, 1},
-        {1, 1, 1},
-        {1, 1, 1}
-    },
-    {
-        {1, 1, 1},
-        {1, 1, 1},
-        {1, 1, 1}
-    },
-    {
-        {1, 1, 1},
-        {1, 1, 1},
-        {1, 1, 1}
-    }
-};
-
+    {{1, 1, 1},
+     {1, 1, 1},
+     {1, 1, 1}},
+    {{1, 1, 1},
+     {1, 1, 1},
+     {1, 1, 1}},
+    {{1, 1, 1},
+     {1, 1, 1},
+     {1, 1, 1}}};
 
 void *gameLoop(void *arg)
 {
     initializeCamera3D((Vec3f){0, 0, -10}, (Vec3f){0, 0, 0}, degreesToRadians(60));
 
-    setClearScreenColor( 0x22222222 );
+    setClearScreenColor(0x22222222);
 
     addKeyPressEventListener(SDLK_w, onMoveForwardCamera);
     addKeyPressEventListener(SDLK_s, onMoveBackwardCamera);
@@ -82,11 +75,7 @@ void *gameLoop(void *arg)
     addKeyPressEventListener(SDLK_DOWN, onRotateCameraBottom);
 
     Vec3f cubeVertices[8] = {
-        {-1, 1, 1}, {1, 1, 1},
-        {1, -1, 1}, {-1, -1, 1},
-        {-1, 1, -1}, {1, 1, -1},
-        {1, -1, -1}, {-1, -1, -1}
-    };
+        {-1, 1, 1}, {1, 1, 1}, {1, -1, 1}, {-1, -1, 1}, {-1, 1, -1}, {1, 1, -1}, {1, -1, -1}, {-1, -1, -1}};
 
     Vec3f cubeVerticesTemp[8] = {{0}};
 
@@ -96,24 +85,24 @@ void *gameLoop(void *arg)
         0, 2, 3,
 
         // Right face
-        1, 5, 6,
-        1, 6, 2,
+        1,5,6,
+        1,6,2,
 
         // Left face
-        4, 0, 3,
-        4, 3, 7,
+        4,0,3,
+        4,3,7,
 
         // Back face
-        5, 4, 7,
-        5, 7, 6,
+        5,4,7,
+        5,7,6,
 
         // Top face
-        4, 5, 1,
-        4, 1, 0,
+        4,5,1,
+        4,1,0,
 
         // Bottom face
-        3, 2, 6,
-        3, 6, 7,
+        3,2,6,
+        3,6,7,
     };
 
     double cubeSize = 100.0;
@@ -122,11 +111,11 @@ void *gameLoop(void *arg)
     {
         clearScreenDepth();
 
-        for (int x = 0; x < MATRIX_SIZE_X; ++x)
+        for (int x = 0; x < 1; ++x)
         {
-            for (int y = 0; y < MATRIX_SIZE_Y; ++y)
+            for (int y = 0; y < 1; ++y)
             {
-                for (int z = 0; z < MATRIX_SIZE_Z; ++z)
+                for (int z = 0; z < 1; ++z)
                 {
                     if (cubeMatrix[x][y][z] == 1)
                     {
@@ -163,20 +152,27 @@ void *gameLoop(void *arg)
                             double projCx = vertexC->x / vertexC->z;
                             double projCy = vertexC->y / vertexC->z;
 
-                            
                             // backface culling
                             if (calculateParallelogramAreaFromCoords(projCx - projAx, projCy - projAy, projCx - projBx, projCy - projBy) > 0)
-                                drawFilledTriangleGradientDepthTest(
-                                    (gScreenWidth >> 1) + (projAx * cubeSize),
-                                    (gScreenHeight >> 1) + (projAy * -cubeSize),
-                                    vertexA->z,
-                                    (gScreenWidth >> 1) + (projBx * cubeSize),
-                                    (gScreenHeight >> 1) + (projBy * -cubeSize),
-                                    vertexB->z,
-                                    (gScreenWidth >> 1) + (projCx * cubeSize),
-                                    (gScreenHeight >> 1) + (projCy * -cubeSize),
-                                    vertexC->z,
-                                    RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 0, 255));
+                                // fast_drawTriangleFill(
+                                //     (gScreenWidth >> 1) + (projAx * cubeSize),
+                                //     (gScreenHeight >> 1) + (projAy * -cubeSize),
+                                //     (gScreenWidth >> 1) + (projBx * cubeSize),
+                                //     (gScreenHeight >> 1) + (projBy * -cubeSize),
+                                //     (gScreenWidth >> 1) + (projCx * cubeSize),
+                                //     (gScreenHeight >> 1) + (projCy * -cubeSize),
+                                //     RGB(0, 255, 0));
+                            drawTriangleScreenClippingDepthTest(
+                                (gScreenWidth >> 1) + (projAx * cubeSize),
+                                (gScreenHeight >> 1) + (projAy * -cubeSize),
+                                vertexA->z,
+                                (gScreenWidth >> 1) + (projBx * cubeSize),
+                                (gScreenHeight >> 1) + (projBy * -cubeSize),
+                                vertexB->z,
+                                (gScreenWidth >> 1) + (projCx * cubeSize),
+                                (gScreenHeight >> 1) + (projCy * -cubeSize),
+                                vertexC->z,
+                                RGB(255, 0, 0));
                         }
                     }
                 }
