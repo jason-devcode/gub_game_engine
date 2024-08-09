@@ -1,5 +1,7 @@
 # GUB Game Engine
 
+![z_buffer](./screenshots/image_z_buffer.png)
+
 This project is a basic graphics engine using SDL (Simple DirectMedia Layer) 1.2. It demonstrates how to create a simple game loop, handle screen updates, and manage threads for rendering.
 
 - **`include/graphic_engine.h`**: Header file containing definitions, global variables, and functions for initializing and managing the graphics engine.
