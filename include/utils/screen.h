@@ -83,6 +83,7 @@ bool initializeScreen(uint16_t screenWidth, uint16_t screenHeight)
  *
  * @param color The color value to set for clearing the screen.
  */
-#define setClearScreenColor(color) (gClearScreenColor = ((uint64_t)(color) | ((uint64_t)(color) << 32)))
+#define setClearScreenColor(color) \
+    (gClearScreenColor = ((uint64_t)(color) & 0xFFFFFFFF) | ((uint64_t)(color) << 32))
 
 #endif
