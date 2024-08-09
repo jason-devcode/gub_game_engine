@@ -168,20 +168,28 @@ void drawtriangleScreenClipping(int x1, int y1, int x2, int y2, int x3, int y3, 
         {x1, y1}, {x2, y2}, {x3, y3}};
 
     clippingLeftScreenSide(points, &currentPointsCount);
+    if (currentPointsCount == 0)
+        return; // No points left after clipping
     clippingTopScreenSide(points, &currentPointsCount);
+    if (currentPointsCount == 0)
+        return; // No points left after clipping
     clippingRightScreenSide(points, &currentPointsCount);
+    if (currentPointsCount == 0)
+        return; // No points left after clipping
     clippingBottomScreenSide(points, &currentPointsCount);
+    if (currentPointsCount == 0)
+        return; // No points left after clipping
 
     int pointsIterator = 1;
     do
     {
-        fast_drawTriangleFill(
+        drawFilledTriangleGradient(
             points[0].x, points[0].y,
             points[(pointsIterator) % currentPointsCount].x,
             points[(pointsIterator) % currentPointsCount].y,
             points[(pointsIterator + 1) % currentPointsCount].x,
             points[(pointsIterator + 1) % currentPointsCount].y,
-            color);
+            color, color, color);
     } while (++pointsIterator < currentPointsCount);
 }
 
