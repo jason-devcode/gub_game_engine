@@ -22,6 +22,7 @@ typedef struct VertexNormalListNode
 typedef struct VertexNormalLinearList
 {
     VertexNormalListNode *head; /**< Head of the list, the first node. */
+    VertexNormalListNode *tail; /**< Tail of the list, the last node. */
     int countNormals;           /**< Count of normals in the list. */
 } VertexNormalLinearList;
 
@@ -41,6 +42,7 @@ static inline VertexNormalLinearList *createVertexNormalLinearList()
         exit(EXIT_FAILURE);
     }
     list->head = NULL;
+    list->tail = NULL;
     list->countNormals = 0;
     return list;
 }
@@ -55,13 +57,14 @@ static inline VertexNormalLinearList *createVertexNormalLinearList()
 static inline void initVertexNormalLinearList(VertexNormalLinearList *list)
 {
     list->head = NULL;
+    list->tail = NULL;
     list->countNormals = 0;
 }
 
 /**
  * @brief Adds a normal vector to the list.
  *
- * Creates a new node with the given normal vector and inserts it at the beginning of the list.
+ * Creates a new node with the given normal vector and inserts it at the end of the list.
  *
  * @param list Pointer to the vertex normal list structure.
  * @param vertexNormal The normal vector to add to the list.
@@ -75,15 +78,24 @@ static inline void addVertexNormal(VertexNormalLinearList *list, Vec3f vertexNor
         exit(EXIT_FAILURE);
     }
     newNode->vertexNormal = vertexNormal;
-    newNode->next = list->head;
-    list->head = newNode;
+    newNode->next = NULL;
+
+    if (list->tail)
+    {
+        list->tail->next = newNode;
+    }
+    else
+    {
+        list->head = newNode;
+    }
+    list->tail = newNode;
     list->countNormals++;
 }
 
 /**
  * @brief Frees the memory used by the vertex normal list.
  *
- * Traverses the list and frees each node, then sets the head to NULL and the count to 0.
+ * Traverses the list and frees each node, then sets the head and tail to NULL and the count to 0.
  *
  * @param list Pointer to the vertex normal list structure.
  */
@@ -100,6 +112,7 @@ static inline void freeVertexNormalLinearList(VertexNormalLinearList *list)
     }
 
     list->head = NULL;
+    list->tail = NULL;
     list->countNormals = 0;
 }
 

@@ -21,6 +21,7 @@ typedef struct VertexListNode
 typedef struct VertexLinearList
 {
     VertexListNode *head; /**< Head of the list, the first node. */
+    VertexListNode *tail; /**< Tail of the list, the last node. */
     int countVertices;    /**< Count of vertices in the list. */
 } VertexLinearList;
 
@@ -40,6 +41,7 @@ static inline VertexLinearList *createVertexLinearList()
         exit(EXIT_FAILURE);
     }
     list->head = NULL;
+    list->tail = NULL;
     list->countVertices = 0;
     return list;
 }
@@ -54,13 +56,14 @@ static inline VertexLinearList *createVertexLinearList()
 static inline void initVertexLinearList(VertexLinearList *list)
 {
     list->head = NULL;
+    list->tail = NULL;
     list->countVertices = 0;
 }
 
 /**
  * @brief Adds a vertex to the list.
  *
- * Creates a new node with the given vertex and inserts it at the beginning of the list.
+ * Creates a new node with the given vertex and inserts it at the end of the list.
  *
  * @param list Pointer to the vertex list structure.
  * @param vertex The vertex to add to the list.
@@ -74,15 +77,25 @@ static inline void addVertex(VertexLinearList *list, Vec3f vertex)
         exit(EXIT_FAILURE);
     }
     newNode->vertex = vertex;
-    newNode->next = list->head;
-    list->head = newNode;
+    newNode->next = NULL;
+
+    if (list->tail)
+    {
+        list->tail->next = newNode; // Link the current tail to the new node
+    }
+    else
+    {
+        list->head = newNode; // If the list was empty, new node becomes the head
+    }
+
+    list->tail = newNode; // Update the tail to the new node
     list->countVertices++;
 }
 
 /**
  * @brief Frees the memory used by the vertex list.
  *
- * Traverses the list and frees each node, then sets the head to NULL and the count to 0.
+ * Traverses the list and frees each node, then sets the head and tail to NULL and the count to 0.
  *
  * @param list Pointer to the vertex list structure.
  */
@@ -99,6 +112,7 @@ static inline void freeVertexLinearList(VertexLinearList *list)
     }
 
     list->head = NULL;
+    list->tail = NULL;
     list->countVertices = 0;
 }
 

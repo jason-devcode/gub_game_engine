@@ -22,6 +22,7 @@ typedef struct VertexTextureListNode
 typedef struct VertexTextureLinearList
 {
     VertexTextureListNode *head; /**< Head of the list, the first node. */
+    VertexTextureListNode *tail; /**< Tail of the list, the last node. */
     int countTextures;           /**< Count of textures in the list. */
 } VertexTextureLinearList;
 
@@ -41,6 +42,7 @@ static inline VertexTextureLinearList *createVertexTextureLinearList()
         exit(EXIT_FAILURE);
     }
     list->head = NULL;
+    list->tail = NULL;
     list->countTextures = 0;
     return list;
 }
@@ -55,13 +57,14 @@ static inline VertexTextureLinearList *createVertexTextureLinearList()
 static inline void initVertexTextureLinearList(VertexTextureLinearList *list)
 {
     list->head = NULL;
+    list->tail = NULL;
     list->countTextures = 0;
 }
 
 /**
  * @brief Adds a texture coordinate to the list.
  *
- * Creates a new node with the given texture coordinate and inserts it at the beginning of the list.
+ * Creates a new node with the given texture coordinate and inserts it at the end of the list.
  *
  * @param list Pointer to the vertex texture list structure.
  * @param vertexTexture The texture coordinate to add to the list.
@@ -75,15 +78,24 @@ static inline void addVertexTexture(VertexTextureLinearList *list, Vec2f vertexT
         exit(EXIT_FAILURE);
     }
     newNode->vertexTexture = vertexTexture;
-    newNode->next = list->head;
-    list->head = newNode;
+    newNode->next = NULL;
+
+    if (list->tail)
+    {
+        list->tail->next = newNode;
+    }
+    else
+    {
+        list->head = newNode;
+    }
+    list->tail = newNode;
     list->countTextures++;
 }
 
 /**
  * @brief Frees the memory used by the vertex texture list.
  *
- * Traverses the list and frees each node, then sets the head to NULL and the count to 0.
+ * Traverses the list and frees each node, then sets the head and tail to NULL and the count to 0.
  *
  * @param list Pointer to the vertex texture list structure.
  */
@@ -100,6 +112,7 @@ static inline void freeVertexTextureLinearList(VertexTextureLinearList *list)
     }
 
     list->head = NULL;
+    list->tail = NULL;
     list->countTextures = 0;
 }
 
