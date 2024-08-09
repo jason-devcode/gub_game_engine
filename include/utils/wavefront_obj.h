@@ -162,11 +162,11 @@ void parseFaceLine(FaceLinearList *faces, char *line)
     // Triangulate face if more than 3 vertices
     // if (numVertices >= 3)
     // {
-        // for (int i = 1; i < numVertices - 1; ++i)
-        // {
-            // Create a triangle from vertices 0, i, and i+1
-            // addFaceToList(faces, v[0], vt[0], vn[0], v[i], vt[i], vn[i], v[i + 1], vt[i + 1], vn[i + 1], -1);
-        // }
+    // for (int i = 1; i < numVertices - 1; ++i)
+    // {
+    // Create a triangle from vertices 0, i, and i+1
+    // addFaceToList(faces, v[0], vt[0], vn[0], v[i], vt[i], vn[i], v[i + 1], vt[i + 1], vn[i + 1], -1);
+    // }
     // }
 }
 
@@ -198,7 +198,7 @@ void parseFaceLine(FaceLinearList *faces, char *line)
  * @param filename The path to the OBJ file.
  * @return A pointer to a MeshGroup containing the parsed data, or NULL on failure.
  */
-MeshGroup *readWavefrontObj(const char *filename)
+static inline MeshGroup *readWavefrontObj(const char *filename)
 {
     if (filename == NULL)
         return NULL;
