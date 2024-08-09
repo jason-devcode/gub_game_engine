@@ -132,6 +132,51 @@ static inline void drawLine(int x1, int y1, int x2, int y2, uint32_t color)
 }
 
 /**
+ * @brief Draws a line with depth testing, interpolating the z-coordinate along the line.
+ *
+ * This function draws a line from the coordinates (x1, y1, z1) to (x2, y2, z2) using the specified color.
+ * The z-coordinate is linearly interpolated between the start and end points. The function performs
+ * depth testing to ensure that only the closest pixel is drawn, preventing pixels that are farther away
+ * from being rendered on top of closer pixels.
+ *
+ * @param x1 The x-coordinate of the start point.
+ * @param y1 The y-coordinate of the start point.
+ * @param z1 The z-coordinate of the start point.
+ * @param x2 The x-coordinate of the end point.
+ * @param y2 The y-coordinate of the end point.
+ * @param z2 The z-coordinate of the end point.
+ * @param color The color to draw the line with.
+ */
+static inline void drawLineDepthTest(int x1, int y1, double z1, int x2, int y2, double z2, uint32_t color)
+{
+    register int DX = x2 - x1;
+    register int DY = y2 - y1;
+    register double DZ = z2 - z1;
+
+    register int absDX = fast_abs(DX);
+    register int absDY = fast_abs(DY);
+
+    register double steps = (double)(absDX > absDY ? absDX : absDY);
+    steps += !steps; // protect for zero division
+
+    register double stepX = (double)DX / steps;
+    register double stepY = (double)DY / steps;
+    register double stepZ = (double)DZ / steps;
+
+    register double x = x1;
+    register double y = y1;
+    register double z = z1;
+    --steps;
+    do
+    {
+        pixelDepthTest(x, y, z, color);
+        x += stepX;
+        y += stepY;
+        z += stepZ;
+    } while (steps--);
+}
+
+/**
  * Draws a wireframe rectangle on the framebuffer with the specified color.
  * The rectangle is defined by the coordinates (x1, y1) for one corner and
  * (x2, y2) for the opposite corner. The function draws only the outline of the
@@ -334,6 +379,33 @@ static inline void drawTriangleWire(int x1, int y1, int x2, int y2, int x3, int 
 }
 
 /**
+ * @brief Draws the wireframe of a triangle with depth testing.
+ *
+ * This function draws the edges of a triangle defined by the vertices (x1, y1, z1),
+ * (x2, y2, z2), and (x3, y3, z3) using the specified color. Each edge is drawn
+ * with depth testing, ensuring that only the closest parts of the edges are visible
+ * when rendered. The function leverages the `drawLineDepthTest` function to draw
+ * each side of the triangle.
+ *
+ * @param x1 The x-coordinate of the first vertex.
+ * @param y1 The y-coordinate of the first vertex.
+ * @param z1 The z-coordinate of the first vertex.
+ * @param x2 The x-coordinate of the second vertex.
+ * @param y2 The y-coordinate of the second vertex.
+ * @param z2 The z-coordinate of the second vertex.
+ * @param x3 The x-coordinate of the third vertex.
+ * @param y3 The y-coordinate of the third vertex.
+ * @param z3 The z-coordinate of the third vertex.
+ * @param color The color to draw the wireframe with.
+ */
+static inline void drawTriangleWireDepthTest(int x1, int y1, double z1, int x2, int y2, double z2, int x3, int y3, double z3, uint32_t color)
+{
+    drawLineDepthTest(x1, y1, z1, x2, y2, z2, color);
+    drawLineDepthTest(x2, y2, z2, x3, y3, z3, color);
+    drawLineDepthTest(x3, y3, z3, x1, y1, z1, color);
+}
+
+/**
  * @brief Draws a filled triangle with a gradient defined by three colors.
  *
  * Renders a filled triangle with vertices at (x1, y1), (x2, y2), and (x3, y3). The interior of the
@@ -459,6 +531,8 @@ static void drawFilledTriangleGradientDepthTest(int x1, int y1, int z1, int x2, 
     tempTriangleArea += !tempTriangleArea; // Avoid division by zero
     register double invTriangleArea = 1.0 / tempTriangleArea;
 
+    // drawTriangleWire(x1, y1, x2, y2, x3, y3, 0xFFFFFFFF);
+
     // Iterate over the bounding box
     for (register int Y = minY; Y < maxY; ++Y)
     {
@@ -470,7 +544,7 @@ static void drawFilledTriangleGradientDepthTest(int x1, int y1, int z1, int x2, 
             register int areaGamma = calculateTriangleAreaFromCoords(x1, y1, x2, y2, X, Y);
 
             // Check if the point (X, Y) is inside the triangle
-            if ((areaAlpha < 1 && areaBeta < 1 && areaGamma < 1) || (areaAlpha > -1 && areaBeta > -1 && areaGamma > -1))
+            if ((areaAlpha < 0 && areaBeta < 0 && areaGamma < 0) || (areaAlpha > 0 && areaBeta > 0 && areaGamma > 0))
             {
                 // Calculate barycentric coordinates
                 register double alpha = (double)areaAlpha * invTriangleArea;
