@@ -39,7 +39,7 @@ INLINE Vec3f vec3f_subtract(Vec3f v1, Vec3f v2)
 
 /**
  * @brief Scales a 3D vector by a given factor.
- * 
+ *
  * @param v1 The input 3D vector to be scaled.
  * @param factor The scaling factor to be applied to each component of the vector.
  * @return Vec3f The resulting scaled 3D vector.
@@ -48,7 +48,6 @@ INLINE Vec3f vec3f_scalar(Vec3f v1, double factor)
 {
     return (Vec3f){v1.x * factor, v1.y * factor, v1.z * factor};
 }
-
 
 /**
  * @brief Calculates the dot product of two 3D vectors.
@@ -79,7 +78,7 @@ INLINE Vec3f vec3f_cross(Vec3f v1, Vec3f v2)
 
 // INLINE Vec3f vec3f_reflect( Vec3f v1 )
 // {
-    // return 
+// return
 // }
 
 /**
@@ -90,7 +89,7 @@ INLINE Vec3f vec3f_cross(Vec3f v1, Vec3f v2)
  */
 INLINE double vec3f_inv_magnitude(Vec3f v)
 {
-    return fast_inv_sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    return 1 / sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 /**
@@ -285,6 +284,39 @@ INLINE Vec3f vec3f_rotate_xyz(Vec3f v, float angleX, float angleY, float angleZ)
         v.x * cosineZ - v.y * sineZ,
         v.x * sineZ + v.y * cosineZ,
         v.z};
+}
+
+/**
+ * @brief Rotates a 3D vector around the Y and X axes.
+ *
+ * This function rotates the input vector `v` first around the Y-axis by `angleY` degrees,
+ * then around the X-axis by `angleX` degrees. The rotations are performed using fast approximations
+ * of the cosine and sine functions for efficiency.
+ *
+ * @param v The input vector of type `Vec3f` to be rotated.
+ * @param angleY The angle in radians to rotate around the Y-axis.
+ * @param angleX The angle in radians to rotate around the X-axis.
+ * @return A new `Vec3f` vector that is the result of the rotation.
+ */
+INLINE Vec3f vec3f_rotate_yx(Vec3f v, float angleY, float angleX)
+{
+    Vec3f temp = v;
+
+    double cosineXZ = fast_cosine(angleY);
+    double sineXZ = fast_sine(angleY);
+
+    double cosineZY = fast_cosine(angleX);
+    double sineZY = fast_sine(angleX);
+
+    // Rotate Y
+    temp.x = v.x * cosineXZ - v.z * sineXZ;
+    temp.z = v.z * cosineXZ + v.x * sineXZ;
+
+    // Rotate X
+    temp.y = v.y * cosineZY + temp.z * sineZY;
+    temp.z = temp.z * cosineZY - v.y * sineZY;
+
+    return temp;
 }
 
 /**
