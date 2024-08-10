@@ -64,6 +64,25 @@ static inline Mesh3D *createMesh()
 }
 
 /**
+ * @brief Sets the name of a given 3D mesh.
+ *
+ * This function assigns a new name to the provided `Mesh3D` structure.
+ * If the `mesh` pointer is `NULL`, the function will return immediately without performing any operation.
+ *
+ * @param mesh A pointer to the `Mesh3D` structure for which the name is to be set.
+ * @param name A constant character pointer to the new name string to be assigned to the mesh.
+ *
+ * @note The `name` string is copied into the mesh's `name` field using `strcpy`.
+ * Ensure that the `name` field in `Mesh3D` has enough space to accommodate the new name.
+ */
+static inline void setMeshName(Mesh3D *mesh, const char *name)
+{
+    if (mesh == NULL)
+        return;
+    strcpy(mesh->name, name);
+}
+
+/**
  * @brief Releases resources of a Mesh3D structure.
  *
  * Frees the memory allocated for facesIndices.
@@ -180,6 +199,122 @@ static inline void releaseMeshGroupResources(MeshGroup *group)
     group->normals = NULL;
     group->vertices_texture = NULL;
     group->meshes = NULL;
+}
+
+/**
+ * @brief Merges an array of mesh groups into a single mesh group.
+ *
+ * This function takes an array of pointers to `MeshGroup` structures and combines them into a single `MeshGroup`.
+ * The indices of vertices, normals, and textures are adjusted accordingly.
+ *
+ * @param groups The array of pointers to mesh groups to be merged.
+ * @param groupCount The number of mesh groups in the array.
+ * @return Pointer to the merged `MeshGroup`. The caller is responsible for freeing this memory.
+ */
+MeshGroup *mergeMeshGroups(MeshGroup **groups, int groupCount)
+{
+    if (!groups || groupCount <= 0)
+    {
+        fprintf(stderr, "Invalid input for merging mesh groups.\n");
+        return NULL;
+    }
+
+    MeshGroup *mergedGroup = createEmptyMeshGroup();
+
+    // Calculate total counts
+    int totalVertexCount = 0;
+    int totalNormalCount = 0;
+    int totalTextureCount = 0;
+    int totalMeshCount = 0;
+
+    for (int i = 0; i < groupCount; ++i)
+    {
+        if (groups[i])
+        {
+            totalVertexCount += groups[i]->vertexCount;
+            totalNormalCount += groups[i]->normalsCount;
+            totalTextureCount += groups[i]->vertexTextureCount;
+            totalMeshCount += groups[i]->meshCount;
+        }
+    }
+
+    // Allocate memory for the merged group
+    mergedGroup->vertices = (Vec3f *)malloc(totalVertexCount * sizeof(Vec3f));
+    mergedGroup->normals = (Vec3f *)malloc(totalNormalCount * sizeof(Vec3f));
+    mergedGroup->vertices_texture = (Vec2f *)malloc(totalTextureCount * sizeof(Vec2f));
+    mergedGroup->meshes = (Mesh3D *)malloc(totalMeshCount * sizeof(Mesh3D));
+
+    if (!mergedGroup->vertices || !mergedGroup->normals || !mergedGroup->vertices_texture || !mergedGroup->meshes)
+    {
+        fprintf(stderr, "Error allocating memory for merged mesh group.\n");
+        releaseMeshGroupResources(mergedGroup);
+        return NULL;
+    }
+
+    // Copy data and adjust indices
+    int vertexOffset = 0;
+    int normalOffset = 0;
+    int textureOffset = 0;
+    int meshOffset = 0;
+
+    for (int i = 0; i < groupCount; ++i)
+    {
+        MeshGroup *group = groups[i];
+        if (!group)
+            continue;
+
+        // Copy vertices, normals, and textures
+        memcpy(mergedGroup->vertices + vertexOffset, group->vertices, group->vertexCount * sizeof(Vec3f));
+        memcpy(mergedGroup->normals + normalOffset, group->normals, group->normalsCount * sizeof(Vec3f));
+        memcpy(mergedGroup->vertices_texture + textureOffset, group->vertices_texture, group->vertexTextureCount * sizeof(Vec2f));
+
+        // Copy and adjust meshes
+        for (int j = 0; j < group->meshCount; ++j)
+        {
+            Mesh3D *sourceMesh = &group->meshes[j];
+            Mesh3D *targetMesh = &mergedGroup->meshes[meshOffset + j];
+
+            *targetMesh = *sourceMesh;
+            targetMesh->facesIndices = (FaceIndices *)malloc(sourceMesh->facesCount * sizeof(FaceIndices));
+
+            if (!targetMesh->facesIndices)
+            {
+                fprintf(stderr, "Error allocating memory for facesIndices in merged mesh group.\n");
+                releaseMeshGroupResources(mergedGroup);
+                return NULL;
+            }
+
+            memcpy(targetMesh->facesIndices, sourceMesh->facesIndices, sourceMesh->facesCount * sizeof(FaceIndices));
+
+            // Adjust indices
+            for (int k = 0; k < sourceMesh->facesCount; ++k)
+            {
+                targetMesh->facesIndices[k].vertexA += vertexOffset;
+                targetMesh->facesIndices[k].vertexB += vertexOffset;
+                targetMesh->facesIndices[k].vertexC += vertexOffset;
+
+                targetMesh->facesIndices[k].vertexNormalA += normalOffset;
+                targetMesh->facesIndices[k].vertexNormalB += normalOffset;
+                targetMesh->facesIndices[k].vertexNormalC += normalOffset;
+
+                targetMesh->facesIndices[k].vertexTextureA += textureOffset;
+                targetMesh->facesIndices[k].vertexTextureB += textureOffset;
+                targetMesh->facesIndices[k].vertexTextureC += textureOffset;
+            }
+        }
+
+        vertexOffset += group->vertexCount;
+        normalOffset += group->normalsCount;
+        textureOffset += group->vertexTextureCount;
+        meshOffset += group->meshCount;
+    }
+
+    mergedGroup->vertexCount = totalVertexCount;
+    mergedGroup->normalsCount = totalNormalCount;
+    mergedGroup->vertexTextureCount = totalTextureCount;
+    mergedGroup->meshCount = totalMeshCount;
+
+    return mergedGroup;
 }
 
 /**
