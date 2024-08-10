@@ -64,13 +64,12 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_MOUSEBUTTONDOWN(event)                                    \
-    int button = (event).button.button;                                   \
-    if (!gMouseButtonsPressed[button - 1])                                \
-    {                                                                     \
-        if (button != SDL_BUTTON_WHEELUP || button != SDL_BUTTON_WHEELUP) \
-            gMouseButtonsPressed[button - 1] = true;                      \
-        triggerEvent(gMouseEventManager, button);                         \
+#define PROCESS_MOUSEBUTTONDOWN(event)            \
+    int button = (event).button.button;           \
+    if (!gMouseButtonsPressed[button - 1])        \
+    {                                             \
+        gMouseButtonsPressed[button - 1] = true;  \
+        triggerEvent(gMouseEventManager, button); \
     }
 
 /**
@@ -86,7 +85,7 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
         if (gMouseButtonsPressed[button - 1])             \
         {                                                 \
             gMouseButtonsPressed[button - 1] = false;     \
-            triggerEvent(gMouseEventManager, button + 5); \
+            triggerEvent(gMouseEventManager, button + 7); \
         }                                                 \
     }
 

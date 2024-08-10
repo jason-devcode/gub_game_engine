@@ -12,15 +12,24 @@
  */
 typedef enum
 {
-    MOUSE_MOVE,               /**< Event for mouse movement. */
-    MOUSE_LEFT_BUTTON_DOWN,   /**< Event for mouse left button press. */
-    MOUSE_MIDDLE_BUTTON_DOWN, /**< Event for mouse middle button press. */
-    MOUSE_RIGHT_BUTTON_DOWN,  /**< Event for mouse right button press. */
-    MOUSE_WHELL_BUTTON_UP,    /**< Event for mouse wheel up. */
-    MOUSE_WHELL_BUTTON_DOWN,  /**< Event for mouse wheel down. */
-    MOUSE_LEFT_BUTTON_UP,     /**< Event for mouse left button release. */
-    MOUSE_MIDDLE_BUTTON_UP,   /**< Event for mouse middle button release. */
-    MOUSE_RIGHT_BUTTON_UP,    /**< Event for mouse right button release. */
+    // press events
+    MOUSE_MOVE,                    /**< Event for mouse movement. */
+    MOUSE_LEFT_BUTTON_PRESS,       /**< Event for mouse left button press. */
+    MOUSE_MIDDLE_BUTTON_PRESS,     /**< Event for mouse middle button press. */
+    MOUSE_RIGHT_BUTTON_PRESS,      /**< Event for mouse right button press. */
+    MOUSE_WHELL_UP_BUTTON_PRESS,   /**< Event for mouse wheel up press. */
+    MOUSE_WHELL_DOWN_BUTTON_PRESS, /**< Event for mouse wheel down press. */
+    TOUCH_RIGHT_BUTTON_PRESS,      /**< Event for touch panel right side press. */
+    TOUCH_LEFT_BUTTON_PRESS,       /**< Event for touch panel left side press. */
+
+    // releaase events
+    MOUSE_LEFT_BUTTON_RELEASE,       /**< Event for mouse left button release. */
+    MOUSE_MIDDLE_BUTTON_RELEASE,     /**< Event for mouse middle button release. */
+    MOUSE_RIGHT_BUTTON_RELEASE,      /**< Event for mouse right button release. */
+    MOUSE_WHELL_UP_BUTTON_RELEASE,   /**< Event for mouse wheel up release. */
+    MOUSE_WHELL_DOWN_BUTTON_RELEASE, /**< Event for mouse wheel down release. */
+    TOUCH_RIGHT_BUTTON_RELEASE,      /**< Event for touch panel right side release. */
+    TOUCH_LEFT_BUTTON_RELEASE,       /**< Event for touch panel left side release. */
     MOUSE_LAST
 } MouseEventType;
 
