@@ -30,7 +30,7 @@ typedef enum
     MOUSE_WHELL_DOWN_BUTTON_RELEASE, /**< Event for mouse wheel down release. */
     TOUCH_RIGHT_BUTTON_RELEASE,      /**< Event for touch panel right side release. */
     TOUCH_LEFT_BUTTON_RELEASE,       /**< Event for touch panel left side release. */
-    MOUSE_LAST
+    MOUSE_LAST = 20                  /** this is greater than the total mouse events registred here for avoid errors in mouse with more buttons  */
 } MouseEventType;
 
 // Global EventManager for mouse events
