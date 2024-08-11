@@ -34,8 +34,8 @@ void setWindowTitle(const char *title)
  */
 void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *windowTitle)
 {
-    // Initialize SDL video subsystem
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    // Initialize SDL video and joystick subsystem
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
     {
         // Print an error message if SDL initialization fails
         fprintf(stderr, "Cannot initialize SDL: %s\n", SDL_GetError());
@@ -102,23 +102,35 @@ void processAllEvents()
         switch (event.type)
         {
         case SDL_KEYDOWN:
+        {
             PROCESS_KEYDOWN(event);
             break;
+        }
         case SDL_KEYUP:
+        {
             PROCESS_KEYUP(event);
             break;
+        }
         case SDL_MOUSEMOTION:
+        {
             PROCESS_MOUSEMOTION(event);
             break;
+        }
         case SDL_MOUSEBUTTONDOWN:
+        {
             PROCESS_MOUSEBUTTONDOWN(event);
             break;
+        }
         case SDL_MOUSEBUTTONUP:
+        {
             PROCESS_MOUSEBUTTONUP(event);
             break;
+        }
         case SDL_QUIT:
+        {
             PROCESS_QUIT(event);
             break;
+        }
         }
     }
 
@@ -142,6 +154,21 @@ void runEngine()
         do
         {
             processAllEvents(); // Handle events
+
+            // SDL_Event event;
+
+            // // Process all pending events
+            // while (SDL_PollEvent(&event))
+            // {
+            //     switch (event.type)
+            //     {
+            //     case SDL_QUIT:
+            //         PROCESS_QUIT(event);
+            //         break;
+            //     }
+            //     printf("Event type: %d\n", event.type);
+            // }
+
         } while (ON_GAME_RUNNING);
     }
 }

@@ -34,7 +34,7 @@ typedef enum
 } MouseEventType;
 
 // Global EventManager for mouse events
-EventManager gMouseEventManager;
+static EventManager gMouseEventManager;
 
 /**
  * @brief Adds a mouse event listener.

@@ -43,7 +43,7 @@
  * @param b The blue channel value.
  * @return The RGB color value.
  */
-#define RGB(r, g, b) (INSERT_BYTE(0xFF, 3) | INSERT_BYTE(r, 2) | INSERT_BYTE(g, 1) | INSERT_BYTE(b, 0))
+#define RGB(r, g, b) (INSERT_BYTE(0xFF, 3) | INSERT_BYTE((r), 2) | INSERT_BYTE((g), 1) | INSERT_BYTE((b), 0))
 
 /**
  * @brief Create an RGBA color value from individual channels.

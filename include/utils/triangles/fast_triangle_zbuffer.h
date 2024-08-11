@@ -4,6 +4,10 @@
 #include "../swap.h"
 #include "../color.h"
 #include "../pixel.h"
+#include "../color_palette.h"
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
 
 /**
  * @brief Renders a filled triangle with depth testing, interpolating the z-coordinate
@@ -126,8 +130,8 @@ top_triangle:
         do
         {
             // pixelDepthTest(tempLeftX, y1, tempZ, color);
-            // pixelDepthTest(tempLeftX, y1, tempZ, RGB(255, 0, (int)(tempZ * 255)));
-            pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(tempZ * 255), (int)(tempZ * 255), (int)(tempZ * 255)));
+            pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(GETR(CYAN_500) * tempZ), (int)(GETG(CYAN_500) * tempZ), (int)(GETB(CYAN_500) * tempZ)));
+            // pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(tempZ * 255), (int)(tempZ * 255), (int)(tempZ * 255)));
 
             tempZ += zSlope;
         } while (++tempLeftX <= xRight);
@@ -150,7 +154,8 @@ bottom_triangle:
         double zSlope = (zRight - zLeft) / (DX + !DX);
         do
         {
-            pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(tempZ * 255), (int)(tempZ * 255), (int)(tempZ * 255)));
+            // pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(tempZ * 255), (int)(tempZ * 255), (int)(tempZ * 255)));
+            pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(GETR(CYAN_500) * tempZ), (int)(GETG(CYAN_500) * tempZ), (int)(GETB(CYAN_500) * tempZ)));
             // pixelDepthTest(tempLeftX, y1, tempZ, RGB((int)(tempZ * 255), 0, 0));
             // pixelDepthTest(tempLeftX, y1, tempZ, color);
             tempZ += zSlope;
@@ -161,5 +166,7 @@ bottom_triangle:
         zRight += slopeZRightAC2;
     } while (++y1 < y3);
 }
+
+#pragma GCC diagnostic pop
 
 #endif

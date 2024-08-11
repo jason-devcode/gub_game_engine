@@ -114,4 +114,4 @@ void *gameLoop(void *arg)
     return NULL;
 }
 
-CREATE_GAME(640, 640, "Basic Game Engine");
+CREATE_GAME(640, 640, "Basic Game Engine")

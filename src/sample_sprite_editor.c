@@ -37,4 +37,4 @@ void *gameLoop(void *ignore)
     return NULL;
 }
 
-CREATE_GAME(640, 640, "Sprite Editor");
+CREATE_GAME(640, 640, "Sprite Editor")

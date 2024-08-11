@@ -59,7 +59,7 @@ void *gameLoop(void *ignore)
     uint32_t *colorMeshes = (uint32_t *)malloc(meshGroup->meshCount * sizeof(uint32_t));
 
     for (int colorIndex = 0; colorIndex < meshGroup->meshCount; ++colorIndex)
-        colorMeshes[colorIndex] = colors_tailwind_palette[colorIndex + 5][4];
+        colorMeshes[colorIndex] = colorTailwindPalette(colorIndex + 5, 4);
 
     do
     {

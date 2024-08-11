@@ -41,7 +41,7 @@ void drawChar(int x, int y, char asciiCode, uint32_t color)
         uint8_t bitRow = charBitmap[Y]; ///< Row of the bitmap to be drawn.
         for (int X = 0; X < 8; ++X)
         {
-#define onDrawPixel ((bitRow >> X) & 0b00000001) ///< Check if the pixel should be drawn.
+#define onDrawPixel ((bitRow >> X) & 1) ///< Check if the pixel should be drawn.
 
             if (onDrawPixel)
                 pixel(x + X, y + Y, color); ///< Draw the pixel if it is set in the bitmap.

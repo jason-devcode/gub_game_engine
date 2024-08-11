@@ -302,116 +302,120 @@
 #define COLOR_COUNT 24
 #define SHADE_COUNT 11
 
-const unsigned int colors_tailwind_palette[COLOR_COUNT][SHADE_COUNT] = {
-    // Slate
-    {
-        SLATE_50, SLATE_100, SLATE_200, SLATE_300, SLATE_400,
-        SLATE_500, SLATE_600, SLATE_700, SLATE_800, SLATE_900,
-        SLATE_950},
-    // Gray
-    {
-        GRAY_50, GRAY_100, GRAY_200, GRAY_300, GRAY_400,
-        GRAY_500, GRAY_600, GRAY_700, GRAY_800, GRAY_900,
-        GRAY_950},
-    // Zinc
-    {
-        ZINC_50, ZINC_100, ZINC_200, ZINC_300, ZINC_400,
-        ZINC_500, ZINC_600, ZINC_700, ZINC_800, ZINC_900,
-        ZINC_950},
-    // Neutral
-    {
-        NEUTRAL_50, NEUTRAL_100, NEUTRAL_200, NEUTRAL_300, NEUTRAL_400,
-        NEUTRAL_500, NEUTRAL_600, NEUTRAL_700, NEUTRAL_800, NEUTRAL_900,
-        NEUTRAL_950},
-    // Stone
-    {
-        STONE_50, STONE_100, STONE_200, STONE_300, STONE_400,
-        STONE_500, STONE_600, STONE_700, STONE_800, STONE_900,
-        STONE_950},
-    // Red
-    {
-        RED_50, RED_100, RED_200, RED_300, RED_400,
-        RED_500, RED_600, RED_700, RED_800, RED_900,
-        RED_950},
-    // Orange
-    {
-        ORANGE_50, ORANGE_100, ORANGE_200, ORANGE_300, ORANGE_400,
-        ORANGE_500, ORANGE_600, ORANGE_700, ORANGE_800, ORANGE_900,
-        ORANGE_950},
-    // Amber
-    {
-        AMBER_50, AMBER_100, AMBER_200, AMBER_300, AMBER_400,
-        AMBER_500, AMBER_600, AMBER_700, AMBER_800, AMBER_900,
-        AMBER_950},
-    // Yellow
-    {
-        YELLOW_50, YELLOW_100, YELLOW_200, YELLOW_300, YELLOW_400,
-        YELLOW_500, YELLOW_600, YELLOW_700, YELLOW_800, YELLOW_900,
-        YELLOW_950},
-    // Lime
-    {
-        LIME_50, LIME_100, LIME_200, LIME_300, LIME_400,
-        LIME_500, LIME_600, LIME_700, LIME_800, LIME_900,
-        LIME_950},
-    // Green
-    {
-        GREEN_50, GREEN_100, GREEN_200, GREEN_300, GREEN_400,
-        GREEN_500, GREEN_600, GREEN_700, GREEN_800, GREEN_900,
-        GREEN_950},
-    // Emerald
-    {
-        EMERALD_50, EMERALD_100, EMERALD_200, EMERALD_300, EMERALD_400,
-        EMERALD_500, EMERALD_600, EMERALD_700, EMERALD_800, EMERALD_900,
-        EMERALD_950},
-    // Teal
-    {
-        TEAL_50, TEAL_100, TEAL_200, TEAL_300, TEAL_400,
-        TEAL_500, TEAL_600, TEAL_700, TEAL_800, TEAL_900,
-        TEAL_950},
-    // Cyan
-    {
-        CYAN_50, CYAN_100, CYAN_200, CYAN_300, CYAN_400,
-        CYAN_500, CYAN_600, CYAN_700, CYAN_800, CYAN_900,
-        CYAN_950},
-    // Sky
-    {
-        SKY_50, SKY_100, SKY_200, SKY_300, SKY_400,
-        SKY_500, SKY_600, SKY_700, SKY_800, SKY_900,
-        SKY_950},
-    // Blue
-    {
-        BLUE_50, BLUE_100, BLUE_200, BLUE_300, BLUE_400,
-        BLUE_500, BLUE_600, BLUE_700, BLUE_800, BLUE_900,
-        BLUE_950},
-    // Indigo
-    {
-        INDIGO_50, INDIGO_100, INDIGO_200, INDIGO_300, INDIGO_400,
-        INDIGO_500, INDIGO_600, INDIGO_700, INDIGO_800, INDIGO_900,
-        INDIGO_950},
-    // Violet
-    {
-        VIOLET_50, VIOLET_100, VIOLET_200, VIOLET_300, VIOLET_400,
-        VIOLET_500, VIOLET_600, VIOLET_700, VIOLET_800, VIOLET_900,
-        VIOLET_950},
-    // Purple
-    {
-        PURPLE_50, PURPLE_100, PURPLE_200, PURPLE_300, PURPLE_400,
-        PURPLE_500, PURPLE_600, PURPLE_700, PURPLE_800, PURPLE_900,
-        PURPLE_950},
-    // Fuchsia
-    {
-        FUCHSIA_50, FUCHSIA_100, FUCHSIA_200, FUCHSIA_300, FUCHSIA_400,
-        FUCHSIA_500, FUCHSIA_600, FUCHSIA_700, FUCHSIA_800, FUCHSIA_900,
-        FUCHSIA_950},
-    // Pink
-    {
-        PINK_50, PINK_100, PINK_200, PINK_300, PINK_400,
-        PINK_500, PINK_600, PINK_700, PINK_800, PINK_900,
-        PINK_950},
-    // Rose
-    {
-        ROSE_50, ROSE_100, ROSE_200, ROSE_300, ROSE_400,
-        ROSE_500, ROSE_600, ROSE_700, ROSE_800, ROSE_900,
-        ROSE_950}};
+static const unsigned int colorTailwindPalette(int colorIndex, int colorShade)
+{
+    unsigned int colors_tailwind_palette[COLOR_COUNT][SHADE_COUNT] = {
+        // Slate
+        {
+            SLATE_50, SLATE_100, SLATE_200, SLATE_300, SLATE_400,
+            SLATE_500, SLATE_600, SLATE_700, SLATE_800, SLATE_900,
+            SLATE_950},
+        // Gray
+        {
+            GRAY_50, GRAY_100, GRAY_200, GRAY_300, GRAY_400,
+            GRAY_500, GRAY_600, GRAY_700, GRAY_800, GRAY_900,
+            GRAY_950},
+        // Zinc
+        {
+            ZINC_50, ZINC_100, ZINC_200, ZINC_300, ZINC_400,
+            ZINC_500, ZINC_600, ZINC_700, ZINC_800, ZINC_900,
+            ZINC_950},
+        // Neutral
+        {
+            NEUTRAL_50, NEUTRAL_100, NEUTRAL_200, NEUTRAL_300, NEUTRAL_400,
+            NEUTRAL_500, NEUTRAL_600, NEUTRAL_700, NEUTRAL_800, NEUTRAL_900,
+            NEUTRAL_950},
+        // Stone
+        {
+            STONE_50, STONE_100, STONE_200, STONE_300, STONE_400,
+            STONE_500, STONE_600, STONE_700, STONE_800, STONE_900,
+            STONE_950},
+        // Red
+        {
+            RED_50, RED_100, RED_200, RED_300, RED_400,
+            RED_500, RED_600, RED_700, RED_800, RED_900,
+            RED_950},
+        // Orange
+        {
+            ORANGE_50, ORANGE_100, ORANGE_200, ORANGE_300, ORANGE_400,
+            ORANGE_500, ORANGE_600, ORANGE_700, ORANGE_800, ORANGE_900,
+            ORANGE_950},
+        // Amber
+        {
+            AMBER_50, AMBER_100, AMBER_200, AMBER_300, AMBER_400,
+            AMBER_500, AMBER_600, AMBER_700, AMBER_800, AMBER_900,
+            AMBER_950},
+        // Yellow
+        {
+            YELLOW_50, YELLOW_100, YELLOW_200, YELLOW_300, YELLOW_400,
+            YELLOW_500, YELLOW_600, YELLOW_700, YELLOW_800, YELLOW_900,
+            YELLOW_950},
+        // Lime
+        {
+            LIME_50, LIME_100, LIME_200, LIME_300, LIME_400,
+            LIME_500, LIME_600, LIME_700, LIME_800, LIME_900,
+            LIME_950},
+        // Green
+        {
+            GREEN_50, GREEN_100, GREEN_200, GREEN_300, GREEN_400,
+            GREEN_500, GREEN_600, GREEN_700, GREEN_800, GREEN_900,
+            GREEN_950},
+        // Emerald
+        {
+            EMERALD_50, EMERALD_100, EMERALD_200, EMERALD_300, EMERALD_400,
+            EMERALD_500, EMERALD_600, EMERALD_700, EMERALD_800, EMERALD_900,
+            EMERALD_950},
+        // Teal
+        {
+            TEAL_50, TEAL_100, TEAL_200, TEAL_300, TEAL_400,
+            TEAL_500, TEAL_600, TEAL_700, TEAL_800, TEAL_900,
+            TEAL_950},
+        // Cyan
+        {
+            CYAN_50, CYAN_100, CYAN_200, CYAN_300, CYAN_400,
+            CYAN_500, CYAN_600, CYAN_700, CYAN_800, CYAN_900,
+            CYAN_950},
+        // Sky
+        {
+            SKY_50, SKY_100, SKY_200, SKY_300, SKY_400,
+            SKY_500, SKY_600, SKY_700, SKY_800, SKY_900,
+            SKY_950},
+        // Blue
+        {
+            BLUE_50, BLUE_100, BLUE_200, BLUE_300, BLUE_400,
+            BLUE_500, BLUE_600, BLUE_700, BLUE_800, BLUE_900,
+            BLUE_950},
+        // Indigo
+        {
+            INDIGO_50, INDIGO_100, INDIGO_200, INDIGO_300, INDIGO_400,
+            INDIGO_500, INDIGO_600, INDIGO_700, INDIGO_800, INDIGO_900,
+            INDIGO_950},
+        // Violet
+        {
+            VIOLET_50, VIOLET_100, VIOLET_200, VIOLET_300, VIOLET_400,
+            VIOLET_500, VIOLET_600, VIOLET_700, VIOLET_800, VIOLET_900,
+            VIOLET_950},
+        // Purple
+        {
+            PURPLE_50, PURPLE_100, PURPLE_200, PURPLE_300, PURPLE_400,
+            PURPLE_500, PURPLE_600, PURPLE_700, PURPLE_800, PURPLE_900,
+            PURPLE_950},
+        // Fuchsia
+        {
+            FUCHSIA_50, FUCHSIA_100, FUCHSIA_200, FUCHSIA_300, FUCHSIA_400,
+            FUCHSIA_500, FUCHSIA_600, FUCHSIA_700, FUCHSIA_800, FUCHSIA_900,
+            FUCHSIA_950},
+        // Pink
+        {
+            PINK_50, PINK_100, PINK_200, PINK_300, PINK_400,
+            PINK_500, PINK_600, PINK_700, PINK_800, PINK_900,
+            PINK_950},
+        // Rose
+        {
+            ROSE_50, ROSE_100, ROSE_200, ROSE_300, ROSE_400,
+            ROSE_500, ROSE_600, ROSE_700, ROSE_800, ROSE_900,
+            ROSE_950}};
 
+    return colors_tailwind_palette[colorIndex % COLOR_COUNT][colorShade % COLOR_COUNT];
+}
 #endif
