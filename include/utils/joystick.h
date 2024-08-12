@@ -26,14 +26,14 @@ enum JoystickAxisTypes
 // Structure to store the state of the joystick axes and hat switch
 typedef struct _tag_joystick_state_
 {
-    double motionLeftAxixX; // Motion value of left stick X-axis
-    double motionLeftAxixY; // Motion value of left stick Y-axis
+    double motionLeftAxisX; // Motion value of left stick X-axis
+    double motionLeftAxisY; // Motion value of left stick Y-axis
 
-    double motionRightAxixX; // Motion value of right stick X-axis
-    double motionRightAxixY; // Motion value of right stick Y-axis
+    double motionRightAxisX; // Motion value of right stick X-axis
+    double motionRightAxisY; // Motion value of right stick Y-axis
 
-    double motionLeftTriggerAxix;  // Motion value of left trigger axis
-    double motionRightTriggerAxix; // Motion value of right trigger axis
+    double motionLeftTriggerAxis;  // Motion value of left trigger axis
+    double motionRightTriggerAxis; // Motion value of right trigger axis
 
     double motionHatX; // Motion value of hat switch X-axis
     double motionHatY; // Motion value of hat switch Y-axis
