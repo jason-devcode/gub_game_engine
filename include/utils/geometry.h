@@ -6,8 +6,37 @@
 #include "pixel.h"
 #include "swap.h"
 #include "fast_math.h"
-#include "analytic_geometry.h"
 #include "color.h"
+#include "pascal_triangle.h"
+#include "analytic_geometry.h"
+#include "vectorial_2D.h"
+
+#define MAX_BEZIER_POINTS 100
+
+// Global pointer to store the Pascal Triangle used for Bezier curve calculations
+static int **gPascalTriangle = NULL;
+
+/**
+ * @brief Initializes geometric properties.
+ *
+ * This function allocates and initializes the Pascal Triangle with a size
+ * of MAX_BEZIER_POINTS to be used in Bezier curve computations.
+ */
+static void initializeGeometryProps()
+{
+    gPascalTriangle = createPascalTriangle(MAX_BEZIER_POINTS);
+}
+
+/**
+ * @brief Releases geometry-related resources.
+ *
+ * This function frees the memory allocated for the Pascal Triangle used in
+ * Bezier curve computations, ensuring proper cleanup of resources.
+ */
+static void releaseGeometryResources()
+{
+    freePascalTriangle(gPascalTriangle, MAX_BEZIER_POINTS);
+}
 
 /**
  * @brief Draws a horizontal line on the framebuffer.
@@ -19,7 +48,8 @@
  * @param y The y-coordinate of the line.
  * @param color The color of the line, represented as a 32-bit unsigned integer.
  */
-static inline void drawHorizontalLine(int x1, int x2, int y, uint32_t color)
+static inline void
+drawHorizontalLine(int x1, int x2, int y, uint32_t color)
 {
     if (y < 0)
         return; // protect up screen side
@@ -559,6 +589,50 @@ static void drawFilledTriangleGradientDepthTest(int x1, int y1, int z1, int x2, 
                 pixelDepthTest(X, Y, Z, color);
             }
         }
+    }
+}
+
+/**
+ * @brief Draws a Bézier curve using an arbitrary number of control points.
+ *
+ * This function draws a Bézier curve defined by a set of control points.
+ * It computes the curve by evaluating the Bernstein polynomials using the
+ * Pascal triangle for the given control points.
+ *
+ * @param controlPoints Array of control points defining the Bézier curve.
+ * @param numControlPoints Number of control points in the array.
+ * @param numSteps Number of steps to interpolate the curve. Higher values
+ *        result in a smoother curve.
+ * @param color The color to use for drawing the Bézier curve.
+ *
+ * @note Before using this function, ensure that the geometry initializer
+ *       has been called. This function relies on a precomputed Pascal
+ *       triangle (`gPascalTriangle`), which must be initialized prior to
+ *       calling `drawBezierNPoints`.
+ */
+static inline void drawBezierNPoints(const Vec2f *controlPoints, int numControlPoints, int numSteps, unsigned int color)
+{
+    float stepSize = 1.0f / numSteps;
+    Vec2f currentPoint, previousPoint;
+
+    for (int currentStep = 0; currentStep <= numSteps; ++currentStep)
+    {
+        float t = currentStep * stepSize;
+        currentPoint = (Vec2f){0, 0};
+
+        for (int controlPointIndex = 0; controlPointIndex < numControlPoints; ++controlPointIndex)
+        {
+            float bernsteinCoefficient = gPascalTriangle[numControlPoints - 1][controlPointIndex] *
+                                         pow(t, controlPointIndex) *
+                                         pow(1 - t, numControlPoints - 1 - controlPointIndex);
+
+            currentPoint.x += bernsteinCoefficient * controlPoints[controlPointIndex].x;
+            currentPoint.y += bernsteinCoefficient * controlPoints[controlPointIndex].y;
+        }
+
+        if (currentStep > 0)
+            drawLine(previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y, color);
+        previousPoint = currentPoint;
     }
 }
 
