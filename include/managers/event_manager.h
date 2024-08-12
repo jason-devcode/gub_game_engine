@@ -105,7 +105,7 @@ EventManager *createEventManager(uint32_t maxPossibleListenerLists)
  */
 bool addEventListener(EventManager *manager, uint32_t key, void (*listener)())
 {
-    if (key >= manager->listsCount || listener == NULL)
+    if (!manager || !manager->listeners_lists || key >= manager->listsCount || listener == NULL)
         return false;
 
     NodeEventListener *newListener = (NodeEventListener *)malloc(sizeof(NodeEventListener));
@@ -132,7 +132,7 @@ bool addEventListener(EventManager *manager, uint32_t key, void (*listener)())
  */
 bool removeEventListener(EventManager *manager, uint32_t key, void (*listener)())
 {
-    if (key >= manager->listsCount)
+    if (!manager || !manager->listeners_lists || key >= manager->listsCount || listener == NULL)
         return false;
 
     NodeEventListener *current = manager->listeners_lists[key];
