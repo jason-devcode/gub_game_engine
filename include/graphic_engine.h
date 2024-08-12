@@ -196,6 +196,10 @@ void clearKeyboardManagers()
     freeEventManager(&gMouseEventManager, true);
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
+
+    closeJoystickManager();
+    if (gJoyStickEventManager.listsCount > 0)
+        freeEventManager(&gJoyStickEventManager, true);
 }
 
 /**
