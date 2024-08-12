@@ -8,6 +8,7 @@
 
 #include "utils/timers.h"   // For timers and time utils
 #include "utils/keyboard.h" // For keyboard utils
+#include "utils/joystick.h" // For joystick utils
 #include "utils/mouse.h"    // For mouse utils
 #include "utils/screen.h"   // For screen utils
 
@@ -34,8 +35,8 @@ void setWindowTitle(const char *title)
  */
 void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *windowTitle)
 {
-    // Initialize SDL video and joystick subsystem
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) < 0)
+    // Initialize SDL video subsystem
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         // Print an error message if SDL initialization fails
         fprintf(stderr, "Cannot initialize SDL: %s\n", SDL_GetError());
@@ -131,8 +132,13 @@ void processAllEvents()
             PROCESS_QUIT(event);
             break;
         }
+        default:
+            handleJoystickEvents(&event);
+            break;
         }
     }
+    // Trigger events for all joystick buttons still pressed
+    // TRIGGER_PRESSED_JOYSTICKS_BUTTONS();
 
     // Trigger events for all keys still pressed
     TRIGGER_PRESSED_KEYS();
