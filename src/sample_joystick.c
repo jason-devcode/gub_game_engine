@@ -50,19 +50,19 @@ void *gameLoop(void *ignore)
 {
     initializeJoystickManager();
 
-    addJoystickEventListener(JOY_BUTTON_0_PRESS, JOSTICK_PLAYER_1, pressButtonAJoystick);
-    addJoystickEventListener(JOY_BUTTON_0_RELEASE, JOSTICK_PLAYER_1, releaseButtonAJoystick);
+    addJoystickEventListener(JOY_BUTTON_0_PRESS, JOYSTICK_PLAYER_1, pressButtonAJoystick);
+    addJoystickEventListener(JOY_BUTTON_0_RELEASE, JOYSTICK_PLAYER_1, releaseButtonAJoystick);
 
-    addJoystickEventListener(JOY_BUTTON_1_PRESS, JOSTICK_PLAYER_1, pressButtonBJoystick);
-    addJoystickEventListener(JOY_BUTTON_1_RELEASE, JOSTICK_PLAYER_1, releaseButtonBJoystick);
+    addJoystickEventListener(JOY_BUTTON_1_PRESS, JOYSTICK_PLAYER_1, pressButtonBJoystick);
+    addJoystickEventListener(JOY_BUTTON_1_RELEASE, JOYSTICK_PLAYER_1, releaseButtonBJoystick);
 
-    addJoystickEventListener(JOY_BUTTON_2_PRESS, JOSTICK_PLAYER_1, pressButtonXJoystick);
-    addJoystickEventListener(JOY_BUTTON_2_RELEASE, JOSTICK_PLAYER_1, releaseButtonXJoystick);
+    addJoystickEventListener(JOY_BUTTON_2_PRESS, JOYSTICK_PLAYER_1, pressButtonXJoystick);
+    addJoystickEventListener(JOY_BUTTON_2_RELEASE, JOYSTICK_PLAYER_1, releaseButtonXJoystick);
 
-    addJoystickEventListener(JOY_BUTTON_3_PRESS, JOSTICK_PLAYER_1, pressButtonYJoystick);
-    addJoystickEventListener(JOY_BUTTON_3_RELEASE, JOSTICK_PLAYER_1, releaseButtonYJoystick);
+    addJoystickEventListener(JOY_BUTTON_3_PRESS, JOYSTICK_PLAYER_1, pressButtonYJoystick);
+    addJoystickEventListener(JOY_BUTTON_3_RELEASE, JOYSTICK_PLAYER_1, releaseButtonYJoystick);
 
-    JoystickState *joystickPlayer1 = getJoystickState(JOSTICK_PLAYER_1);
+    JoystickState *joystickPlayer1 = getJoystickState(JOYSTICK_PLAYER_1);
 
     double X1 = 128, X2 = 256, X3 = 384;
     double Y1 = 128, Y2 = 256, Y3 = 384;
@@ -91,4 +91,4 @@ void *gameLoop(void *ignore)
     } while (ON_GAME_RUNNING);
 }
 
-CREATE_GAME(512, 512, "BEZIER CURVE SAMPLE")
+CREATE_GAME(512, 512, "JOYSTICK EVENT MANAGER SAMPLE")

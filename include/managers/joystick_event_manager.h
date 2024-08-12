@@ -66,10 +66,10 @@ typedef enum
 
 enum
 {
-    JOSTICK_PLAYER_1,
-    JOSTICK_PLAYER_2,
-    // JOSTICK_PLAYER_3,
-    // JOSTICK_PLAYER_4,
+    JOYSTICK_PLAYER_1,
+    JOYSTICK_PLAYER_2,
+    // JOYSTICK_PLAYER_3,
+    // JOYSTICK_PLAYER_4,
 } JoystickIndices;
 
 /**
