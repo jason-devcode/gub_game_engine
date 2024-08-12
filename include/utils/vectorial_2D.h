@@ -38,6 +38,61 @@ INLINE Vec2f vec2f_subtract(Vec2f v1, Vec2f v2)
 }
 
 /**
+ * @brief Multiplies a 2D vector by a scalar.
+ *
+ * @param v Vector to be multiplied.
+ * @param scalar Scalar value to multiply the vector by.
+ * @return Resultant vector after multiplication.
+ */
+INLINE Vec2f vec2f_multiply_scalar(Vec2f v, double scalar)
+{
+    return (Vec2f){v.x * scalar, v.y * scalar};
+}
+
+/**
+ * @brief Multiplies two 2D vectors component-wise.
+ *
+ * @param v1 First vector.
+ * @param v2 Second vector.
+ * @return Resultant vector after component-wise multiplication.
+ */
+INLINE Vec2f vec2f_multiply_vector(Vec2f v1, Vec2f v2)
+{
+    return (Vec2f){v1.x * v2.x, v1.y * v2.y};
+}
+
+/**
+ * @brief Divides a 2D vector by a scalar with protection against division by zero.
+ *
+ * @param v Vector to be divided.
+ * @param scalar Scalar value to divide the vector by.
+ * @return Resultant vector after division. Returns the original vector if the scalar is zero.
+ */
+INLINE Vec2f vec2f_divide_scalar(Vec2f v, double scalar)
+{
+    if (scalar == 0.0)
+    {
+        // Handle division by zero (return the original vector or handle it differently if needed)
+        return v;
+    }
+    return (Vec2f){v.x / scalar, v.y / scalar};
+}
+
+/**
+ * @brief Divides two 2D vectors component-wise with protection against division by zero.
+ *
+ * @param v1 First vector (numerator).
+ * @param v2 Second vector (denominator).
+ * @return Resultant vector after component-wise division. Returns the original vector for any component if the corresponding denominator component is zero.
+ */
+INLINE Vec2f vec2f_divide_vector(Vec2f v1, Vec2f v2)
+{
+    return (Vec2f){
+        v2.x != 0.0 ? v1.x / v2.x : v1.x,
+        v2.y != 0.0 ? v1.y / v2.y : v1.y};
+}
+
+/**
  * @brief Calculates the dot product of two 2D vectors.
  *
  * @param v1 First vector.
