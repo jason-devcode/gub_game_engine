@@ -16,6 +16,18 @@ static int gCartesianMaxXAxisValue = 8;
 static int gCartesianMaxYAxisValue = 8;
 
 /**
+ * @brief Initializes the Cartesian coordinate system utilities.
+ *
+ * This function sets up the necessary parameters for working with the Cartesian coordinate system.
+ * It calculates the required parameters based on the current screen dimensions.
+ */
+static inline void initializeCartesian2DSpaceUtils(int maxXAxisValue, int maxYAxisValue)
+{
+    gCartesianMaxXAxisValue = maxXAxisValue;
+    gCartesianMaxYAxisValue = maxYAxisValue;
+}
+
+/**
  * @brief Draws the x-axis lines and labels on the screen.
  *
  * This macro draws vertical grid lines representing the x-axis of a Cartesian coordinate system on the screen.
