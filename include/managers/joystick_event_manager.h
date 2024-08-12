@@ -110,7 +110,7 @@ bool initializeJoystickEventManager()
  * @param joystickPlayerId The ID of the joystick player.
  * @param listener The event listener to add.
  */
-#define addJoypadEventListener(type, joystickPlayerId, listener) \
+#define addJoystickEventListener(type, joystickPlayerId, listener) \
     addEventListener(&gJoyStickEventManager, CALCULATE_JOYPAD_EVENT_TYPE(type, joystickPlayerId), (listener))
 
 /**
@@ -122,7 +122,7 @@ bool initializeJoystickEventManager()
  * @param joystickPlayerId The ID of the joystick player.
  * @param listener The event listener to remove.
  */
-#define removeJoypadEventListener(type, joystickPlayerId, listener) \
+#define removeJoystickEventListener(type, joystickPlayerId, listener) \
     removeEventListener(&gJoyStickEventManager, CALCULATE_JOYPAD_EVENT_TYPE(type, joystickPlayerId), (listener))
 
 #endif
