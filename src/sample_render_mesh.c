@@ -39,7 +39,7 @@ void onRotateCameraBottom()
     rotateCameraPitch(-radian);
 }
 
-void *gameLoop(void *ignore)
+int gameLoop(void *ignore)
 {
     initializeCamera3D((Vec3f){7.270224, 0.524233, -6.514976}, (Vec3f){0.044998, 4.972324, 0.0}, 60);
 

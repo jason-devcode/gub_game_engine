@@ -66,11 +66,11 @@ void onMouseLeftClickDownTriangle()
     }
 }
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     addMouseEventListener(MOUSE_MOVE, onMouseMotion);
     // addMouseEventListener(MOUSE_LEFT_BUTTON_DOWN, onMouseLeftClickDownParallelogram);
-    addMouseEventListener(MOUSE_LEFT_BUTTON_DOWN, onMouseLeftClickDownTriangle);
+    addMouseEventListener(MOUSE_LEFT_BUTTON_PRESS, onMouseLeftClickDownTriangle);
 
     do
     {
@@ -93,7 +93,7 @@ void *gameLoop(void *arg)
             trianglePoints[0].x, trianglePoints[0].y, 1,
             trianglePoints[1].x, trianglePoints[1].y, 2,
             trianglePoints[2].x, trianglePoints[2].y, 2,
-            YELLOW_200); 
+            YELLOW_200);
 
         for (int i = 0; i < 3; ++i)
         {
@@ -105,7 +105,7 @@ void *gameLoop(void *arg)
         renderDelay(16); // Limit to 60 FPS
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(640, 640, "Basic Game Engine")

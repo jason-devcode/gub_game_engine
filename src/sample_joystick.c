@@ -46,7 +46,7 @@ void releaseButtonYJoystick()
     puts("BUTTON Y RELEASE");
 }
 
-void *gameLoop(void *ignore)
+int gameLoop(void *ignore)
 {
     initializeJoystickManager();
 
@@ -89,6 +89,8 @@ void *gameLoop(void *ignore)
         drawScreen();
         renderDelay(16);
     } while (ON_GAME_RUNNING);
+
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(512, 512, "JOYSTICK EVENT MANAGER SAMPLE")

@@ -24,7 +24,7 @@ void drawColorPicker(ColorPicker *colorPicker)
 {
 }
 
-void *gameLoop(void *ignore)
+int gameLoop(void *ignore)
 {
     do
     {

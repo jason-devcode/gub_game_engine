@@ -48,10 +48,10 @@ void onMouseLeftClickDown()
     }
 }
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     addMouseEventListener(MOUSE_MOVE, onMouseMotion);
-    addMouseEventListener(MOUSE_LEFT_BUTTON_DOWN, onMouseLeftClickDown);
+    addMouseEventListener(MOUSE_LEFT_BUTTON_PRESS, onMouseLeftClickDown);
     do
     {
         clearScreen();
@@ -68,7 +68,7 @@ void *gameLoop(void *arg)
         renderDelay(16); // Limit to 60 FPS
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(640, 640, "Basic Game Engine")

@@ -87,7 +87,7 @@ void onKeyMPress()
     pressOnce = true;
 }
 
-void *gameLoop(void *ignore)
+int gameLoop(void *ignore)
 {
     // setClearScreenColor(AMBER_600);
     addMouseEventListener(MOUSE_LEFT_BUTTON_PRESS, onMouseLeftClickDownBezierPoints);
@@ -118,6 +118,8 @@ void *gameLoop(void *ignore)
     } while (ON_GAME_RUNNING);
 
     free(bezierPoints);
+
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(600, 600, "BEZIER CURVE SAMPLE")

@@ -47,7 +47,7 @@ void onCursorMotion()
     puts("Moviendo mouse");
 }
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     addKeyPressEventListener(SDLK_w, onPlayerMoveForward);
     addKeyPressEventListener(SDLK_s, onPlayerMoveBackward);
@@ -76,7 +76,7 @@ void *gameLoop(void *arg)
         // renderDelay(16); // Limit to 60  FPS
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(640, 480, "Basic Game Engine")

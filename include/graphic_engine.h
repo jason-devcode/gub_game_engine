@@ -76,17 +76,18 @@ void initGraphicEngine(uint16_t screenWidth, uint16_t screenHeight, const char *
  * @param gameLoop Pointer to the function that will run in the game loop thread.
  * @return Returns true if the thread is created successfully, false otherwise.
  */
-bool initializeGameLoop(void *(*gameLoop)(void *args))
+bool initializeGameLoop(int (*gameLoop)(void *args))
 {
     // Check if the game loop function is not null
     if (gameLoop == NULL)
         return false;
 
     // Create the game loop thread
-    if (pthread_create(&gInstance.gameThread, NULL, gameLoop, NULL) != 0)
+    gInstance.gameThread = SDL_CreateThread(gameLoop, NULL);
+    if (gInstance.gameThread == NULL)
     {
         // Print an error message if thread creation fails
-        fprintf(stderr, "Cannot create game loop process\n");
+        fprintf(stderr, "Cannot create game loop process: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
 
@@ -185,7 +186,7 @@ void runEngine()
 void clearGameLoopThread()
 {
     ON_GAME_RUNNING = false;
-    pthread_join(gInstance.gameThread, NULL);
+    SDL_WaitThread(gInstance.gameThread, NULL);
 }
 
 /**

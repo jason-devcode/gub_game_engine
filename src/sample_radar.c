@@ -15,7 +15,7 @@ void drawRadar(vec2f *radarPosition, vec2f *playerPosition, int radarSize, float
     drawFormattedText((int)radarPosition->x - radarSize + (radarSize / 3), ((int)radarPosition->y + radarSize) + 8, 0xFFFFFFFF, "X: %.02f, Y: %.02f", playerPosition->x, playerPosition->y);
 }
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     int radarSize = gScreenHeight >> 3;
 
@@ -41,7 +41,7 @@ void *gameLoop(void *arg)
         // renderDelay(16);
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 int main()

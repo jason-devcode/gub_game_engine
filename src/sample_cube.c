@@ -61,7 +61,7 @@ int cubeMatrix[MATRIX_SIZE_X][MATRIX_SIZE_Y][MATRIX_SIZE_Z] = {
      {1, 1, 1},
      {1, 1, 1}}};
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     initializeCamera3D((Vec3f){0, 0, -10}, (Vec3f){0, 0, 0}, degreesToRadians(60));
 
@@ -185,7 +185,7 @@ void *gameLoop(void *arg)
         renderDelay(16); // Limit to 60 FPS
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(640, 480, "Basic Game Engine")

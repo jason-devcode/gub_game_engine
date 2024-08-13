@@ -42,7 +42,7 @@ void onPressKey_Right_D()
     updateCameraDirection();
 }
 
-void *gameLoop(void *arg)
+int gameLoop(void *arg)
 {
     initializeCamera3D((Vec3f){.x = 0, .y = 0, .z = -2}, (Vec3f){.x = 0, .y = 0, .z = 0}, degreesToRadians(60));
 
@@ -66,7 +66,7 @@ void *gameLoop(void *arg)
         renderDelay(16); // Limit to 60 FPS
     } while (ON_GAME_RUNNING);
 
-    return NULL;
+    return EXIT_SUCCESS;
 }
 
 CREATE_GAME(640, 640, "Basic Game Engine")
