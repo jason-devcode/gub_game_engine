@@ -1,8 +1,8 @@
 #ifndef KEYBOARD_UTILS
 #define KEYBOARD_UTILS
 
-#include "../managers/key_press_event_manager.h"
-#include "../managers/key_release_event_manager.h"
+#include "../core/managers/key_press_event_manager.h"
+#include "../core/managers/key_release_event_manager.h"
 
 #ifndef USE_SDL_2
 #include "SDL/SDL_keysym.h"

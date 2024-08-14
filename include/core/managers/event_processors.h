@@ -2,6 +2,7 @@
 #define EVENT_PROCESSORS_H
 
 #include <stdbool.h> // For bool utils
+#include "../engine_properties/running_state.h"
 
 static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
 
@@ -96,10 +97,9 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_QUIT(event)      \
-    {                            \
-        ON_GAME_RUNNING = false; \
-    }
+#define PROCESS_QUIT(event) \
+    {                       \
+        setGameRunningState(false)}
 
 /**
  * Macro to trigger events for all keys still pressed.

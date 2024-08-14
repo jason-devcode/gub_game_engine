@@ -6,7 +6,7 @@
 #include <stdio.h>   // Standard I/O operations
 #include <string.h>  // String operations
 
-#include "../managers/joystick_event_manager.h" // event manager for joystick events
+#include "../core/managers/joystick_event_manager.h" // event manager for joystick events
 #include "fast_math/fast_abs.h"
 
 // Define maximum axis value for normalization. The range is adjusted by 0.5 to fix the range to [-32767.5, 32767.5]
