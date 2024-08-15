@@ -17,14 +17,14 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_KEYDOWN(event)                        \
-    {                                                 \
-        int key = (event).key.keysym.sym;             \
-        if (!keysPressed[key])                        \
-        {                                             \
-            keysPressed[key] = true;                  \
-            triggerEvent(gKeyPressEventManager, key); \
-        }                                             \
+#define PROCESS_KEYDOWN(event)                                       \
+    {                                                                \
+        int key = (event).key.keysym.sym;                            \
+        if (key < MAX_KEY_LISTENER_LISTS_COUNT && !keysPressed[key]) \
+        {                                                            \
+            keysPressed[key] = true;                                 \
+            triggerEvent(gKeyPressEventManager, key);                \
+        }                                                            \
     }
 
 /**
@@ -34,14 +34,14 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_KEYUP(event)                            \
-    {                                                   \
-        int key = (event).key.keysym.sym;               \
-        if (keysPressed[key])                           \
-        {                                               \
-            keysPressed[key] = false;                   \
-            triggerEvent(gKeyReleaseEventManager, key); \
-        }                                               \
+#define PROCESS_KEYUP(event)                                        \
+    {                                                               \
+        int key = (event).key.keysym.sym;                           \
+        if (key < MAX_KEY_LISTENER_LISTS_COUNT && keysPressed[key]) \
+        {                                                           \
+            keysPressed[key] = false;                               \
+            triggerEvent(gKeyReleaseEventManager, key);             \
+        }                                                           \
     }
 
 /**

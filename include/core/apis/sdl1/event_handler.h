@@ -33,11 +33,18 @@ bool initializeEventManagers()
         goto fail_initialization;
     }
 
+    if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
+    {
+        fputs("ERROR: Cannot initialize mouse event manager", stderr);
+        goto fail_initialization;
+    }
+
     goto success_initalization;
 
 fail_initialization:
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
+    freeEventManager(&gMouseEventManager, true);
     return false;
 
 success_initalization:
@@ -63,21 +70,21 @@ void processAllEvents()
             PROCESS_KEYUP(event);
             break;
         }
-        // case SDL_MOUSEMOTION:
-        // {
-        //     PROCESS_MOUSEMOTION(event);
-        //     break;
-        // }
-        // case SDL_MOUSEBUTTONDOWN:
-        // {
-        //     PROCESS_MOUSEBUTTONDOWN(event);
-        //     break;
-        // }
-        // case SDL_MOUSEBUTTONUP:
-        // {
-        //     PROCESS_MOUSEBUTTONUP(event);
-        //     break;
-        // }
+        case SDL_MOUSEMOTION:
+        {
+            PROCESS_MOUSEMOTION(event);
+            break;
+        }
+        case SDL_MOUSEBUTTONDOWN:
+        {
+            PROCESS_MOUSEBUTTONDOWN(event);
+            break;
+        }
+        case SDL_MOUSEBUTTONUP:
+        {
+            PROCESS_MOUSEBUTTONUP(event);
+            break;
+        }
         case SDL_QUIT:
         {
             PROCESS_QUIT(event);
@@ -95,7 +102,7 @@ void processAllEvents()
     TRIGGER_PRESSED_KEYS();
 
     // Trigger events for all mouse buttons still pressed
-    // TRIGGER_PRESSED_MOUSE_BUTTONS();
+    TRIGGER_PRESSED_MOUSE_BUTTONS();
 }
 
 void loopEventHandlerApi()
@@ -108,7 +115,7 @@ void loopEventHandlerApi()
 
 void closeEventManagers()
 {
-    // freeEventManager(&gMouseEventManager, true);
+    freeEventManager(&gMouseEventManager, true);
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
 

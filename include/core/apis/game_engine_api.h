@@ -61,8 +61,8 @@ void closeGameEngine()
 {
     setGameRunningState(false);
     waitGameloopFinish();
-    closeEventManagers();
     closeGraphicEnvironment();
+    closeEventManagers();
 }
 
 #endif
