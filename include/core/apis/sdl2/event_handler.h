@@ -52,6 +52,14 @@ success_initalization:
     return true;
 }
 
+void push_wheel_event(Uint32 type, int direction)
+{
+    SDL_Event event;
+    event.type = type;
+    event.button.button = direction;
+    SDL_PushEvent(&event);
+}
+
 void loopEventHandlerApi()
 {
     SDL_Event event;
@@ -71,10 +79,33 @@ void loopEventHandlerApi()
                 PROCESS_KEYUP(event);
                 break;
             }
-                // case SDL_MOUSEMOTION:
             case SDL_MOUSEMOTION:
             {
                 PROCESS_MOUSEMOTION(event);
+                break;
+            }
+            case SDL_MOUSEWHEEL:
+            {
+                if (event.wheel.y > 0)
+                {
+                    push_wheel_event(SDL_MOUSEBUTTONDOWN, MOUSE_WHEEL_UP_BUTTON_PRESS);
+                    push_wheel_event(SDL_MOUSEBUTTONUP, MOUSE_WHEEL_UP_BUTTON_PRESS);
+                }
+                else if (event.wheel.y < 0)
+                {
+                    push_wheel_event(SDL_MOUSEBUTTONDOWN, MOUSE_WHEEL_DOWN_BUTTON_PRESS);
+                    push_wheel_event(SDL_MOUSEBUTTONUP, MOUSE_WHEEL_DOWN_BUTTON_PRESS);
+                }
+                if (event.wheel.x < 0)
+                {
+                    push_wheel_event(SDL_MOUSEBUTTONDOWN, TOUCH_LEFT_BUTTON_PRESS);
+                    push_wheel_event(SDL_MOUSEBUTTONUP, TOUCH_LEFT_BUTTON_PRESS);
+                }
+                else if (event.wheel.x > 0)
+                {
+                    push_wheel_event(SDL_MOUSEBUTTONDOWN, TOUCH_RIGHT_BUTTON_PRESS);
+                    push_wheel_event(SDL_MOUSEBUTTONUP, TOUCH_RIGHT_BUTTON_PRESS);
+                }
                 break;
             }
             case SDL_MOUSEBUTTONDOWN:
