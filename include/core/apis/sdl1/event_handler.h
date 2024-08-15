@@ -18,6 +18,32 @@
 
 #define gameDelay(delayValue) SDL_Delay(delayValue)
 
+bool initializeEventManagers()
+{
+    // Initialize Key Event Manager
+    if (!initializeEventManager(&gKeyPressEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
+    {
+        fputs("ERROR: Cannot initialize key press event manager", stderr);
+        goto fail_initialization;
+    }
+
+    if (!initializeEventManager(&gKeyReleaseEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
+    {
+        fputs("ERROR: Cannot initialize key release event manager", stderr);
+        goto fail_initialization;
+    }
+
+    goto success_initalization;
+
+fail_initialization:
+    freeEventManager(&gKeyPressEventManager, true);
+    freeEventManager(&gKeyReleaseEventManager, true);
+    return false;
+
+success_initalization:
+    return true;
+}
+
 void processAllEvents()
 {
     SDL_Event event;
@@ -27,16 +53,16 @@ void processAllEvents()
     {
         switch (event.type)
         {
-        // case SDL_KEYDOWN:
-        // {
-        //     PROCESS_KEYDOWN(event);
-        //     break;
-        // }
-        // case SDL_KEYUP:
-        // {
-        //     PROCESS_KEYUP(event);
-        //     break;
-        // }
+        case SDL_KEYDOWN:
+        {
+            PROCESS_KEYDOWN(event);
+            break;
+        }
+        case SDL_KEYUP:
+        {
+            PROCESS_KEYUP(event);
+            break;
+        }
         // case SDL_MOUSEMOTION:
         // {
         //     PROCESS_MOUSEMOTION(event);
@@ -66,7 +92,7 @@ void processAllEvents()
     // TRIGGER_PRESSED_JOYSTICKS_BUTTONS();
 
     // Trigger events for all keys still pressed
-    // TRIGGER_PRESSED_KEYS();
+    TRIGGER_PRESSED_KEYS();
 
     // Trigger events for all mouse buttons still pressed
     // TRIGGER_PRESSED_MOUSE_BUTTONS();
@@ -80,18 +106,15 @@ void loopEventHandlerApi()
     } while (isGameRunning);
 }
 
-/**
- * clear keyboard event managers resources
- */
-void clearKeyboardManagers()
+void closeEventManagers()
 {
-    freeEventManager(&gMouseEventManager, true);
+    // freeEventManager(&gMouseEventManager, true);
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
 
-    closeJoystickManager();
-    if (gJoyStickEventManager.listsCount > 0)
-        freeEventManager(&gJoyStickEventManager, true);
+    // closeJoystickManager();
+    // if (gJoyStickEventManager.listsCount > 0)
+    // freeEventManager(&gJoyStickEventManager, true);
 }
 
 #endif

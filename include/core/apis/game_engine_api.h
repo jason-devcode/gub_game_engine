@@ -30,6 +30,13 @@ bool initializeGameEngine(int widthScreenPixels, int heightScreenPixels, const c
         return EXIT_FAILURE;
     }
 
+    if (!initializeEventManagers())
+    {
+        fprintf(stderr, "ERROR: Could not initialize event managers");
+        closeGraphicApi();
+        return EXIT_FAILURE;
+    }
+
     if (!initializeGameloopThread(gameLoop))
     {
         fprintf(stderr, "ERROR: Could not initialize gameloop thread");
@@ -54,6 +61,7 @@ void closeGameEngine()
 {
     setGameRunningState(false);
     waitGameloopFinish();
+    closeEventManagers();
     closeGraphicEnvironment();
 }
 
