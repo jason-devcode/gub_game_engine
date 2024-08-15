@@ -39,7 +39,7 @@ int gameLoop(void *arg)
         drawScreen();
 
         // renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return EXIT_SUCCESS;
 }

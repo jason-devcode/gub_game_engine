@@ -92,7 +92,7 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
 
 /**
  * Macro to handle SDL_QUIT events.
- * This macro sets the global variable `ON_GAME_RUNNING` to false, indicating
+ * This macro sets the global variable `isGameRunning` to false, indicating
  * that the game should exit.
  *
  * @param event The SDL event to process.

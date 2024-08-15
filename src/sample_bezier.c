@@ -1,4 +1,4 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
 #include "../include/utils/pixel.h"
@@ -115,7 +115,7 @@ int gameLoop(void *ignore)
         drawScreen();
 
         // renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     free(bezierPoints);
 

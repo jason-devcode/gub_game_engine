@@ -1,4 +1,4 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
@@ -102,7 +102,7 @@ int gameLoop(void *arg)
         draw_info();
         drawScreen();
         renderDelay(16); // Limit to 60 FPS
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return EXIT_SUCCESS;
 }

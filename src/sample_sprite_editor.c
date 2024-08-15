@@ -1,4 +1,4 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 
 #include "../include/utils/color.h"
 #include "../include/utils/geometry.h"
@@ -32,7 +32,7 @@ int gameLoop(void *ignore)
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return NULL;
 }

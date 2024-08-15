@@ -4,7 +4,7 @@
 #include "../swap.h"
 #include "./fast_triangle_zbuffer.h"
 
-#include "../../engine_properties/screen_dimensions.h"
+#include "../../core/engine_properties/screen_dimensions.h"
 
 #include <stdint.h>
 

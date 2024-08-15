@@ -4,7 +4,7 @@
 #include "../include/utils/pixel.h"
 #include "../include/utils/font.h"
 #include "../include/utils/joystick.h"
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 
 void pressButtonAJoystick()
 {
@@ -88,7 +88,7 @@ int gameLoop(void *ignore)
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return EXIT_SUCCESS;
 }

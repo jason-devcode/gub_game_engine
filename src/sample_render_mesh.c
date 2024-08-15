@@ -1,4 +1,4 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 #include "../include/utils/wavefront_obj.h"
 #include "../include/utils/geometry.h"
 // #include "../include/utils/triangles/simple_clipping_triangle.h"
@@ -97,7 +97,7 @@ int gameLoop(void *ignore)
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     free(tempVertices);
     releaseMeshGroupResources(meshGroup);

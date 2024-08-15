@@ -1,7 +1,7 @@
 #ifndef CARTESIAN_2D_SPACE_UTILS_H
 #define CARTESIAN_2D_SPACE_UTILS_H
 
-#include "../engine_properties/screen_dimensions.h"
+#include "../core/engine_properties/screen_dimensions.h"
 #include "geometry.h"
 #include "font.h"
 

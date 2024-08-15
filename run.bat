@@ -1,4 +1,4 @@
 @echo off
 build
-cd /d "%~dp0build"
+cd build
 sample.exe
