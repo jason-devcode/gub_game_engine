@@ -17,8 +17,8 @@ typedef enum
     MOUSE_LEFT_BUTTON_PRESS,       /**< Event for mouse left button press. */
     MOUSE_MIDDLE_BUTTON_PRESS,     /**< Event for mouse middle button press. */
     MOUSE_RIGHT_BUTTON_PRESS,      /**< Event for mouse right button press. */
-    MOUSE_WHELL_UP_BUTTON_PRESS,   /**< Event for mouse wheel up press. */
-    MOUSE_WHELL_DOWN_BUTTON_PRESS, /**< Event for mouse wheel down press. */
+    MOUSE_WHEEL_UP_BUTTON_PRESS,   /**< Event for mouse wheel up press. */
+    MOUSE_WHEEL_DOWN_BUTTON_PRESS, /**< Event for mouse wheel down press. */
     TOUCH_RIGHT_BUTTON_PRESS,      /**< Event for touch panel right side press. */
     TOUCH_LEFT_BUTTON_PRESS,       /**< Event for touch panel left side press. */
 
@@ -26,8 +26,8 @@ typedef enum
     MOUSE_LEFT_BUTTON_RELEASE,       /**< Event for mouse left button release. */
     MOUSE_MIDDLE_BUTTON_RELEASE,     /**< Event for mouse middle button release. */
     MOUSE_RIGHT_BUTTON_RELEASE,      /**< Event for mouse right button release. */
-    MOUSE_WHELL_UP_BUTTON_RELEASE,   /**< Event for mouse wheel up release. */
-    MOUSE_WHELL_DOWN_BUTTON_RELEASE, /**< Event for mouse wheel down release. */
+    MOUSE_WHEEL_UP_BUTTON_RELEASE,   /**< Event for mouse wheel up release. */
+    MOUSE_WHEEL_DOWN_BUTTON_RELEASE, /**< Event for mouse wheel down release. */
     TOUCH_RIGHT_BUTTON_RELEASE,      /**< Event for touch panel right side release. */
     TOUCH_LEFT_BUTTON_RELEASE,       /**< Event for touch panel left side release. */
     MOUSE_LAST = 20                  /** this is greater than the total mouse events registred here for avoid errors in mouse with more buttons  */
