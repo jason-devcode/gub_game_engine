@@ -18,6 +18,7 @@ API_GRAPHIC_LIBRARIES=${SDL_VERSION_2}
 # gcc src/sample_joystick.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 
 # gcc src/sample_game_engine_api.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
-gcc src/sample_keyboard_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
+# gcc src/sample_keyboard_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
+gcc src/sample_mouse_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 
 echo "Compilation completed."
