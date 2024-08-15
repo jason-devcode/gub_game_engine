@@ -1,0 +1,1 @@
+gcc -D USE_SDL_2 src/sample_game_engine_api.c -o sample.exe -lSDL2 -O3 --pedantic -Wfatal-errors
