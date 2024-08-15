@@ -10,7 +10,7 @@
 #define KeyCode SDLKey
 #else
 #include "SDL2/SDL_keycode.h"
-#define MAX_KEY_LISTENER_LISTS_COUNT SDLK_ENDCALL
+#define MAX_KEY_LISTENER_LISTS_COUNT SDL_SCANCODE_ENDCALL
 #define KeyCode SDL_KeyCode
 #endif
 
