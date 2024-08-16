@@ -9,16 +9,30 @@
 
 #include "../../engine_properties/running_state.h"
 #include "../../engine_properties/pause_gameloop_for_rendering.h"
- 
-// #include "../../../utils/timers.h"   // For timers and time utils
+
 #include "../../../utils/keyboard.h" // For keyboard utils
 // #include "../../../utils/joystick.h" // For joystick utils
 #include "../../../utils/mouse.h" // For mouse utils
 
 #include "../../managers/event_processors.h" // For main event processors
 
-#define gameDelay(delayValue) SDL_Delay(delayValue)
+/**
+ * @brief Sets the render delay value.
+ *
+ * This macro utilizes SDL_Delay to pause execution for the given delay value.
+ *
+ * @param delayValue The value for the render delay.
+ */
+#define renderDelay(delayValue) SDL_Delay(delayValue)
 
+/**
+ * @brief Initializes the event managers.
+ *
+ * This function sets up the event managers for key presses, key releases, and mouse events.
+ * It allocates necessary resources and handles initialization errors.
+ *
+ * @return true if all event managers are successfully initialized; false otherwise.
+ */
 bool initializeEventManagers()
 {
     // Initialize Key Event Manager
@@ -52,6 +66,14 @@ success_initalization:
     return true;
 }
 
+/**
+ * @brief Pushes a wheel event onto the event queue.
+ *
+ * This function creates and pushes a wheel event of the specified type and direction.
+ *
+ * @param type The type of the event to push (e.g., SDL_MOUSEBUTTONDOWN).
+ * @param direction The direction of the wheel event (e.g., MOUSE_WHEEL_UP_BUTTON_PRESS).
+ */
 void push_wheel_event(Uint32 type, int direction)
 {
     SDL_Event event;
@@ -60,11 +82,38 @@ void push_wheel_event(Uint32 type, int direction)
     SDL_PushEvent(&event);
 }
 
+/**
+ * @brief Main event handling loop.
+ *
+ * This function continuously processes all events while the game is running.
+ * It handles various types of SDL events, including key presses, mouse movements,
+ * mouse wheel events, and more. It also handles updating the window surface if needed
+ * and triggers events for keys, mouse buttons, and other input devices.
+ */
 void loopEventHandlerApi()
 {
     SDL_Event event;
     do
     {
+        /**
+         * @brief Updates the window surface if rendering is pending and resumes the game loop.
+         *
+         * In SDL 2, window surface updates must be performed on the main thread. This code ensures that
+         * rendering updates are properly applied even if the game loop is running on a different thread.
+         *
+         * If `pauseGameLoopForRendering` is true, indicating that the game loop should be paused to allow
+         * rendering to complete:
+         * - The window surface is updated using `SDL_UpdateWindowSurface()` to ensure that changes are visible.
+         * - The game loop is resumed with `resumeGameloop()` to continue processing after the rendering update.
+         *
+         * This mechanism addresses the limitation in SDL 2 where only the main thread can make window surface updates.
+         */
+        if (pauseGameLoopForRendering)
+        {
+            SDL_UpdateWindowSurface(gGameEngineGraphicEnvironment.window);
+            resumeGameloop();
+        }
+
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
@@ -126,12 +175,6 @@ void loopEventHandlerApi()
             }
         }
 
-        if (pauseGameLoopForRendering)
-        {
-            SDL_UpdateWindowSurface(gGameEngineGraphicEnvironment.window);
-            resumeGameloop();
-        }
-
         // Trigger events for all joystick buttons still pressed
         // TRIGGER_PRESSED_JOYSTICKS_BUTTONS();
 
@@ -143,6 +186,12 @@ void loopEventHandlerApi()
     } while (isGameRunning);
 }
 
+/**
+ * @brief Cleans up and shuts down the event managers.
+ *
+ * This function releases resources used by the event managers and performs
+ * any necessary cleanup.
+ */
 void closeEventManagers()
 {
     freeEventManager(&gMouseEventManager, true);

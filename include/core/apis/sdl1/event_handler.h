@@ -9,15 +9,29 @@
 #include "../../engine_properties/running_state.h"
 #include "../../engine_properties/pause_gameloop_for_rendering.h"
 
-#include "../../../utils/timers.h"   // For timers and time utils
 #include "../../../utils/keyboard.h" // For keyboard utils
 #include "../../../utils/joystick.h" // For joystick utils
 #include "../../../utils/mouse.h"    // For mouse utils
 
 #include "../../managers/event_processors.h" // For main event processors
 
-#define gameDelay(delayValue) SDL_Delay(delayValue)
+/**
+ * @brief Sets the render delay value.
+ * 
+ * This macro utilizes SDL_Delay to pause execution for the given delay value.
+ * 
+ * @param delayValue The value for the render delay.
+ */
+#define renderDelay(delayValue) SDL_Delay(delayValue)
 
+/**
+ * @brief Initializes the event managers.
+ *
+ * This function sets up the event managers for key presses, key releases, and mouse events.
+ * It allocates necessary resources and handles initialization errors.
+ *
+ * @return true if all event managers are successfully initialized; false otherwise.
+ */
 bool initializeEventManagers()
 {
     // Initialize Key Event Manager
@@ -51,6 +65,13 @@ success_initalization:
     return true;
 }
 
+/**
+ * @brief Processes all pending events.
+ *
+ * This function polls and processes all SDL events, including key presses,
+ * key releases, mouse movements, and button clicks. It also triggers events
+ * for any joystick buttons, keys, and mouse buttons that are still pressed.
+ */
 void processAllEvents()
 {
     SDL_Event event;
@@ -105,6 +126,12 @@ void processAllEvents()
     TRIGGER_PRESSED_MOUSE_BUTTONS();
 }
 
+/**
+ * @brief Main event handler loop.
+ *
+ * This function continuously processes all events while the game is running.
+ * It repeatedly calls `processAllEvents` until the game is no longer running.
+ */
 void loopEventHandlerApi()
 {
     do
@@ -113,6 +140,12 @@ void loopEventHandlerApi()
     } while (isGameRunning);
 }
 
+/**
+ * @brief Cleans up and shuts down the event managers.
+ *
+ * This function releases resources used by the event managers and performs
+ * any necessary cleanup.
+ */
 void closeEventManagers()
 {
     freeEventManager(&gMouseEventManager, true);

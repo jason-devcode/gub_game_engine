@@ -10,13 +10,29 @@
 #include "../../types/gameloop_callback.h"
 #include "../../engine_properties/running_state.h"
 
+/**
+ * @struct GameloopHandler
+ * @brief Structure to manage the game loop thread.
+ *
+ * This structure holds the SDL thread handle for the game loop, allowing
+ * initialization and management of the thread responsible for running the game loop.
+ */
 typedef struct _tag_gameloop_handler_
 {
-    SDL_Thread *gameThread;
+    SDL_Thread *gameThread; /**< SDL thread handle for the game loop. */
 } GameloopHandler;
 
+/** Static instance of the GameloopHandler. */
 static GameloopHandler gGameloopHandler;
 
+/**
+ * @brief Initializes the game loop thread.
+ *
+ * Creates and starts a new SDL thread to run the provided game loop callback function.
+ *
+ * @param gameLoop The callback function to be run in the game loop thread.
+ * @return True if the thread was successfully created; otherwise, false.
+ */
 bool initializeGameloopThread(GameLoopCallback gameLoop)
 {
     SDL_Thread *gameThread = SDL_CreateThread((GameLoopCallback)gameLoop, "GameLoop", NULL);
@@ -32,6 +48,12 @@ bool initializeGameloopThread(GameLoopCallback gameLoop)
     return true;
 }
 
+/**
+ * @brief Waits for the game loop thread to finish execution.
+ *
+ * Sets the game running state to false, signaling the game loop to stop, and
+ * then waits for the game loop thread to finish its execution.
+ */
 void waitGameloopFinish()
 {
     setGameRunningState(false);

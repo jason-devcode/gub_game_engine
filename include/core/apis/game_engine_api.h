@@ -13,11 +13,19 @@
 #include "sdl1/event_handler.h"
 #include "sdl1/gameloop_handler.h"
 #include "sdl1/graphic_handler.h"
+#include "sdl1/timers_handler.h"
 #elif USE_SDL_2
 #include "sdl2/screen_handler.h"
 #include "sdl2/event_handler.h"
 #include "sdl2/gameloop_handler.h"
 #include "sdl2/graphic_handler.h"
+#include "sdl2/timers_handler.h"
+#else
+#include "sample/screen_handler.h"
+#include "sample/event_handler.h"
+#include "sample/gameloop_handler.h"
+#include "sample/graphic_handler.h"
+#include "sample/timers_handler.h"
 #endif
 
 #include "screen.h"
@@ -44,6 +52,8 @@ bool initializeGameEngine(int widthScreenPixels, int heightScreenPixels, const c
         return EXIT_FAILURE;
     }
 
+    initializeTimers();
+
     return true;
 }
 
@@ -61,6 +71,7 @@ void closeGameEngine()
 {
     setGameRunningState(false);
     waitGameloopFinish();
+    closeTimers();
     closeGraphicEnvironment();
     closeEventManagers();
 }

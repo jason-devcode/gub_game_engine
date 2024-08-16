@@ -10,6 +10,19 @@
 #include "../../engine_properties/framebuffer.h"
 #include "../../engine_properties/screen_dimensions.h"
 
+/**
+ * @brief Creates a window and initializes the viewport for SDL2 graphics.
+ *
+ * This function initializes SDL2's video subsystem, creates an SDL window with
+ * the specified dimensions and title, and obtains the surface for rendering.
+ * It also initializes the framebuffer and sets it to white.
+ *
+ * @param widthScreenPixels The width of the window in pixels.
+ * @param heightScreenPixels The height of the window in pixels.
+ * @param windowTitle The title of the window.
+ *
+ * @return true if the window and surface are successfully created, false otherwise.
+ */
 bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const char *windowTitle)
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -41,7 +54,7 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
     framebuffer = (uint32_t *)screenSurface->pixels;
 
     gScreenWidth = widthScreenPixels;
-    gCorrectPixelsWidth = screenSurface->pitch>>2;
+    gCorrectPixelsWidth = screenSurface->pitch >> 2;
     gScreenHeight = heightScreenPixels;
 
     for (int y = 0; y < heightScreenPixels; ++y)
@@ -56,6 +69,17 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
     return true;
 }
 
+/**
+ * @brief Initializes the SDL2 graphics API and creates the window viewport.
+ *
+ * This function calls `createWindowViewport` to set up the window and surface.
+ *
+ * @param widthScreenPixels The width of the window in pixels.
+ * @param heightScreenPixels The height of the window in pixels.
+ * @param windowTitle The title of the window.
+ *
+ * @return true if initialization is successful, false otherwise.
+ */
 bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const char *windowTitle)
 {
 
@@ -68,6 +92,13 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
     return true;
 }
 
+/**
+ * @brief Closes the SDL2 graphics API and destroys the window.
+ *
+ * This function cleans up the SDL2 resources and closes the window.
+ *
+ * @return true if the cleanup is successful, false otherwise.
+ */
 bool closeGraphicApi()
 {
     if (gGameEngineGraphicEnvironment.window)

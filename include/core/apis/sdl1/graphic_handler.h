@@ -22,11 +22,17 @@ void setWindowTitle(const char *title)
 }
 
 /**
- * Initializes SDL and the graphics engine with the specified screen dimensions and window title.
+ * @brief Initializes SDL and the graphics engine.
  *
- * @param screenWidth Width of the screen in pixels.
- * @param screenHeight Height of the screen in pixels.
- * @param windowTitle The title of the SDL window.
+ * This function initializes the SDL video subsystem, sets up the video mode
+ * with the specified screen dimensions, and initializes the graphics engine.
+ * It also allocates memory for the depth buffer and sets the window title.
+ *
+ * @param widthScreenPixels The width of the screen in pixels.
+ * @param heightScreenPixels The height of the screen in pixels.
+ * @param windowTitle The title to be displayed in the SDL window.
+ *
+ * @return true if the initialization is successful; false otherwise.
  */
 bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const char *windowTitle)
 {
@@ -37,25 +43,6 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
         fprintf(stderr, "Cannot initialize SDL: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-
-    // Initialize Key Event Manager
-    // if (!initializeEventManager(&gKeyPressEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
-    // {
-    //     fputs("ERROR: Cannot initialize key press event manager", stderr);
-    //     exit(EXIT_FAILURE);
-    // }
-
-    // if (!initializeEventManager(&gKeyReleaseEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
-    // {
-    //     fputs("ERROR: Cannot initialize key release event manager", stderr);
-    //     exit(EXIT_FAILURE);
-    // }
-
-    // if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
-    // {
-    //     fputs("ERROR: Cannot initialize mouse event manager", stderr);
-    //     exit(EXIT_FAILURE);
-    // }
 
     SDL_Surface *screen = SDL_SetVideoMode(widthScreenPixels, heightScreenPixels, 32, SDL_SWSURFACE);
 
@@ -89,13 +76,13 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
 }
 
 /**
- * Cleans up and shuts down the graphics engine.
+ * @brief Cleans up and shuts down the graphics engine.
+ *
+ * This function releases resources used by the graphics engine and shuts down SDL.
  */
 void closeGraphicApi()
 {
-    // clearKeyboardManagers();
-    // clearGameLoopThread(); // Clean up the game loop thread
-    SDL_Quit();            // Shut down SDL
+    SDL_Quit(); // Shut down SDL
     exit(EXIT_SUCCESS);
 }
 
