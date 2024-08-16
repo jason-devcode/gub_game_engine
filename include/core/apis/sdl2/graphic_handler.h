@@ -8,6 +8,7 @@
 #include "graphic_environment.h"
 
 #include "../../engine_properties/framebuffer.h"
+#include "../../engine_properties/depthbuffer.h"
 #include "../../engine_properties/screen_dimensions.h"
 
 /**
@@ -51,11 +52,14 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
     gGameEngineGraphicEnvironment.window = window;
     gGameEngineGraphicEnvironment.screenSurface = screenSurface;
 
-    framebuffer = (uint32_t *)screenSurface->pixels;
-
     gScreenWidth = widthScreenPixels;
     gCorrectPixelsWidth = screenSurface->pitch >> 2;
     gScreenHeight = heightScreenPixels;
+
+    framebuffer = (uint32_t *)screenSurface->pixels;
+
+    // Allocate memory for the depth buffer
+    depthbuffer = (double *)malloc(sizeof(double[gScreenWidth * gScreenHeight]));
 
     for (int y = 0; y < heightScreenPixels; ++y)
     {
@@ -104,6 +108,8 @@ bool closeGraphicApi()
     if (gGameEngineGraphicEnvironment.window)
         SDL_DestroyWindow(gGameEngineGraphicEnvironment.window);
     gGameEngineGraphicEnvironment.window = NULL;
+    if (depthbuffer)
+        free(depthbuffer);
     SDL_Quit();
     return true;
 }

@@ -23,7 +23,7 @@ static uint64_t gClearScreenColor = 0x0000000000000000LL;
  * Macro to fill the screen with the clear screen color and clear the depth buffer.
  */
 #define clearScreenDepth()                                                                                                                \
-    register uint64_t *endPixels = (uint64_t *)(&framebuffer[gScreenTotalPixels - 1]);                                                    \
+    register uint64_t *endPixels = (uint64_t *)(&framebuffer[gCorrectPixelsWidth * gScreenHeight - 1]);                                   \
     register double *pixelDepthIterator = depthbuffer;                                                                                    \
     for (register uint64_t *pixelsIterator = (uint64_t *)framebuffer; pixelsIterator < endPixels; ++pixelsIterator, ++pixelDepthIterator) \
     {                                                                                                                                     \
