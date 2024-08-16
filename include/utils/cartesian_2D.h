@@ -2,6 +2,8 @@
 #define CARTESIAN_2D_SPACE_UTILS_H
 
 #include "../core/engine_properties/screen_dimensions.h"
+
+#include "color_palette.h"
 #include "geometry.h"
 #include "font.h"
 
