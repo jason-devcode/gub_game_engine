@@ -16,8 +16,8 @@ API_GRAPHIC_LIBRARIES=${SDL_VERSION_1}
 # gcc src/sample_bezier.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 # gcc src/sample_joystick.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 
-# gcc src/sample_game_engine_api.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
-gcc src/sample_keyboard_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
+gcc src/sample_game_engine_api.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
+# gcc src/sample_keyboard_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 # gcc src/sample_mouse_events.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors
 
 # gcc src/sample_plane_generator.c -o build/sample -lm ${API_GRAPHIC_LIBRARIES} -O3 --pedantic -Wfatal-errors

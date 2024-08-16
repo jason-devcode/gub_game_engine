@@ -41,7 +41,7 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
     framebuffer = (uint32_t *)screenSurface->pixels;
 
     gScreenWidth = widthScreenPixels;
-    gCorrectPixelsWidth = widthScreenPixels;
+    gCorrectPixelsWidth = screenSurface->pitch>>2;
     gScreenHeight = heightScreenPixels;
 
     for (int y = 0; y < heightScreenPixels; ++y)
