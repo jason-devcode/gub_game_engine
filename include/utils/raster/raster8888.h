@@ -9,8 +9,8 @@
 #include "../font.h"
 
 // include this for fast raster rendering
-#include "../../engine_properties/framebuffer.h"
-#include "../../engine_properties/screen_dimensions.h"
+#include "../../core/engine_properties/framebuffer.h"
+#include "../../core/engine_properties/screen_dimensions.h"
 
 typedef struct
 {

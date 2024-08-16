@@ -255,11 +255,11 @@ void drawTriangleScreenClippingXYZ(double x1, double y1, double z1, double x2, d
             pointC->x, pointC->y, pointC->z / 20,
             color);
 
-        // drawTriangleWireDepthTest(
-        //     pointA->x, pointA->y, pointA->z / 20 - 0.002,
-        //     pointB->x, pointB->y, pointB->z / 20 - 0.002,
-        //     pointC->x, pointC->y, pointC->z / 20 - 0.002,
-        //     0xFFFF00);
+        drawTriangleWireDepthTest(
+            pointA->x, pointA->y, pointA->z / 20 - 0.002,
+            pointB->x, pointB->y, pointB->z / 20 - 0.002,
+            pointC->x, pointC->y, pointC->z / 20 - 0.002,
+            0xFFFF00);
 
     } while (++pointsIterator < currentPointsCount);
 }

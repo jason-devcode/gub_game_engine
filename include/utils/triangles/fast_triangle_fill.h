@@ -1,8 +1,8 @@
 #ifndef FAST_FILL_TRIANGLE_H
 #define FAST_FILL_TRIANGLE_H
 
-#include "../../engine_properties/screen_dimensions.h"
-#include "../../engine_properties/framebuffer.h"
+#include "../../core/engine_properties/screen_dimensions.h"
+#include "../../core/engine_properties/framebuffer.h"
 
 #include "../pixel.h"
 #include "../swap.h"
