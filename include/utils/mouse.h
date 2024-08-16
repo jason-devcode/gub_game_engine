@@ -2,6 +2,7 @@
 #define MOUSE_UTILS_H
 
 #include "../core/managers/mouse_event_manager.h"
+#include "../core/constants/mouse_event_values.h"
 
 /**
  * @struct MouseState

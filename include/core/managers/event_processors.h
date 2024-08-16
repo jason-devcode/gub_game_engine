@@ -4,6 +4,9 @@
 #include <stdbool.h> // For bool utils
 #include "../engine_properties/running_state.h"
 
+#include "../constants/mouse_event_values.h"
+#include "../constants/max_key_listener_lists_count.h"
+
 static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
 
 static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {

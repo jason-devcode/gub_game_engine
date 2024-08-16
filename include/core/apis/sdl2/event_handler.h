@@ -9,7 +9,7 @@
 
 #include "../../engine_properties/running_state.h"
 #include "../../engine_properties/pause_gameloop_for_rendering.h"
-
+ 
 // #include "../../../utils/timers.h"   // For timers and time utils
 #include "../../../utils/keyboard.h" // For keyboard utils
 // #include "../../../utils/joystick.h" // For joystick utils

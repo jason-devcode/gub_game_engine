@@ -85,7 +85,7 @@ int gameLoop(void *args)
     addMouseEventListener(MOUSE_WHEEL_UP_BUTTON_PRESS, onClickUpButton);
     addMouseEventListener(MOUSE_WHEEL_DOWN_BUTTON_PRESS, onClickDownButton);
     addMouseEventListener(TOUCH_LEFT_BUTTON_PRESS, onClickSlideTouchLeft);
-    addMouseEventListener(TOUCH_RIGHT_BUTTON_PRESS, onClickSlideTouchRight);
+    addMouseEventListener(TOUCH_RIGHT_BUTTON_PRESS, onClickSlideTouchRight); 
 
     addMouseEventListener(MOUSE_LEFT_BUTTON_RELEASE, onReleaseLeftButton);
     addMouseEventListener(MOUSE_RIGHT_BUTTON_RELEASE, onReleaseRightButton);
