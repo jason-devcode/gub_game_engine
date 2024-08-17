@@ -48,8 +48,6 @@ void releaseButtonYJoystick()
 
 int gameLoop(void *ignore)
 {
-    initializeJoystickManager();
-
     addJoystickEventListener(JOY_BUTTON_0_PRESS, JOYSTICK_PLAYER_1, pressButtonAJoystick);
     addJoystickEventListener(JOY_BUTTON_0_RELEASE, JOYSTICK_PLAYER_1, releaseButtonAJoystick);
 

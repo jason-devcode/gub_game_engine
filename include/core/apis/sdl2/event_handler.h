@@ -11,10 +11,12 @@
 #include "../../engine_properties/pause_gameloop_for_rendering.h"
 
 #include "../../../utils/keyboard.h" // For keyboard utils
-// #include "../../../utils/joystick.h" // For joystick utils
-#include "../../../utils/mouse.h" // For mouse utils
+#include "../../../utils/joystick.h" // For joystick utils
+#include "../../../utils/mouse.h"    // For mouse utils
 
 #include "../../managers/event_processors.h" // For main event processors
+
+#include "joystick_event_handler.h"
 
 /**
  * @brief Sets the render delay value.
@@ -54,12 +56,19 @@ bool initializeEventManagers()
         goto fail_initialization;
     }
 
+    if (!initializeJoystickEventHandler())
+    {
+        fputs("ERROR: Cannot initialize joystick events handler", stderr);
+        goto fail_initialization;
+    }
+
     goto success_initalization;
 
 fail_initialization:
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
     freeEventManager(&gMouseEventManager, true);
+    closeJoystickEventHandler();
     return false;
 
 success_initalization:
@@ -172,11 +181,14 @@ void loopEventHandlerApi()
                 PROCESS_QUIT(event);
                 break;
             }
+            default:
+                handleJoystickEvents(&event);
+                break;
             }
         }
 
         // Trigger events for all joystick buttons still pressed
-        // TRIGGER_PRESSED_JOYSTICKS_BUTTONS();
+        TRIGGER_PRESSED_JOYSTICKS_BUTTONS();
 
         // Trigger events for all keys still pressed
         TRIGGER_PRESSED_KEYS();
@@ -197,10 +209,7 @@ void closeEventManagers()
     freeEventManager(&gMouseEventManager, true);
     freeEventManager(&gKeyPressEventManager, true);
     freeEventManager(&gKeyReleaseEventManager, true);
-
-    // closeJoystickManager();
-    // if (gJoyStickEventManager.listsCount > 0)
-    // freeEventManager(&gJoyStickEventManager, true);
+    closeJoystickEventHandler();
 }
 
 #endif

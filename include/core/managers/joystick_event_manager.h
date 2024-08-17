@@ -1,9 +1,8 @@
 #ifndef JOY_EVENT_MANAGER_H
-#define JOY_EVEMT_MANAGER_H
+#define JOY_EVENT_MANAGER_H
 
 #include "event_manager.h"
-
-static int maxJoysticks = 2;
+#include "../engine_properties/joystick.h"
 
 /**
  * @enum JoystickEventTypes
