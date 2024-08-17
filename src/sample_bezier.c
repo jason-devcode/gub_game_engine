@@ -1,18 +1,22 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
+
+#include "../include/utils/geometry.h"
+#include "../include/utils/cartesian_2D.h"
+
+#include "../include/utils/font.h"
+
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
 #include "../include/utils/pixel.h"
 #include "../include/utils/vectorial_2D.h"
-#include "../include/utils/mouse.h"
-#include "../include/utils/geometry.h"
-#include "../include/utils/cartesian_2D.h"
-#include "../include/utils/font.h"
 
-#define draw_info()                                                     \
-    drawFormattedText(                                                  \
-        10, 10, 0xFFFFFF00,                                             \
-        "FPS: %d\ndeltatime: %lf\nmouse screen position: ( %d, %d )\n", \
-        getFps(), getDeltatime(),                                       \
+#include "../include/utils/mouse.h"
+#include "../include/utils/keyboard.h"
+
+#define draw_info()                            \
+    drawFormattedText(                         \
+        10, 10, 0xFFFFFF00,                    \
+        "mouse screen position: ( %d, %d )\n", \
         GET_MOUSE_X(), GET_MOUSE_Y())
 
 int bezierPointsCount = 3;
@@ -87,23 +91,22 @@ void onKeyMPress()
     pressOnce = true;
 }
 
-int gameLoop(void *ignore)
+int gameLoop(void *argc)
 {
-    // setClearScreenColor(AMBER_600);
-    addMouseEventListener(MOUSE_LEFT_BUTTON_PRESS, onMouseLeftClickDownBezierPoints);
-
-    addKeyPressEventListener(SDLK_n, onKeyNPress);
-    addKeyPressEventListener(SDLK_m, onKeyMPress);
-    addKeyReleaseEventListener(SDLK_n, onKeyRelease);
-    addKeyReleaseEventListener(SDLK_m, onKeyRelease);
-
+    // setClearScreenColor(0xFFFF0000);
     initializeBezierPoints();
     initializeCartesian2DSpaceUtils(2, 2);
+
+    addMouseEventListener(MOUSE_LEFT_BUTTON_PRESS, onMouseLeftClickDownBezierPoints);
+
+    addKeyPressEventListener(GUB_KEY_n, onKeyNPress);
+    addKeyPressEventListener(GUB_KEY_m, onKeyMPress);
+    addKeyReleaseEventListener(GUB_KEY_n, onKeyRelease);
+    addKeyReleaseEventListener(GUB_KEY_m, onKeyRelease);
 
     do
     {
         clearScreen();
-
         drawScreenCartesianPlane();
         drawBezierNPoints(bezierPoints, bezierPointsCount, 100, RGB(255, 255, 0));
 
@@ -111,11 +114,10 @@ int gameLoop(void *ignore)
         {
             drawFilledCircle(bezierPoints[i].x, bezierPoints[i].y, 10, RED);
         }
+
         draw_info();
         drawScreen();
-
-        // renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     free(bezierPoints);
 

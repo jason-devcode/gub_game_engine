@@ -1,6 +1,0 @@
-#ifndef UI_COMPONENT_NODE_TREE_H
-#define UI_COMPONENT_NODE_TREE_H
-
-
-
-#endif

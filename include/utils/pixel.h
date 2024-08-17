@@ -1,9 +1,9 @@
 #ifndef PIXEL_UTILS
 #define PIXEL_UTILS
 
-#include "../engine_properties/depthbuffer.h"
-#include "../engine_properties/framebuffer.h"
-#include "../engine_properties/screen_dimensions.h"
+#include "../core/engine_properties/depthbuffer.h"
+#include "../core/engine_properties/framebuffer.h"
+#include "../core/engine_properties/screen_dimensions.h"
 
 /**
  * Sets a pixel at (x, y) to the specified color.

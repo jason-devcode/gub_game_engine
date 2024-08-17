@@ -2,6 +2,10 @@
 #define EVENT_PROCESSORS_H
 
 #include <stdbool.h> // For bool utils
+#include "../engine_properties/running_state.h"
+
+#include "../constants/mouse_event_values.h"
+#include "../constants/max_key_listener_lists_count.h"
 
 static bool keysPressed[MAX_KEY_LISTENER_LISTS_COUNT] = {false};
 
@@ -16,14 +20,14 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_KEYDOWN(event)                        \
-    {                                                 \
-        int key = (event).key.keysym.sym;             \
-        if (!keysPressed[key])                        \
-        {                                             \
-            keysPressed[key] = true;                  \
-            triggerEvent(gKeyPressEventManager, key); \
-        }                                             \
+#define PROCESS_KEYDOWN(event)                                       \
+    {                                                                \
+        int key = (event).key.keysym.sym;                            \
+        if (key < MAX_KEY_LISTENER_LISTS_COUNT && !keysPressed[key]) \
+        {                                                            \
+            keysPressed[key] = true;                                 \
+            triggerEvent(gKeyPressEventManager, key);                \
+        }                                                            \
     }
 
 /**
@@ -33,14 +37,14 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_KEYUP(event)                            \
-    {                                                   \
-        int key = (event).key.keysym.sym;               \
-        if (keysPressed[key])                           \
-        {                                               \
-            keysPressed[key] = false;                   \
-            triggerEvent(gKeyReleaseEventManager, key); \
-        }                                               \
+#define PROCESS_KEYUP(event)                                        \
+    {                                                               \
+        int key = (event).key.keysym.sym;                           \
+        if (key < MAX_KEY_LISTENER_LISTS_COUNT && keysPressed[key]) \
+        {                                                           \
+            keysPressed[key] = false;                               \
+            triggerEvent(gKeyReleaseEventManager, key);             \
+        }                                                           \
     }
 
 /**
@@ -91,15 +95,14 @@ static bool gMouseButtonsPressed[MOUSE_LAST + 1] = {
 
 /**
  * Macro to handle SDL_QUIT events.
- * This macro sets the global variable `ON_GAME_RUNNING` to false, indicating
+ * This macro sets the global variable `isGameRunning` to false, indicating
  * that the game should exit.
  *
  * @param event The SDL event to process.
  */
-#define PROCESS_QUIT(event)      \
-    {                            \
-        ON_GAME_RUNNING = false; \
-    }
+#define PROCESS_QUIT(event) \
+    {                       \
+        setGameRunningState(false)}
 
 /**
  * Macro to trigger events for all keys still pressed.

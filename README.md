@@ -2,121 +2,110 @@
 
 ![z_buffer](./screenshots/image_z_buffer.png)
 
-This project is a basic graphics engine using SDL (Simple DirectMedia Layer) 1.2. It demonstrates how to create a simple game loop, handle screen updates, and manage threads for rendering.
-
-- **`include/graphic_engine.h`**: Header file containing definitions, global variables, and functions for initializing and managing the graphics engine.
-- **`src/sample.c`**: Main source file containing the game loop and circle drawing functionality.
-- **`screenshots/image.png`**: Directory for storing screenshots or images related to the project.
+GUB Game Engine is a powerful and versatile engine designed for the development of game and graphic applications across multiple platforms, including Android, Linux, and Windows. Whether you're building a 2D or 3D game, GUB provides the tools and flexibility you need to bring your projects to life.
 
 ## Features
 
-- Initializes SDL and sets up a graphical window.
-- Creates a game loop that updates the screen at approximately 60 FPS.
-- Draws a circle on the screen.
+- **Cross-Platform Support**: Develop once, deploy on Android, Linux, and Windows.
+- **Customizable Components**: Design custom UI components, inspired by React, for dynamic and interactive game interfaces.
+- **Software Rendering**: Pure software rendering engine, with no hardware acceleration required, suitable for projects where control over every pixel is essential.
+- **Z-Buffer Implementation**: Efficient depth management for 3D rendering.
+- **Event Handling System**: 
+  - Utilizes a pattern involving hash tables of lists of nodes.
+  - Each node contains a listener that handles events, with functionalities for adding listeners similar to how JavaScript manages events.
+  - Includes support for keyboard, mouse, and joystick event handling, providing comprehensive input management for diverse gaming experiences.
+- **Extensible Architecture with Facade Pattern**: The engine can be easily extended with other graphic libraries via the facade pattern. This is how it supports both SDL 1 and SDL 2, providing flexibility in choosing or integrating other libraries.
 
-## Dependencies
+## Getting Started
 
-- SDL 1.2
-- GCC (GNU Compiler Collection)
+### Requirements
 
-## Installation and Setup
+#### Windows
 
-### On Windows
+- **MinGW-w64**: A 64-bit version of the MinGW compiler.
+- **SDL 2 Development Libraries** (recommended): Download and install the SDL 2 development dependencies. Place these in the compiler's directory.
+  - SDL 2 is recommended as it's easier to download and set up on Windows.
 
-1. **Install SDL 1.2:**
-   - Download the SDL 1.2 development libraries from the [SDL website](https://www.libsdl.org/download-1.2.php).
-   - Extract the contents and place the `include` and `lib` directories in a known location.
+#### Linux
 
-2. **Set Up Your Development Environment:**
-   - Install MinGW or MinGW-w64:
-     - **MinGW32**: A port of GCC for Windows, available from [MinGW's website](http://www.mingw.org/).
-     - **MinGW-w64**: An alternative to MinGW32 that supports both 32-bit and 64-bit Windows. Available from [MinGW-w64's website](https://mingw-w64.org/doku.php/download).
+**Debian/Ubuntu**:
+- GCC or Clang compiler
+- SDL 2 Development Libraries:
+  ```bash
+  sudo apt-get install libsdl2-dev
+  ```
 
-   - Ensure the SDL include and lib paths are correctly set up in your development environment or makefile.
+**Arch Linux**:
+- GCC or Clang compiler
+- SDL 2 Development Libraries:
+  ```bash
+  sudo pacman -S sdl2
+  ```
 
-3. **Compile the Project:**
+### Compilation Instructions
 
-   Open a Command Prompt and navigate to the `src` directory. Then, run the following command to compile the project:
+#### Windows
 
-   - Using **MinGW32**:
-
-     ```sh
-     gcc -o basic_sdl_graphic_engine src/sample.c -I/path/to/SDL/include -L/path/to/SDL/lib -lSDL
-     ```
-
-   - Using **MinGW-w64**:
-
-     ```sh
-     x86_64-w64-mingw32-gcc -o basic_sdl_graphic_engine src/sample.c -I/path/to/SDL/include -L/path/to/SDL/lib -lSDL
-     ```
-
-   Replace `/path/to/SDL/include` and `/path/to/SDL/lib` with the actual paths to the SDL 1.2 include and library directories.
-
-4. **Run the Project:**
-
-   ```sh
-   basic_sdl_graphic_engine.exe
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/jason-devcode/gub-game-engine.git
+   cd gub-game-engine
    ```
 
-### On Linux
+2. **Edit `build.bat`**:
+   - Open the `build.bat` file in a text editor.
+   - Uncomment the section corresponding to the sample you wish to build.
 
-1. **Install SDL 1.2:**
+3. **Run the Build Script**:
+   - Double-click on `build.bat` to start the build process.
+   - The compiled binaries will be placed in the `build` directory.
 
-   - **Debian-based Systems (e.g., Ubuntu):**
+4. **SDL Version**:
+   - By default, the engine is configured to use SDL 2. If you wish to use SDL 1, you can adjust the build script accordingly, but SDL 2 is recommended for ease of use.
 
-     ```sh
-     sudo apt-get update
-     sudo apt-get install libsdl1.2-dev
-     ```
+#### Linux
 
-   - **Red Hat-based Systems (e.g., Fedora):**
-
-     ```sh
-     sudo dnf install SDL-devel
-     ```
-
-   - **Arch Linux:**
-
-     ```sh
-     sudo pacman -S sdl
-     ```
-
-     Arch Linux uses `pacman` as the package manager. The package `sdl` in the Arch repositories includes SDL 1.2 development files.
-
-2. **Compile the Project:**
-
-   Open a terminal and navigate to the `src` directory. Run the following command to compile the project:
-
-   ```sh
-   gcc -o basic_sdl_graphic_engine sample.c `sdl-config --cflags --libs`
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/jason-devcode/gub-game-engine.git
+   cd gub-game-engine
    ```
 
-   The `sdl-config` script provides the necessary compiler and linker flags for SDL.
-
-3. **Run the Project:**
-
-   ```sh
-   ./basic_sdl_graphic_engine
+2. **Build the Engine**:
+   - Run the build script:
+   ```bash
+   ./build.sh
    ```
 
-## Usage
+3. **Run the Engine**:
+   ```bash
+   ./build/gub_engine
+   ```
 
-1. **Build the Project:**
-   - Follow the instructions for your operating system to compile the project.
+   - The engine will automatically detect the platform and use the appropriate SDL version. Ensure you have SDL 2 installed as per the requirements.
 
-2. **Run the Engine:**
-   - Execute the compiled binary. A window should appear with a 512x512 resolution and a title "Basic SDL Graphic Engine". The screen will display a red circle with a radius of 64 pixels at the center.
+### Extending the Engine
 
-## Code Overview
+GUB Game Engine's architecture allows for easy extension with other graphic libraries using the facade pattern. This design pattern abstracts the underlying graphic library, enabling seamless support for SDL 1, SDL 2, and potential future libraries. To integrate a new library, implement the necessary facade interfaces in the engine and adjust the build scripts to include the new library.
 
-### `include/graphic_engine.h`
+### Sample Projects
 
-Contains definitions and declarations for managing the graphics engine, including:
-- **EngineInstance**: Structure for storing SDL surface and thread information.
-- **Global Variables**: For screen dimensions, framebuffer, and global instance.
-- **Functions**: For initializing the screen, setting the window title, managing the game loop, handling events, and drawing pixels.
+The engine comes with several sample projects that demonstrate various features:
 
-## Troubleshooting
+- **Basic 3D Rendering**: A simple 3D scene with z-buffering.
+- **Custom UI Components**: Demonstrates how to create and manage custom UI elements.
+- **Event Handling**: Showcases the engine's event management system, utilizing hash tables of lists of nodes with listener functionalities similar to JavaScript, including joystick event handling.
 
-- **SDL Initialization Issues:** Ensure SDL is correctly installed and linked. Verify the paths to the SDL libraries and include files.
-- **Compilation Errors:** Check that GCC and SDL are properly installed and configured. Ensure all dependencies are resolved.
+To build a sample, follow the instructions in the `Compilation Instructions` section.
+
+## Documentation
+
+**Documentation of use is coming soon!** Stay tuned for comprehensive guides, tutorials, and API references that will help you make the most of the GUB Game Engine.
+
+## Contributing
+
+We welcome contributions to the GUB Game Engine! If you find a bug or have a feature request, please open an issue. Contributions can be made via pull requests. Please ensure that your code follows the project's coding standards and includes appropriate documentation.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.

@@ -55,7 +55,7 @@ bool initializeEventManager(EventManager *manager, uint32_t maxPossibleListenerL
 {
     if (manager == NULL)
     {
-        fputs("ERROR: EventManager is NULL!", stderr);
+        fputs("ERROR: EventManager is NULL!\n", stderr);
         return false;
     }
 
@@ -64,7 +64,7 @@ bool initializeEventManager(EventManager *manager, uint32_t maxPossibleListenerL
 
     if (manager->listeners_lists == NULL)
     {
-        fputs("ERROR: Cannot allocate memory space for listeners lists!", stderr);
+        fputs("ERROR: Could not allocate memory space for listeners lists!\n", stderr);
         return false;
     }
 

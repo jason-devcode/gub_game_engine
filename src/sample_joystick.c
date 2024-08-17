@@ -4,7 +4,7 @@
 #include "../include/utils/pixel.h"
 #include "../include/utils/font.h"
 #include "../include/utils/joystick.h"
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 
 void pressButtonAJoystick()
 {
@@ -48,8 +48,6 @@ void releaseButtonYJoystick()
 
 int gameLoop(void *ignore)
 {
-    initializeJoystickManager();
-
     addJoystickEventListener(JOY_BUTTON_0_PRESS, JOYSTICK_PLAYER_1, pressButtonAJoystick);
     addJoystickEventListener(JOY_BUTTON_0_RELEASE, JOYSTICK_PLAYER_1, releaseButtonAJoystick);
 
@@ -88,7 +86,7 @@ int gameLoop(void *ignore)
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return EXIT_SUCCESS;
 }

@@ -1,14 +1,15 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 #include "../include/utils/wavefront_obj.h"
 #include "../include/utils/geometry.h"
 #include "../include/utils/triangles/clipping_triangle_depth_test.h"
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
-#include "../include/utils/timers.h"
 #include "../include/utils/3DEngine/camera3D.h"
 
 #include "../include/utils/3DEngine/geometry/plane.h"
+
+#include "../include/utils/keyboard.h"
 
 void onMoveForwardCamera()
 {
@@ -64,12 +65,12 @@ int gameLoop(void *ignore)
 
     setClearScreenColor(CYAN_500);
 
-    addKeyPressEventListener(SDLK_w, onMoveForwardCamera);
-    addKeyPressEventListener(SDLK_s, onMoveBackwardCamera);
-    addKeyPressEventListener(SDLK_a, onRotateCameraLeft);
-    addKeyPressEventListener(SDLK_d, onRotateCameraRight);
-    addKeyPressEventListener(SDLK_UP, onRotateCameraUp);
-    addKeyPressEventListener(SDLK_DOWN, onRotateCameraBottom);
+    addKeyPressEventListener(GUB_KEY_w, onMoveForwardCamera);
+    addKeyPressEventListener(GUB_KEY_s, onMoveBackwardCamera);
+    addKeyPressEventListener(GUB_KEY_a, onRotateCameraLeft);
+    addKeyPressEventListener(GUB_KEY_d, onRotateCameraRight);
+    addKeyPressEventListener(GUB_KEY_j, onRotateCameraUp);
+    addKeyPressEventListener(GUB_KEY_k, onRotateCameraBottom);
 
     Vec3f *tempVertices = (Vec3f *)malloc(meshGroup->vertexCount * sizeof(Vec3f));
 
@@ -122,11 +123,12 @@ int gameLoop(void *ignore)
                     colorMesh);
             }
         }
+
         drawFormattedText(10, 10, YELLOW, "FPS: %d\nCamera position - X: %lf Y: %lf Z: %lf\nCamera angle - X: %lf Y: %lf Z: %lf\nTotal triangules: %d", getFps(), cameraPosition.x, cameraPosition.y, cameraPosition.z, cameraPitch, cameraYaw, cameraRoll, trianglesCount);
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     free(tempVertices);
     releaseMeshGroupResources(meshGroup);

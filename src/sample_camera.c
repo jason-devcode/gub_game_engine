@@ -1,8 +1,8 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
+#include "../include/utils/keyboard.h"
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
-#include "../include/utils/raster.h"
 #include "../include/utils/geometry.h"
 #include "../include/utils/analytic_geometry.h"
 #include "../include/utils/gamma.h"
@@ -46,14 +46,14 @@ int gameLoop(void *arg)
 {
     initializeCamera3D((Vec3f){.x = 0, .y = 0, .z = -2}, (Vec3f){.x = 0, .y = 0, .z = 0}, degreesToRadians(60));
 
-    addKeyPressEventListener(SDLK_w, onPressKey_Up_W);
-    addKeyPressEventListener(SDLK_UP, onPressKey_Up_W);
-    addKeyPressEventListener(SDLK_s, onPressKey_Down_S);
-    addKeyPressEventListener(SDLK_DOWN, onPressKey_Down_S);
-    addKeyPressEventListener(SDLK_a, onPressKey_Left_A);
-    addKeyPressEventListener(SDLK_LEFT, onPressKey_Left_A);
-    addKeyPressEventListener(SDLK_d, onPressKey_Right_D);
-    addKeyPressEventListener(SDLK_RIGHT, onPressKey_Right_D);
+    addKeyPressEventListener(GUB_KEY_w, onPressKey_Up_W);
+    addKeyPressEventListener(GUB_KEY_UP, onPressKey_Up_W);
+    addKeyPressEventListener(GUB_KEY_s, onPressKey_Down_S);
+    addKeyPressEventListener(GUB_KEY_DOWN, onPressKey_Down_S);
+    addKeyPressEventListener(GUB_KEY_a, onPressKey_Left_A);
+    addKeyPressEventListener(GUB_KEY_LEFT, onPressKey_Left_A);
+    addKeyPressEventListener(GUB_KEY_d, onPressKey_Right_D);
+    addKeyPressEventListener(GUB_KEY_RIGHT, onPressKey_Right_D);
 
     do
     {
@@ -64,7 +64,7 @@ int gameLoop(void *arg)
         draw_info();
         drawScreen();
         renderDelay(16); // Limit to 60 FPS
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     return EXIT_SUCCESS;
 }

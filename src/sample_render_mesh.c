@@ -1,4 +1,4 @@
-#include "../include/game_engine.h"
+#include "../include/gub.h"
 #include "../include/utils/wavefront_obj.h"
 #include "../include/utils/geometry.h"
 // #include "../include/utils/triangles/simple_clipping_triangle.h"
@@ -6,8 +6,9 @@
 #include "../include/utils/font.h"
 #include "../include/utils/color.h"
 #include "../include/utils/color_palette.h"
-#include "../include/utils/timers.h"
 #include "../include/utils/3DEngine/camera3D.h"
+
+#include "../include/utils/keyboard.h"
 
 void onMoveForwardCamera()
 {
@@ -47,12 +48,12 @@ int gameLoop(void *ignore)
     // MeshGroup *meshGroup = readWavefrontObj("./temp/skull/skull.obj");
     setClearScreenColor(CYAN_500);
 
-    addKeyPressEventListener(SDLK_w, onMoveForwardCamera);
-    addKeyPressEventListener(SDLK_s, onMoveBackwardCamera);
-    addKeyPressEventListener(SDLK_a, onRotateCameraLeft);
-    addKeyPressEventListener(SDLK_d, onRotateCameraRight);
-    addKeyPressEventListener(SDLK_UP, onRotateCameraUp);
-    addKeyPressEventListener(SDLK_DOWN, onRotateCameraBottom);
+    addKeyPressEventListener(GUB_KEY_w, onMoveForwardCamera);
+    addKeyPressEventListener(GUB_KEY_s, onMoveBackwardCamera);
+    addKeyPressEventListener(GUB_KEY_a, onRotateCameraLeft);
+    addKeyPressEventListener(GUB_KEY_d, onRotateCameraRight);
+    addKeyPressEventListener(GUB_KEY_q, onRotateCameraUp);
+    addKeyPressEventListener(GUB_KEY_e, onRotateCameraBottom);
 
     Vec3f *tempVertices = (Vec3f *)malloc(meshGroup->vertexCount * sizeof(Vec3f));
 
@@ -97,7 +98,7 @@ int gameLoop(void *ignore)
 
         drawScreen();
         renderDelay(16);
-    } while (ON_GAME_RUNNING);
+    } while (isGameRunning);
 
     free(tempVertices);
     releaseMeshGroupResources(meshGroup);
