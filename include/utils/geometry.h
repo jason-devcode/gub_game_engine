@@ -54,7 +54,7 @@ drawHorizontalLine(int x1, int x2, int y, uint32_t color)
     if (y < 0)
         return; // protect up screen side
 
-    if (gScreenHeight < y)
+    if (!(y < gScreenHeight))
         return; // protect bottom screen side
 
     if (x1 > x2) // correct x order
@@ -111,7 +111,7 @@ static inline void drawVerticalLine(int y1, int y2, int x, uint32_t color)
 
     // Correct values
     int correctY1 = y1 < 0 ? 0 : y1;
-    int correctY2 = gScreenHeight < y2 ? gScreenHeight - 1 : y2;
+    int correctY2 = y2 < gScreenHeight ? y2 : gScreenHeight - 1;
 
     // Calculate framebuffer iterators
     register uint32_t *beginPixelsRowIterator = &framebuffer[calculatePixelIndex(x, correctY1, gScreenWidth)];
