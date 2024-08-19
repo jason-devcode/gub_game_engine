@@ -7,11 +7,11 @@
 #include "../include/utils/geometry.h"
 #include "../include/utils/keyboard.h"
 #include "../include/utils/sprite_animation.h"
-
+#include "../include/core/engine_properties/screen_dimensions.h"
 typedef struct _tag_player_animations_
 {
     SpriteAnimation *animations;
-    SpriteAnimation *currentAnimation;
+    int currentAnimationIndex;
     int numAnimations;
 } EntityAnimations;
 
@@ -26,46 +26,61 @@ typedef struct _tag_player_
 int playerFrameRow = 1;
 int isPlayerMoving = 0;
 
-Player player = {NULL, NULL, 0, 0, 0, 10};
+Player player = {{NULL, 0, 0}, {0, 0}, 10, 0};
 
 Sprite *gBombermanSpritesheet;
 
+typedef enum
+{
+    PLAYER_WALK_LEFT_ANIMATION,
+    PLAYER_WALK_RIGHT_ANIMATION,
+    PLAYER_WALK_TOP_ANIMATION,
+    PLAYER_WALK_BOTTOM_ANIMATION,
+
+    PLAYER_IDLE_LEFT_ANIMATION,
+    PLAYER_IDLE_RIGHT_ANIMATION,
+    PLAYER_IDLE_TOP_ANIMATION,
+    PLAYER_IDLE_BOTTOM_ANIMATION,
+
+    PLAYER_LAST_ANIMATION
+} PlayerAnimations;
+
 bool initializePlayer()
 {
-    player.entityAnimations.numAnimations = 14;
+    player.speed = 15;
+    player.position = (Vec2f){gHalfScreenWidth, gHalfScreenHeight};
+
+    player.entityAnimations.numAnimations = PLAYER_LAST_ANIMATION;
+    player.entityAnimations.currentAnimationIndex = PLAYER_IDLE_RIGHT_ANIMATION;
+
     player.entityAnimations.animations = createSequenceOfEmptySpriteAnimation(player.entityAnimations.numAnimations);
 
-    double frameDuration = 1.0 / 60.0 * 8.0;
+    double frameDuration = 1.0 / 60.0 * 6.0;
 
-    populateSpriteAnimation(&player.entityAnimations.animations[0], 0, 0, 3, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[1], 0, 1, 3, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[2], 3, 0, 3, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[3], 3, 1, 3, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[4], 0, 2, 7, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[5], 0, 3, 3, 1, frameDuration * 4, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[6], 4, 3, 7, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[7], 0, 15, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[8], 0, 16, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[9], 0, 17, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[10], 0, 18, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[11], 0, 19, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[12], 0, 20, 6, 1, frameDuration, gBombermanSpritesheet);
-    populateSpriteAnimation(&player.entityAnimations.animations[13], 0, 21, 6, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_WALK_LEFT_ANIMATION], 0, 0, 3, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_WALK_RIGHT_ANIMATION], 0, 1, 3, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_WALK_BOTTOM_ANIMATION], 3, 0, 3, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_WALK_TOP_ANIMATION], 3, 1, 3, 1, frameDuration, gBombermanSpritesheet);
+
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_IDLE_LEFT_ANIMATION], 1, 0, 1, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_IDLE_RIGHT_ANIMATION], 1, 1, 1, 1, frameDuration, gBombermanSpritesheet);
+
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_IDLE_BOTTOM_ANIMATION], 4, 0, 1, 1, frameDuration, gBombermanSpritesheet);
+    populateSpriteAnimation(&player.entityAnimations.animations[PLAYER_IDLE_TOP_ANIMATION], 4, 1, 1, 1, frameDuration, gBombermanSpritesheet);
 }
 
 void renderPlayer()
 {
-    for (int animationIndex = 0; animationIndex < player.entityAnimations.numAnimations; ++animationIndex)
-    {
-        SpriteAnimation *currentAnimation = &player.entityAnimations.animations[animationIndex];
-        SpriteFrame *currentFrame = &currentAnimation->frames[currentAnimation->currentFrame];
+    SpriteAnimation *currentAnimation = &player.entityAnimations.animations[player.entityAnimations.currentAnimationIndex];
+    SpriteFrame *currentFrame = &currentAnimation->frames[currentAnimation->currentFrame];
 
-        drawScaledSubTexture(
-            player.position.x + 100, player.position.y + 10 + currentFrame->h * animationIndex * 3,
-            gBombermanSpritesheet->texture,
-            currentFrame->x, currentFrame->y, currentFrame->w, currentFrame->h,
-            32, 32);
-    }
+    drawScaledSubTexture(
+        player.position.x, player.position.y,
+        gBombermanSpritesheet->texture,
+        currentFrame->x, currentFrame->y, currentFrame->w, currentFrame->h,
+        32, 32);
+
+    updateSpriteAnimation(currentAnimation);
 }
 
 void releasePlayerResources()
@@ -98,21 +113,46 @@ void drawScaledSpritesheet(int scaleX, int scaleY)
 
 void onMovePlayerLeft()
 {
-    playerFrameRow = 0;
-    isPlayerMoving = 1;
+    player.entityAnimations.currentAnimationIndex = PLAYER_WALK_LEFT_ANIMATION;
     player.position.x -= player.speed * deltatime * 0.001;
 }
 
 void onMovePlayerRight()
 {
-    playerFrameRow = 1;
-    isPlayerMoving = 1;
+    player.entityAnimations.currentAnimationIndex = PLAYER_WALK_RIGHT_ANIMATION;
     player.position.x += player.speed * deltatime * 0.001;
 }
 
-void onIdlePlayerState()
+void onMovePlayerTop()
 {
-    isPlayerMoving = 0;
+    player.entityAnimations.currentAnimationIndex = PLAYER_WALK_TOP_ANIMATION;
+    player.position.y -= player.speed * deltatime * 0.001;
+}
+
+void onMovePlayerBottom()
+{
+    player.entityAnimations.currentAnimationIndex = PLAYER_WALK_BOTTOM_ANIMATION;
+    player.position.y += player.speed * deltatime * 0.001;
+}
+
+void onIdleLeftPlayerState()
+{
+    player.entityAnimations.currentAnimationIndex = PLAYER_IDLE_LEFT_ANIMATION;
+}
+
+void onIdleRightPlayerState()
+{
+    player.entityAnimations.currentAnimationIndex = PLAYER_IDLE_RIGHT_ANIMATION;
+}
+
+void onIdleTopPlayerState()
+{
+    player.entityAnimations.currentAnimationIndex = PLAYER_IDLE_TOP_ANIMATION;
+}
+
+void onIdleBottomPlayerState()
+{
+    player.entityAnimations.currentAnimationIndex = PLAYER_IDLE_BOTTOM_ANIMATION;
 }
 
 void gameLoop()
@@ -125,21 +165,20 @@ void gameLoop()
     addKeyPressEventListener(GUB_KEY_a, onMovePlayerLeft);
     addKeyPressEventListener(GUB_KEY_d, onMovePlayerRight);
 
-    addKeyReleaseEventListener(GUB_KEY_a, onIdlePlayerState);
-    addKeyReleaseEventListener(GUB_KEY_d, onIdlePlayerState);
+    addKeyPressEventListener(GUB_KEY_w, onMovePlayerTop);
+    addKeyPressEventListener(GUB_KEY_s, onMovePlayerBottom);
+
+    addKeyReleaseEventListener(GUB_KEY_a, onIdleLeftPlayerState);
+    addKeyReleaseEventListener(GUB_KEY_d, onIdleRightPlayerState);
+
+    addKeyReleaseEventListener(GUB_KEY_w, onIdleTopPlayerState);
+    addKeyReleaseEventListener(GUB_KEY_s, onIdleBottomPlayerState);
 
     do
     {
         clearScreen();
-        // drawScaledSpritesheet(2, 2);
 
         renderPlayer();
-
-        for (int animationIndex = 0; animationIndex < player.entityAnimations.numAnimations; ++animationIndex)
-        {
-            SpriteAnimation *animation = &player.entityAnimations.animations[animationIndex];
-            updateSpriteAnimation(animation);
-        }
 
         drawScreen();
         renderDelay(16);
