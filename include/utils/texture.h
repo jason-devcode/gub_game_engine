@@ -431,7 +431,7 @@ static inline void drawScaledSubTexture(int x, int y, Texture *srcTexture, int s
                 srcY = subY + subHeight - 1;
 
             uint32_t color = srcPixels[srcY * srcTextureWidth + srcX];
-            framebuffer[(y + ty) * gScreenWidth + (x + tx)] = color;
+            framebuffer[(y + ty) * gCorrectPixelsWidth + (x + tx)] = color;
         }
     }
 }
