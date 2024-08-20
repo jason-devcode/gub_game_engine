@@ -436,6 +436,62 @@ static inline void drawScaledSubTexture(int x, int y, Texture *srcTexture, int s
     }
 }
 
+/**
+ * @brief Draws a scaled subtexture onto the framebuffer at the specified coordinates, with a clear color mask.
+ *
+ * This function scales a subtexture to the specified width and height and draws it onto the framebuffer
+ * at the given coordinates using nearest-neighbor scaling. Pixels matching the clear color mask are not drawn.
+ *
+ * @param x The X coordinate on the screen where the subtexture's top-left corner will be drawn.
+ * @param y The Y coordinate on the screen where the subtexture's top-left corner will be drawn.
+ * @param srcTexture A pointer to the source Texture containing the subtexture.
+ * @param subX The X coordinate of the subtexture within the source texture.
+ * @param subY The Y coordinate of the subtexture within the source texture.
+ * @param subWidth The width of the subtexture to be extracted.
+ * @param subHeight The height of the subtexture to be extracted.
+ * @param targetWidth The desired width of the subtexture on the screen.
+ * @param targetHeight The desired height of the subtexture on the screen.
+ * @param clearColorMask The color mask used to ignore certain pixels when drawing.
+ *
+ * @details
+ * - This function uses nearest-neighbor scaling to draw the subtexture.
+ * - It directly accesses the pixel data of the source texture.
+ * - Pixels matching the `clearColorMask` value will be skipped and not drawn to the framebuffer.
+ */
+static inline void drawScaledSubTextureWithClearColorMask(int x, int y, Texture *srcTexture, int subX, int subY, int subWidth, int subHeight, int targetWidth, int targetHeight, uint32_t clearColorMask)
+{
+    if (!srcTexture || subWidth <= 0 || subHeight <= 0 || targetWidth <= 0 || targetHeight <= 0)
+        return;
+
+    uint32_t *srcPixels = srcTexture->pixels;
+    int srcTextureWidth = srcTexture->width;
+    int srcTextureHeight = srcTexture->height;
+
+    // Calculate scaling factors
+    float xScale = (float)subWidth / targetWidth;
+    float yScale = (float)subHeight / targetHeight;
+
+    for (int ty = 0; ty < targetHeight; ++ty)
+    {
+        for (int tx = 0; tx < targetWidth; ++tx)
+        {
+            int srcX = subX + (int)(tx * xScale);
+            int srcY = subY + (int)(ty * yScale);
+
+            if (srcX >= subX + subWidth)
+                srcX = subX + subWidth - 1;
+            if (srcY >= subY + subHeight)
+                srcY = subY + subHeight - 1;
+
+            uint32_t color = srcPixels[srcY * srcTextureWidth + srcX];
+
+            if (color == clearColorMask)
+                continue;
+            framebuffer[(y + ty) * gCorrectPixelsWidth + (x + tx)] = color;
+        }
+    }
+}
+
 static inline Texture *loadTextureFromImageFile(const char *filename)
 {
     Raster8888 *imageRaster = loadBMP(filename);

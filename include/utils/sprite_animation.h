@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 typedef struct SpriteFrame
 {
@@ -19,10 +20,8 @@ typedef struct SpriteFrame
 typedef struct SpriteAnimation
 {
     SpriteFrame *frames;  // Animation frames
-    int currentFrame;     // Current frame index
     int numFrames;        // Total number of frames in the animation
     double frameDuration; // Duration to show each frame ( in seconds )
-    double elapsedTime;   // Time elapsed since the last frame change
 } SpriteAnimation;
 
 SpriteAnimation *createEmptySpriteAnimation()
@@ -83,8 +82,6 @@ void populateSpriteAnimation(SpriteAnimation *animation, int startCol, int start
     int startY = frameHeight * startRow;
 
     // Initialize the animation properties
-    animation->currentFrame = 0;
-    animation->elapsedTime = 0.0;
     animation->frameDuration = frameDuration;
     animation->numFrames = numColFrames * numRowFrames;
 
@@ -136,8 +133,8 @@ SpriteAnimation *createSpriteAnimation(int startCol, int startRow, int numColFra
         return NULL;
 
     // Initialize the animation properties
-    animation->currentFrame = 0;
-    animation->elapsedTime = 0;
+    // animation->currentFrame = 0;
+    // animation->elapsedTime = 0;
     animation->frameDuration = frameDuration;
     animation->numFrames = numColFrames * numRowFrames;
     animation->frames = createSequenceOfEmptyFrames(animation->numFrames);
@@ -165,27 +162,14 @@ SpriteAnimation *createSpriteAnimation(int startCol, int startRow, int numColFra
     return animation;
 }
 
-void updateSpriteAnimation(SpriteAnimation *animation)
-{
-    if (animation == NULL || animation->frames == NULL)
-        return;
-
-    animation->elapsedTime += deltatime;
-    if (animation->elapsedTime > animation->frameDuration)
-    {
-        animation->elapsedTime = 0;
-        ++animation->currentFrame;
-        animation->currentFrame %= animation->numFrames;
-    }
-}
-
-void releaseSpriteAnimationResources(SpriteAnimation *animation)
+void releaseSpriteAnimationResources(SpriteAnimation *animation, bool isStack)
 {
     if (animation == NULL)
         return;
     if (animation->frames)
         free(animation->frames);
-    free(animation);
+    if (!isStack)
+        free(animation);
 }
 
 void releaseSequenceOfSpriteAnimationResources(SpriteAnimation **animations, int numAnimations)
@@ -195,7 +179,7 @@ void releaseSequenceOfSpriteAnimationResources(SpriteAnimation **animations, int
 
     for (int animationIndex = 0; animationIndex < numAnimations; ++animationIndex)
         if (animations[animationIndex])
-            releaseSpriteAnimationResources(animations[animationIndex]);
+            releaseSpriteAnimationResources(animations[animationIndex], false);
 }
 
 #endif
