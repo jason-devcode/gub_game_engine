@@ -15,18 +15,15 @@ typedef struct _tag_player_animations_
     int numAnimations;
 } EntityAnimations;
 
-typedef struct _tag_player_
+typedef struct _tag_entity_
 {
     EntityAnimations entityAnimations;
     Vec2f position;
     double speed;
     uint32_t collisionLayer; // 0,1,2,3,4,5,6,7
-} Player;
+} Entity;
 
-int playerFrameRow = 1;
-int isPlayerMoving = 0;
-
-Player player = {{NULL, 0, 0}, {0, 0}, 10, 0};
+Entity player = {{NULL, 0, 0}, {0, 0}, 10, 0};
 
 Sprite *gBombermanSpritesheet;
 
@@ -181,7 +178,7 @@ void gameLoop()
         renderPlayer();
 
         drawScreen();
-        renderDelay(16);
+        renderDelay(32);
     } while (isGameRunning);
 
     releasePlayerResources();
