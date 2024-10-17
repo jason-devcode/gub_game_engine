@@ -28,7 +28,7 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        fprintf(stderr, "ERROR: Cannot initialize SDL 2 video subsystem: %s", SDL_GetError());
+        fprintf(stderr, "ERROR: Could not initialize SDL 2 video subsystem: %s", SDL_GetError());
         return false;
     }
 
@@ -89,7 +89,7 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
 
     if (!createWindowViewport(widthScreenPixels, heightScreenPixels, windowTitle))
     {
-        fprintf(stderr, "ERROR: Cannot create game window viewport");
+        fprintf(stderr, "ERROR: Could not create game window viewport");
         return false;
     }
 

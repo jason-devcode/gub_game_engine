@@ -40,25 +40,25 @@ bool initializeEventManagers()
     // Initialize Key Event Manager
     if (!initializeEventManager(&gKeyPressEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
     {
-        fputs("ERROR: Cannot initialize key press event manager", stderr);
+        fputs("ERROR: Could not initialize key press event manager", stderr);
         goto fail_initialization;
     }
 
     if (!initializeEventManager(&gKeyReleaseEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
     {
-        fputs("ERROR: Cannot initialize key release event manager", stderr);
+        fputs("ERROR: Could not initialize key release event manager", stderr);
         goto fail_initialization;
     }
 
     if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
     {
-        fputs("ERROR: Cannot initialize mouse event manager", stderr);
+        fputs("ERROR: Could not initialize mouse event manager", stderr);
         goto fail_initialization;
     }
 
     if (!initializeJoystickEventHandler())
     {
-        fputs("ERROR: Cannot initialize joystick events handler", stderr);
+        fputs("ERROR: Could not initialize joystick events handler", stderr);
         goto fail_initialization;
     }
 

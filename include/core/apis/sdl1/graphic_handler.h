@@ -40,7 +40,7 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         // Print an error message if SDL initialization fails
-        fprintf(stderr, "Cannot initialize SDL: %s\n", SDL_GetError());
+        fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
 
@@ -49,7 +49,7 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
     if (screen == NULL)
     {
         // Print an error message if screen initialization fails
-        fprintf(stderr, "Cannot set video mode: %s\n", SDL_GetError());
+        fprintf(stderr, "Could not set video mode: %s\n", SDL_GetError());
         return false;
     }
 

@@ -77,19 +77,19 @@ int initializeJoystickEventHandler()
 {
     if (SDL_Init(SDL_INIT_JOYSTICK) < 0)
     {
-        fprintf(stderr, "Cannot initialize SDL Joystick subsystem: %s\n", SDL_GetError());
+        fprintf(stderr, "Could not initialize SDL Joystick subsystem: %s\n", SDL_GetError());
         return CANNOT_INITIALIZE_JOYSTICK_SUBSYSTEM;
     }
 
     if (!initJoystickCurrentStateArray())
     {
-        fprintf(stderr, "Cannot allocate memory space for joysticks current state array \n");
+        fprintf(stderr, "Could not allocate memory space for joysticks current state array \n");
         return CANNOT_ALLOC_MEMORY_FOR_JOYSTICKS_CURRENT_STATE;
     }
 
     if (!initJoystickButtonsPressedFlagsArray())
     {
-        fprintf(stderr, "Cannot allocate memory space for joysticks button flags \n");
+        fprintf(stderr, "Could not allocate memory space for joysticks button flags \n");
         return CANNOT_ALLOC_MEMORY_FOR_JOYSTICKS_PRESSED_BUTTON_FLAGS;
     }
 
@@ -102,7 +102,7 @@ int initializeJoystickEventHandler()
 
     if (!initializeJoystickEventManager())
     {
-        fprintf(stderr, "Cannot initialize joystick event manager");
+        fprintf(stderr, "Could not initialize joystick event manager");
         return CANNOT_INITIALIZE_JOYSTICK_EVENT_MANAGER;
     }
 
@@ -111,7 +111,7 @@ int initializeJoystickEventHandler()
 
     if (!gJoysticks)
     {
-        fprintf(stderr, "Cannot allocate memory space for joystick structures");
+        fprintf(stderr, "Could not allocate memory space for joystick structures");
         return CANNOT_ALLOC_MEMORY_FOR_JOYSTICKS_STRUCTURES;
     }
 
