@@ -14,6 +14,8 @@
 
 #include "../../managers/event_processors.h" // For main event processors
 
+#include "../../constants/joystick_init_possible_results.h"
+
 #include "joystick_event_handler.h"
 
 /**
@@ -38,31 +40,33 @@ bool initializeEventManagers()
     // Initialize Key Event Manager
     if (!initializeEventManager(&gKeyPressEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
     {
-        fputs("ERROR: Could not initialize key press event manager", stderr);
+        fputs("ERROR: Could not initialize key press event manager\n", stderr);
         goto fail_initialization;
     }
 
     if (!initializeEventManager(&gKeyReleaseEventManager, MAX_KEY_LISTENER_LISTS_COUNT))
     {
-        fputs("ERROR: Could not initialize key release event manager", stderr);
+        fputs("ERROR: Could not initialize key release event manager\n", stderr);
         goto fail_initialization;
     }
 
     if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
     {
-        fputs("ERROR: Could not initialize mouse event manager", stderr);
+        fputs("ERROR: Could not initialize mouse event manager\n", stderr);
         goto fail_initialization;
     }
 
     if (!initializeEventManager(&gMouseEventManager, MOUSE_LAST))
     {
-        fputs("ERROR: Could not initialize mouse event manager", stderr);
+        fputs("ERROR: Could not initialize mouse event manager\n", stderr);
         goto fail_initialization;
     }
 
-    if (!initializeJoystickEventHandler())
+    const int initJoystickResult = initializeJoystickEventHandler();
+
+    if (initJoystickResult != NOT_FOUND_JOYSTICK && !initJoystickResult)
     {
-        fputs("ERROR: Could not initialize joystick events handler", stderr);
+        fputs("ERROR: Could not initialize joystick events handler\n", stderr);
         goto fail_initialization;
     }
 

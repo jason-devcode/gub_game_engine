@@ -16,6 +16,7 @@
 
 #include "../../managers/event_processors.h" // For main event processors
 
+#include "../../constants/joystick_init_possible_results.h"
 #include "joystick_event_handler.h"
 
 /**
@@ -56,9 +57,11 @@ bool initializeEventManagers()
         goto fail_initialization;
     }
 
-    if (!initializeJoystickEventHandler())
+    const int initJoystickResult = initializeJoystickEventHandler();
+
+    if (initJoystickResult != NOT_FOUND_JOYSTICK && !initJoystickResult)
     {
-        fputs("ERROR: Could not initialize joystick events handler", stderr);
+        fputs("ERROR: Could not initialize joystick events handler\n", stderr);
         goto fail_initialization;
     }
 
