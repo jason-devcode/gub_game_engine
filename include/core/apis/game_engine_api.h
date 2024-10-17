@@ -34,20 +34,20 @@ bool initializeGameEngine(int widthScreenPixels, int heightScreenPixels, const c
 {
     if (!initializeGraphicApi(widthScreenPixels, heightScreenPixels, gameTitle))
     {
-        fprintf(stderr, "ERROR: Could not initialize graphic environment system");
+        fprintf(stderr, "ERROR: Could not initialize graphic environment system\n");
         return EXIT_FAILURE;
     }
 
     if (!initializeEventManagers())
     {
-        fprintf(stderr, "ERROR: Could not initialize event managers");
+        fprintf(stderr, "ERROR: Could not initialize event managers\n");
         closeGraphicApi();
         return EXIT_FAILURE;
     }
 
     if (!initializeGameloopThread(gameLoop))
     {
-        fprintf(stderr, "ERROR: Could not initialize gameloop thread");
+        fprintf(stderr, "ERROR: Could not initialize gameloop thread\n");
         closeGraphicApi();
         return EXIT_FAILURE;
     }

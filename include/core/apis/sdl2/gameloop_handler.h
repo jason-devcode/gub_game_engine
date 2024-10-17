@@ -39,7 +39,7 @@ bool initializeGameloopThread(GameLoopCallback gameLoop)
 
     if (!gameThread)
     {
-        fprintf(stderr, "ERROR: Could not initialize gameloop thread");
+        fprintf(stderr, "ERROR: Could not initialize gameloop thread\n");
         return false;
     }
 

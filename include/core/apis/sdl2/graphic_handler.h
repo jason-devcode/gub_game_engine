@@ -28,14 +28,14 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        fprintf(stderr, "ERROR: Could not initialize SDL 2 video subsystem: %s", SDL_GetError());
+        fprintf(stderr, "ERROR: Could not initialize SDL 2 video subsystem: %s\n", SDL_GetError());
         return false;
     }
 
     SDL_Window *window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, widthScreenPixels, heightScreenPixels, SDL_WINDOW_SHOWN);
     if (!window)
     {
-        fprintf(stderr, "ERROR: Could not create window SDL 2: %s", SDL_GetError());
+        fprintf(stderr, "ERROR: Could not create window SDL 2: %s\n", SDL_GetError());
         return false;
     }
 
@@ -43,7 +43,7 @@ bool createWindowViewport(int widthScreenPixels, int heightScreenPixels, const c
 
     if (!screenSurface)
     {
-        fprintf(stderr, "Could not get window surface: %s", SDL_GetError());
+        fprintf(stderr, "Could not get window surface: %s\n", SDL_GetError());
         SDL_DestroyWindow(window);
         SDL_Quit();
         return false;
@@ -89,7 +89,7 @@ bool initializeGraphicApi(int widthScreenPixels, int heightScreenPixels, const c
 
     if (!createWindowViewport(widthScreenPixels, heightScreenPixels, windowTitle))
     {
-        fprintf(stderr, "ERROR: Could not create game window viewport");
+        fprintf(stderr, "ERROR: Could not create game window viewport\n");
         return false;
     }
 

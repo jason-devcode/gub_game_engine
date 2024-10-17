@@ -102,7 +102,7 @@ int initializeJoystickEventHandler()
 
     if (!initializeJoystickEventManager())
     {
-        fprintf(stderr, "Could not initialize joystick event manager");
+        fprintf(stderr, "Could not initialize joystick event manager\n");
         return CANNOT_INITIALIZE_JOYSTICK_EVENT_MANAGER;
     }
 
@@ -111,7 +111,7 @@ int initializeJoystickEventHandler()
 
     if (!gJoysticks)
     {
-        fprintf(stderr, "Could not allocate memory space for joystick structures");
+        fprintf(stderr, "Could not allocate memory space for joystick structures\n");
         return CANNOT_ALLOC_MEMORY_FOR_JOYSTICKS_STRUCTURES;
     }
 
