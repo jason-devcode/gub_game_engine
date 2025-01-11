@@ -1,0 +1,8 @@
+PROJECT_NAME = "GUB Game Engine"
+OUTPUT_DIRECTORY = docs
+INPUT = include/ README.md
+IMAGE_PATH = screenshots/
+RECURSIVE = YES
+FILE_PATTERNS = *.h *.hpp *.md *.png *.jpg *.svg
+EXTRACT_ALL = NO
+GENERATE_HTML = YES
