@@ -1,0 +1,140 @@
+\doxysection{fast\+\_\+triangle\+\_\+zbuffer.\+h}
+\hypertarget{fast__triangle__zbuffer_8h_source}{}\label{fast__triangle__zbuffer_8h_source}\index{include/utils/triangles/fast\_triangle\_zbuffer.h@{include/utils/triangles/fast\_triangle\_zbuffer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ BASE\_TRIANGLE\_DEPTH\_TEST}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ BASE\_TRIANGLE\_DEPTH\_TEST}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../swap.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../color.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../pixel.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../color\_palette.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ push}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ ignored\ "{}-\/Wpedantic"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00050\ \textcolor{keywordtype}{void}\ fast\_TriangleDepthTest(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{double}\ z1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{double}\ z2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ \textcolor{keywordtype}{double}\ z3,\ uint32\_t\ color)}
+\DoxyCodeLine{00051\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y2)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ swap\_values(x1,\ x2,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ swap\_values(y1,\ y2,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ swap\_values(z1,\ z2,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y3)}
+\DoxyCodeLine{00059\ \ \ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ swap\_values(x1,\ x3,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ swap\_values(y1,\ y3,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ swap\_values(z1,\ z3,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{if}\ (y2\ >\ y3)}
+\DoxyCodeLine{00065\ \ \ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ swap\_values(x2,\ x3,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ swap\_values(y2,\ y3,\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ swap\_values(z2,\ z3,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{comment}{//\ Triángulo\ superior}}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{double}\ DY\_AB\ =\ y2\ -\/\ y1;}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{double}\ DY\_AC\ =\ y3\ -\/\ y1;}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{double}\ DY\_BC\ =\ y3\ -\/\ y2;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{double}\ DX\_AB\ =\ x2\ -\/\ x1;}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{double}\ DX\_AC\ =\ x3\ -\/\ x1;}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{double}\ DX\_BC\ =\ x3\ -\/\ x2;}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{double}\ DZ\_AB\ =\ z2\ -\/\ z1;}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{double}\ DZ\_AC\ =\ z3\ -\/\ z1;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{double}\ DZ\_BC\ =\ z3\ -\/\ z2;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeLeftAB\ =\ DX\_AB\ /\ (DY\_AB\ +\ !DY\_AB);}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeLeftBC\ =\ DX\_BC\ /\ (DY\_BC\ +\ !DY\_BC);}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeRightAC\ =\ DX\_AC\ /\ (DY\_AC\ +\ !DY\_AC);}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeRightAC2\ =\ slopeRightAC;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeZLeftAB\ =\ DZ\_AB\ /\ (DY\_AB\ +\ !DY\_AB);}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeZLeftBC\ =\ DZ\_BC\ /\ (DY\_BC\ +\ !DY\_BC);}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeZRightAC\ =\ DZ\_AC\ /\ (DY\_AC\ +\ !DY\_AC);}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeZRightAC2\ =\ slopeZRightAC;}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordtype}{double}\ xLeft\ =\ x1,\ xRight\ =\ x1;}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{double}\ zLeft\ =\ z1,\ zRight\ =\ z1;}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (DY\_AB\ ==\ 0)}
+\DoxyCodeLine{00099\ \ \ \ \ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ xLeft\ =\ x2;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ zLeft\ =\ z2;}
+\DoxyCodeLine{00102\ \ \ \ \ \}}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{if}\ (slopeLeftAB\ >\ slopeRightAC)}
+\DoxyCodeLine{00105\ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ swap\_values(slopeLeftAB,\ slopeRightAC,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ swap\_values(slopeZLeftAB,\ slopeZRightAC,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (xRight\ <\ xLeft)}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ swap\_values(xLeft,\ xRight,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ swap\_values(zLeft,\ zRight,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(xLeft,\ y1,\ z1,\ color);}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{goto}\ first\_triangle\_iteration;}
+\DoxyCodeLine{00118\ top\_triangle:}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00120\ \ \ \ \ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ xLeft\ +=\ slopeLeftAB;}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ xRight\ +=\ slopeRightAC;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ zLeft\ +=\ slopeZLeftAB;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ zRight\ +=\ slopeZRightAC;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tempLeftX\ =\ xLeft;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tempZ\ =\ zLeft;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ DX\ =\ (xRight\ -\/\ xLeft);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ zSlope\ =\ (zRight\ -\/\ zLeft)\ /\ (DX\ +\ !DX);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ color);}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ RGB((\textcolor{keywordtype}{int})(GETR(CYAN\_500)\ *\ tempZ),\ (\textcolor{keywordtype}{int})(GETG(CYAN\_500)\ *\ tempZ),\ (\textcolor{keywordtype}{int})(GETB(CYAN\_500)\ *\ tempZ)));}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ RGB((int)(tempZ\ *\ 255),\ (int)(tempZ\ *\ 255),\ (int)(tempZ\ *\ 255)));}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ tempZ\ +=\ zSlope;}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++tempLeftX\ <=\ xRight);}
+\DoxyCodeLine{00138\ \ \ \ \ first\_triangle\_iteration:}
+\DoxyCodeLine{00139\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++y1\ <=\ y2);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ bottom\_triangle:}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (slopeLeftBC\ <\ slopeRightAC2)}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ swap\_values(slopeLeftBC,\ slopeRightAC2,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ swap\_values(slopeZLeftBC,\ slopeZRightAC2,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ y1\ =\ y2;}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00150\ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tempLeftX\ =\ xLeft;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tempZ\ =\ zLeft;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ DX\ =\ (xRight\ -\/\ xLeft);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ zSlope\ =\ (zRight\ -\/\ zLeft)\ /\ (DX\ +\ !DX);}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ RGB((int)(tempZ\ *\ 255),\ (int)(tempZ\ *\ 255),\ (int)(tempZ\ *\ 255)));}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ RGB((\textcolor{keywordtype}{int})(GETR(CYAN\_500)\ *\ tempZ),\ (\textcolor{keywordtype}{int})(GETG(CYAN\_500)\ *\ tempZ),\ (\textcolor{keywordtype}{int})(GETB(CYAN\_500)\ *\ tempZ)));}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ RGB((int)(tempZ\ *\ 255),\ 0,\ 0));}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ pixelDepthTest(tempLeftX,\ y1,\ tempZ,\ color);}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ tempZ\ +=\ zSlope;}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++tempLeftX\ <=\ xRight);}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ xLeft\ +=\ slopeLeftBC;}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ xRight\ +=\ slopeRightAC2;}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ zLeft\ +=\ slopeZLeftBC;}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ zRight\ +=\ slopeZRightAC2;}
+\DoxyCodeLine{00167\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++y1\ <\ y3);}
+\DoxyCodeLine{00168\ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#pragma\ GCC\ diagnostic\ pop}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

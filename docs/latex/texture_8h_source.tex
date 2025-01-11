@@ -1,0 +1,413 @@
+\doxysection{texture.\+h}
+\hypertarget{texture_8h_source}{}\label{texture_8h_source}\index{include/utils/texture.h@{include/utils/texture.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TEXTURE\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TEXTURE\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}image.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}raster.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fast__abs_8h}{fast\_math/fast\_abs.h}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__texture__}{\_tag\_texture\_}}}
+\DoxyCodeLine{00017\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ width;}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{int}\ height;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ totalPixels;}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ totalBytes;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ bytesPerPixel;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *pixels;}
+\DoxyCodeLine{00024\ \}\ Texture;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ fillTextureColor(texture,\ color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\ \ \ \ unsigned\ int\ *pixelIterator\ =\ (texture).pixels;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ unsigned\ int\ *endPixels\ =\ (texture).pixels\ +\ (texture).totalPixels;\ \(\backslash\)}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\ \ \ \ for\ (;\ pixelIterator\ <\ endPixels;\ ++pixelIterator)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ *pixelIterator\ =\ color;}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ Texture\ *createTexture(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ \textcolor{keywordtype}{int}\ bytesPerPixel,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ colorFill)}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ Texture\ *out\ =\ (Texture\ *)malloc(\textcolor{keyword}{sizeof}(Texture));}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (out\ ==\ NULL)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_create\_texture;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ out-\/>width\ =\ width;}
+\DoxyCodeLine{00040\ \ \ \ \ out-\/>height\ =\ height;}
+\DoxyCodeLine{00041\ \ \ \ \ out-\/>bytesPerPixel\ =\ bytesPerPixel;}
+\DoxyCodeLine{00042\ \ \ \ \ out-\/>totalPixels\ =\ width\ *\ height;}
+\DoxyCodeLine{00043\ \ \ \ \ out-\/>totalBytes\ =\ out-\/>totalPixels\ *\ bytesPerPixel;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ out-\/>pixels\ =\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ *)malloc(out-\/>totalBytes);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{if}\ (out-\/>pixels\ ==\ NULL)}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_create\_texture;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{goto}\ sucess\_create\_texture;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ fail\_create\_texture:}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (out)}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ free(out);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ sucess\_create\_texture:}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ fillTextureColor(*out,\ colorFill);}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ Texture\ *extractSubTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ height,\ Texture\ *src)}
+\DoxyCodeLine{00067\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (src\ ==\ NULL\ ||\ x\ >=\ src-\/>width\ ||\ y\ >=\ src-\/>height\ ||\ width\ <=\ 0\ ||\ height\ <=\ 0)}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_to\_extract\_texture\_slice;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ Texture\ *out\ =\ createTexture(width,\ height,\ 4,\ 0xFFFFFFFF);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (out\ ==\ NULL)}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_to\_extract\_texture\_slice;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ 0;\ Y\ <\ height;\ ++Y)}
+\DoxyCodeLine{00077\ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ 0;\ X\ <\ width;\ ++X)}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ txIndexSrc\ =\ ((Y\ +\ y)\ \%\ src-\/>height)\ *\ src-\/>width\ +\ ((x\ +\ X)\ \%\ src-\/>width);}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ txIndexDst\ =\ Y\ *\ width\ +\ X;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ out-\/>pixels[txIndexDst]\ =\ src-\/>pixels[txIndexSrc];}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ fail\_to\_extract\_texture\_slice:}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00090\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00109\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ Texture\ *texture)}
+\DoxyCodeLine{00110\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (!texture\ ||\ texture-\/>width\ <=\ 0\ ||\ texture-\/>height\ <=\ 0)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{int}\ width\ =\ texture-\/>width;}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{int}\ height\ =\ texture-\/>height;}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordtype}{int}\ x2\ =\ x\ +\ width;}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordtype}{int}\ y2\ =\ y\ +\ height;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ texture\ is\ within\ screen\ bounds}}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >=\ gScreenWidth\ ||\ y\ >=\ gScreenHeight\ ||\ x2\ <=\ 0\ ||\ y2\ <=\ 0)}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{comment}{//\ Calculate\ starting\ points\ in\ the\ texture\ and\ framebuffer}}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordtype}{int}\ tx\_start\ =\ (x\ <\ 0)\ ?\ -\/x\ :\ 0;}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{int}\ ty\_start\ =\ (y\ <\ 0)\ ?\ -\/y\ :\ 0;}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{int}\ fx\_start\ =\ (x\ <\ 0)\ ?\ 0\ :\ x;}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{int}\ fy\_start\ =\ (y\ <\ 0)\ ?\ 0\ :\ y;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordtype}{int}\ tx\_end\ =\ (x2\ >\ gScreenWidth)\ ?\ width\ -\/\ (x2\ -\/\ gScreenWidth)\ :\ width;}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordtype}{int}\ ty\_end\ =\ (y2\ >\ gScreenHeight)\ ?\ height\ -\/\ (y2\ -\/\ gScreenHeight)\ :\ height;}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{comment}{//\ Initialize\ pixel\ iterators}}
+\DoxyCodeLine{00133\ \ \ \ \ uint32\_t\ *texturePixelsIterator\ =\ \&texture-\/>pixels[ty\_start\ *\ width\ +\ tx\_start];}
+\DoxyCodeLine{00134\ \ \ \ \ uint32\_t\ *framebufferPixelsIterator\ =\ \&framebuffer[fy\_start\ *\ gScreenWidth\ +\ fx\_start];}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ row\ width\ to\ copy}}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{int}\ row\_width\ =\ tx\_end\ -\/\ tx\_start;}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00140\ \ \ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ uint32\_t\ *textureRowPixelsIterator\ =\ texturePixelsIterator;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ uint32\_t\ *framebufferRowPixelsIterator\ =\ framebufferPixelsIterator;}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ *framebufferRowPixelsIterator++\ =\ *textureRowPixelsIterator++;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (-\/-\/row\_width\ >\ 0);}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ texturePixelsIterator\ +=\ width;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ framebufferPixelsIterator\ +=\ gScreenWidth;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ row\_width\ =\ tx\_end\ -\/\ tx\_start;\ \textcolor{comment}{//\ Reset\ row\ width\ for\ the\ next\ row}}
+\DoxyCodeLine{00153\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (framebufferPixelsIterator\ <\ \&framebuffer[fy\_start\ *\ gScreenWidth\ +\ (ty\_end\ -\/\ ty\_start)\ *\ gScreenWidth]);}
+\DoxyCodeLine{00154\ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00173\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawScaledTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ Texture\ *texture,\ \textcolor{keywordtype}{int}\ targetWidth,\ \textcolor{keywordtype}{int}\ targetHeight)}
+\DoxyCodeLine{00174\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{if}\ (!texture\ ||\ texture-\/>width\ <=\ 0\ ||\ texture-\/>height\ <=\ 0\ ||\ targetWidth\ <=\ 0\ ||\ targetHeight\ <=\ 0)}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keywordtype}{int}\ x2\ =\ x\ +\ targetWidth;}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordtype}{int}\ y2\ =\ y\ +\ targetHeight;}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ texture\ is\ within\ screen\ bounds}}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >=\ gScreenWidth\ ||\ y\ >=\ gScreenHeight\ ||\ x2\ <=\ 0\ ||\ y2\ <=\ 0)}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ x\ >\ 0\ ?\ x\ :\ 0;}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordtype}{int}\ y1\ =\ y\ >\ 0\ ?\ y\ :\ 0;}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ x2\ =\ (x2\ <\ gScreenWidth)\ ?\ x2\ :\ gScreenWidth;}
+\DoxyCodeLine{00189\ \ \ \ \ y2\ =\ (y2\ <\ gScreenHeight)\ ?\ y2\ :\ gScreenHeight;}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordtype}{double}\ scaleX\ =\ (double)texture-\/>width\ /\ targetWidth;}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordtype}{double}\ scaleY\ =\ (double)texture-\/>height\ /\ targetHeight;}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordtype}{double}\ tx\_start\ =\ (x\ <\ 0)\ ?\ -\/x\ *\ scaleX\ :\ 0.0;}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordtype}{double}\ ty\_start\ =\ (y\ <\ 0)\ ?\ -\/y\ *\ scaleY\ :\ 0.0;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordtype}{double}\ txIterator\ =\ tx\_start;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordtype}{double}\ tyIterator\ =\ ty\_start;}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ y1;\ Y\ <\ y2;\ ++Y)}
+\DoxyCodeLine{00201\ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ txIterator\ =\ tx\_start;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ x1;\ X\ <\ x2;\ ++X)}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ txColor\ =\ texture-\/>pixels[(int)tyIterator\ *\ texture-\/>width\ +\ (\textcolor{keywordtype}{int})txIterator];}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ framebuffer[Y\ *\ gScreenWidth\ +\ X]\ =\ txColor;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ txIterator\ +=\ scaleX;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ tyIterator\ +=\ scaleY;}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+\DoxyCodeLine{00213\ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00232\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawBilinearScaledTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ Texture\ *texture,\ \textcolor{keywordtype}{int}\ targetWidth,\ \textcolor{keywordtype}{int}\ targetHeight)}
+\DoxyCodeLine{00233\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordflow}{if}\ (!texture\ ||\ texture-\/>width\ <=\ 0\ ||\ texture-\/>height\ <=\ 0\ ||\ targetWidth\ <=\ 0\ ||\ targetHeight\ <=\ 0)}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordtype}{int}\ x2\ =\ x\ +\ targetWidth;}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordtype}{int}\ y2\ =\ y\ +\ targetHeight;}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ texture\ is\ within\ screen\ bounds}}
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >=\ gScreenWidth\ ||\ y\ >=\ gScreenHeight\ ||\ x2\ <=\ 0\ ||\ y2\ <=\ 0)}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ x\ >\ 0\ ?\ x\ :\ 0;}
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keywordtype}{int}\ y1\ =\ y\ >\ 0\ ?\ y\ :\ 0;}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ x2\ =\ (x2\ <\ gScreenWidth)\ ?\ x2\ :\ gScreenWidth;}
+\DoxyCodeLine{00248\ \ \ \ \ y2\ =\ (y2\ <\ gScreenHeight)\ ?\ y2\ :\ gScreenHeight;}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordtype}{double}\ scaleX\ =\ (double)texture-\/>width\ /\ targetWidth;}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordtype}{double}\ scaleY\ =\ (double)texture-\/>height\ /\ targetHeight;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ y1;\ Y\ <\ y2;\ ++Y)}
+\DoxyCodeLine{00254\ \ \ \ \ \{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ texture\ Y\ coordinate}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ ty\ =\ (Y\ -\/\ y)\ *\ scaleY;}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ty1\ =\ (int)ty;}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ ty2\ =\ ty1\ +\ 1;}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ dy\ =\ ty\ -\/\ ty1;}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ty1\ <\ 0)}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ ty1\ =\ 0;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ty2\ >=\ texture-\/>height)}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ ty2\ =\ texture-\/>height\ -\/\ 1;}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ x1;\ X\ <\ x2;\ ++X)}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ texture\ X\ coordinate}}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ tx\ =\ (X\ -\/\ x)\ *\ scaleX;}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ tx1\ =\ (int)tx;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ tx2\ =\ tx1\ +\ 1;}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ dx\ =\ tx\ -\/\ tx1;}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tx1\ <\ 0)}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tx1\ =\ 0;}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tx2\ >=\ texture-\/>width)}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tx2\ =\ texture-\/>width\ -\/\ 1;}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Get\ the\ four\ surrounding\ pixels}}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ c00\ =\ texture-\/>pixels[ty1\ *\ texture-\/>width\ +\ tx1];}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ c01\ =\ texture-\/>pixels[ty1\ *\ texture-\/>width\ +\ tx2];}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ c10\ =\ texture-\/>pixels[ty2\ *\ texture-\/>width\ +\ tx1];}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ c11\ =\ texture-\/>pixels[ty2\ *\ texture-\/>width\ +\ tx2];}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Decompose\ colors\ into\ RGB\ components}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ r00\ =\ (c00\ >>\ 16)\ \&\ 0xFF;}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ g00\ =\ (c00\ >>\ 8)\ \&\ 0xFF;}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ b00\ =\ c00\ \&\ 0xFF;}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ r01\ =\ (c01\ >>\ 16)\ \&\ 0xFF;}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ g01\ =\ (c01\ >>\ 8)\ \&\ 0xFF;}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ b01\ =\ c01\ \&\ 0xFF;}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ r10\ =\ (c10\ >>\ 16)\ \&\ 0xFF;}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ g10\ =\ (c10\ >>\ 8)\ \&\ 0xFF;}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ b10\ =\ c10\ \&\ 0xFF;}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ r11\ =\ (c11\ >>\ 16)\ \&\ 0xFF;}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ g11\ =\ (c11\ >>\ 8)\ \&\ 0xFF;}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ b11\ =\ c11\ \&\ 0xFF;}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Interpolate\ between\ the\ four\ surrounding\ pixels}}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ rX1\ =\ (uint8\_t)(r00\ +\ (r01\ -\/\ r00)\ *\ dx);}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ gX1\ =\ (uint8\_t)(g00\ +\ (g01\ -\/\ g00)\ *\ dx);}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ bX1\ =\ (uint8\_t)(b00\ +\ (b01\ -\/\ b00)\ *\ dx);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ rX2\ =\ (uint8\_t)(r10\ +\ (r11\ -\/\ r10)\ *\ dx);}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ gX2\ =\ (uint8\_t)(g10\ +\ (g11\ -\/\ g10)\ *\ dx);}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ bX2\ =\ (uint8\_t)(b10\ +\ (b11\ -\/\ b10)\ *\ dx);}
+\DoxyCodeLine{00310\ }
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ rFinal\ =\ (uint8\_t)(rX1\ +\ (rX2\ -\/\ rX1)\ *\ dy);}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ gFinal\ =\ (uint8\_t)(gX1\ +\ (gX2\ -\/\ gX1)\ *\ dy);}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ bFinal\ =\ (uint8\_t)(bX1\ +\ (bX2\ -\/\ bX1)\ *\ dy);}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Reassemble\ the\ color\ into\ a\ uint32\_t}}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ finalColor\ =\ (rFinal\ <<\ 16)\ |\ (gFinal\ <<\ 8)\ |\ bFinal;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ framebuffer[Y\ *\ gScreenWidth\ +\ X]\ =\ finalColor;}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00320\ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \}}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00343\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawSubTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{int}\ srcX,\ \textcolor{keywordtype}{int}\ srcY,\ \textcolor{keywordtype}{int}\ subWidth,\ \textcolor{keywordtype}{int}\ subHeight,\ Texture\ *texture)}
+\DoxyCodeLine{00344\ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordflow}{if}\ (!texture\ ||\ subWidth\ <=\ 0\ ||\ subHeight\ <=\ 0\ ||\ srcX\ >=\ texture-\/>width\ ||\ srcY\ >=\ texture-\/>height)}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00347\ }
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordtype}{int}\ x2\ =\ x\ +\ subWidth;}
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordtype}{int}\ y2\ =\ y\ +\ subHeight;}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ subtexture\ is\ within\ screen\ bounds}}
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >=\ gScreenWidth\ ||\ y\ >=\ gScreenHeight\ ||\ x2\ <=\ 0\ ||\ y2\ <=\ 0)}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{comment}{//\ Calculate\ starting\ points\ in\ the\ subtexture\ and\ framebuffer}}
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordtype}{int}\ tx\_start\ =\ (x\ <\ 0)\ ?\ -\/x\ :\ 0;}
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordtype}{int}\ ty\_start\ =\ (y\ <\ 0)\ ?\ -\/y\ :\ 0;}
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordtype}{int}\ fx\_start\ =\ (x\ <\ 0)\ ?\ 0\ :\ x;}
+\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordtype}{int}\ fy\_start\ =\ (y\ <\ 0)\ ?\ 0\ :\ y;}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordtype}{int}\ tx\_end\ =\ (x2\ >\ gScreenWidth)\ ?\ subWidth\ -\/\ (x2\ -\/\ gScreenWidth)\ :\ subWidth;}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordtype}{int}\ ty\_end\ =\ (y2\ >\ gScreenHeight)\ ?\ subHeight\ -\/\ (y2\ -\/\ gScreenHeight)\ :\ subHeight;}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{comment}{//\ Initialize\ pixel\ iterators}}
+\DoxyCodeLine{00365\ \ \ \ \ uint32\_t\ *texturePixelsIterator\ =\ \&texture-\/>pixels[(ty\_start\ +\ srcY)\ *\ texture-\/>width\ +\ (tx\_start\ +\ srcX)];}
+\DoxyCodeLine{00366\ \ \ \ \ uint32\_t\ *framebufferPixelsIterator\ =\ \&framebuffer[fy\_start\ *\ gScreenWidth\ +\ fx\_start];}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ row\ width\ to\ copy}}
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordtype}{int}\ row\_width\ =\ tx\_end\ -\/\ tx\_start;}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00372\ \ \ \ \ \{}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ uint32\_t\ *textureRowPixelsIterator\ =\ texturePixelsIterator;}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ uint32\_t\ *framebufferRowPixelsIterator\ =\ framebufferPixelsIterator;}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ *framebufferRowPixelsIterator++\ =\ *textureRowPixelsIterator++;}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (-\/-\/row\_width\ >\ 0);}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ texturePixelsIterator\ +=\ texture-\/>width;}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ framebufferPixelsIterator\ +=\ gScreenWidth;}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ row\_width\ =\ tx\_end\ -\/\ tx\_start;\ \textcolor{comment}{//\ Reset\ row\ width\ for\ the\ next\ row}}
+\DoxyCodeLine{00385\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (framebufferPixelsIterator\ <\ \&framebuffer[fy\_start\ *\ gScreenWidth\ +\ (ty\_end\ -\/\ ty\_start)\ *\ gScreenWidth]);}
+\DoxyCodeLine{00386\ \}}
+\DoxyCodeLine{00387\ }
+\DoxyCodeLine{00408\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawScaledSubTexture(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ Texture\ *srcTexture,\ \textcolor{keywordtype}{int}\ subX,\ \textcolor{keywordtype}{int}\ subY,\ \textcolor{keywordtype}{int}\ subWidth,\ \textcolor{keywordtype}{int}\ subHeight,\ \textcolor{keywordtype}{int}\ targetWidth,\ \textcolor{keywordtype}{int}\ targetHeight)}
+\DoxyCodeLine{00409\ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \textcolor{keywordflow}{if}\ (!srcTexture\ ||\ subWidth\ <=\ 0\ ||\ subHeight\ <=\ 0\ ||\ targetWidth\ <=\ 0\ ||\ targetHeight\ <=\ 0)}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \ \ \ \ uint32\_t\ *srcPixels\ =\ srcTexture-\/>pixels;}
+\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordtype}{int}\ srcTextureWidth\ =\ srcTexture-\/>width;}
+\DoxyCodeLine{00415\ \ \ \ \ \textcolor{keywordtype}{int}\ srcTextureHeight\ =\ srcTexture-\/>height;}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{comment}{//\ Calculate\ scaling\ factors}}
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordtype}{float}\ xScale\ =\ (float)subWidth\ /\ targetWidth;}
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordtype}{float}\ yScale\ =\ (float)subHeight\ /\ targetHeight;}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ ty\ =\ 0;\ ty\ <\ targetHeight;\ ++ty)}
+\DoxyCodeLine{00422\ \ \ \ \ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ tx\ =\ 0;\ tx\ <\ targetWidth;\ ++tx)}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ srcX\ =\ subX\ +\ (int)(tx\ *\ xScale);}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ srcY\ =\ subY\ +\ (int)(ty\ *\ yScale);}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srcX\ >=\ subX\ +\ subWidth)}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srcX\ =\ subX\ +\ subWidth\ -\/\ 1;}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srcY\ >=\ subY\ +\ subHeight)}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srcY\ =\ subY\ +\ subHeight\ -\/\ 1;}
+\DoxyCodeLine{00432\ }
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ color\ =\ srcPixels[srcY\ *\ srcTextureWidth\ +\ srcX];}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ framebuffer[(y\ +\ ty)\ *\ gCorrectPixelsWidth\ +\ (x\ +\ tx)]\ =\ color;}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00436\ \ \ \ \ \}}
+\DoxyCodeLine{00437\ \}}
+\DoxyCodeLine{00438\ }
+\DoxyCodeLine{00461\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawScaledSubTextureWithClearColorMask(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ Texture\ *srcTexture,\ \textcolor{keywordtype}{int}\ subX,\ \textcolor{keywordtype}{int}\ subY,\ \textcolor{keywordtype}{int}\ subWidth,\ \textcolor{keywordtype}{int}\ subHeight,\ \textcolor{keywordtype}{int}\ targetWidth,\ \textcolor{keywordtype}{int}\ targetHeight,\ uint32\_t\ clearColorMask)}
+\DoxyCodeLine{00462\ \{}
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordflow}{if}\ (!srcTexture\ ||\ subWidth\ <=\ 0\ ||\ subHeight\ <=\ 0\ ||\ targetWidth\ <=\ 0\ ||\ targetHeight\ <=\ 0)}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00465\ }
+\DoxyCodeLine{00466\ \ \ \ \ uint32\_t\ *srcPixels\ =\ srcTexture-\/>pixels;}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordtype}{int}\ srcTextureWidth\ =\ srcTexture-\/>width;}
+\DoxyCodeLine{00468\ \ \ \ \ \textcolor{keywordtype}{int}\ srcTextureHeight\ =\ srcTexture-\/>height;}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ \textcolor{comment}{//\ Calculate\ scaling\ factors}}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordtype}{float}\ xScale\ =\ (float)subWidth\ /\ targetWidth;}
+\DoxyCodeLine{00472\ \ \ \ \ \textcolor{keywordtype}{float}\ yScale\ =\ (float)subHeight\ /\ targetHeight;}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ ty\ =\ 0;\ ty\ <\ targetHeight;\ ++ty)}
+\DoxyCodeLine{00475\ \ \ \ \ \{}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ tx\ =\ 0;\ tx\ <\ targetWidth;\ ++tx)}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ srcX\ =\ subX\ +\ (int)(tx\ *\ xScale);}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ srcY\ =\ subY\ +\ (int)(ty\ *\ yScale);}
+\DoxyCodeLine{00480\ }
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srcX\ >=\ subX\ +\ subWidth)}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srcX\ =\ subX\ +\ subWidth\ -\/\ 1;}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (srcY\ >=\ subY\ +\ subHeight)}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ srcY\ =\ subY\ +\ subHeight\ -\/\ 1;}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ color\ =\ srcPixels[srcY\ *\ srcTextureWidth\ +\ srcX];}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (color\ ==\ clearColorMask)}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ framebuffer[(y\ +\ ty)\ *\ gCorrectPixelsWidth\ +\ (x\ +\ tx)]\ =\ color;}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00492\ \ \ \ \ \}}
+\DoxyCodeLine{00493\ \}}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ Texture\ *loadTextureFromImageFile(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00496\ \{}
+\DoxyCodeLine{00497\ \ \ \ \ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *imageRaster\ =\ loadBMP(filename);}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{keywordflow}{if}\ (imageRaster\ ==\ NULL)}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ Texture\ *out\ =\ createTexture(imageRaster-\/>width,\ imageRaster-\/>height,\ 4,\ 0x00000000);}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ memcpy(out-\/>pixels,\ imageRaster-\/>pixels,\ out-\/>totalBytes);}
+\DoxyCodeLine{00505\ }
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00507\ \}}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \textcolor{keywordtype}{void}\ releaseTextureResources(Texture\ *texture)}
+\DoxyCodeLine{00510\ \{}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{if}\ (texture\ ==\ NULL)}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00513\ }
+\DoxyCodeLine{00514\ \ \ \ \ \textcolor{keywordflow}{if}\ (texture-\/>pixels)}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ free(texture-\/>pixels);}
+\DoxyCodeLine{00516\ }
+\DoxyCodeLine{00517\ \ \ \ \ free(texture);}
+\DoxyCodeLine{00518\ \}}
+\DoxyCodeLine{00519\ }
+\DoxyCodeLine{00520\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

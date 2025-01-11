@@ -1,0 +1,73 @@
+\doxysection{font.\+h}
+\hypertarget{font_8h_source}{}\label{font_8h_source}\index{include/utils/font.h@{include/utils/font.h}}
+\mbox{\hyperlink{font_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ FONT}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ FONT}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <stdarg.h>}\ \ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <string.h>}\ \ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ }
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}../utils/pixel.h"{}}\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{const}\ uint8\_t\ \mbox{\hyperlink{font_8h_a7afd9187225b5fef7285bb93718e67de}{font\_data}}[256\ *\ 8]\ =\ \{}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ "{}font\_data/font\_bitmap\_table.data"{}}\ }
+\DoxyCodeLine{00021\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{font_8h_a3d10aeaf5c5074539fd5cb26c305d995}{drawChar}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{char}\ asciiCode,\ uint32\_t\ color)}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keyword}{const}\ uint8\_t\ *charBitmap\ =\ \&\mbox{\hyperlink{font_8h_a7afd9187225b5fef7285bb93718e67de}{font\_data}}[asciiCode\ <<\ 3];\ }
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ 0;\ Y\ <\ 8;\ ++Y)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ uint8\_t\ bitRow\ =\ charBitmap[Y];\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ 0;\ X\ <\ 8;\ ++X)}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ onDrawPixel\ ((bitRow\ >>\ X)\ \&\ 1)\ }}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (onDrawPixel)}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel(x\ +\ X,\ y\ +\ Y,\ color);\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{font_8h_a156c5fea40e8a188196d29a80ba0035e}{drawText}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{char}\ *text,\ uint32\_t\ color)}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{char}\ *c\ =\ text;\ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ X\ =\ x;\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ Y\ =\ y;\ }
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{while}\ (*c)}
+\DoxyCodeLine{00071\ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (*c\ ==\ \textcolor{charliteral}{'\(\backslash\)n'})}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ X\ =\ x;\ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ Y\ +=\ 12;\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ ++c;\ \ \ \ \ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{font_8h_a3d10aeaf5c5074539fd5cb26c305d995}{drawChar}}(X,\ Y,\ *c,\ color);\ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ X\ +=\ 8;\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ ++c;\ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00099\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{font_8h_ab043c1bbdea372c2f13bbbd8c4de9b40}{drawFormattedText}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ uint32\_t\ color,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...)}
+\DoxyCodeLine{00100\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[1024]\ =\ \{0\};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00102\ \ \ \ \ va\_list\ args;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00103\ \ \ \ \ va\_start(args,\ format);\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00104\ \ \ \ \ vsprintf(buffer,\ format,\ args);\ }
+\DoxyCodeLine{00105\ \ \ \ \ va\_end(args);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00106\ \ \ \ \ \mbox{\hyperlink{font_8h_a156c5fea40e8a188196d29a80ba0035e}{drawText}}(x,\ y,\ buffer,\ color);\ \ }
+\DoxyCodeLine{00107\ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,168 @@
+\doxysection{event\+\_\+manager.\+h}
+\hypertarget{event__manager_8h_source}{}\label{event__manager_8h_source}\index{include/core/managers/event\_manager.h@{include/core/managers/event\_manager.h}}
+\mbox{\hyperlink{event__manager_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EVENT\_MANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EVENT\_MANAGER\_H}\textcolor{preprocessor}{}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <string.h>}\ \ \textcolor{comment}{//\ For\ memset}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <stdlib.h>}\ \ \textcolor{comment}{//\ For\ malloc,\ free}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \textcolor{comment}{//\ For\ bool\ type}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \ \textcolor{comment}{//\ For\ fputs}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <stdint.h>}\ \ \textcolor{comment}{//\ For\ uint32\_t}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ void\ (*listener)();\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pointer\ to\ the\ event\ handler\ function}}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *next;\ \textcolor{comment}{//\ Pointer\ to\ the\ next\ node\ in\ the\ list}}
+\DoxyCodeLine{00029\ \}\ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ **listeners\_lists;\ \textcolor{comment}{//\ Array\ of\ pointers\ to\ lists\ of\ event\ listeners}}
+\DoxyCodeLine{00041\ \ \ \ \ uint32\_t\ listsCount;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Number\ of\ lists\ in\ the\ array}}
+\DoxyCodeLine{00042\ \}\ \mbox{\hyperlink{structEventManager}{EventManager}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00054\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager,\ uint32\_t\ maxPossibleListenerLists)}
+\DoxyCodeLine{00055\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordflow}{if}\ (manager\ ==\ NULL)}
+\DoxyCodeLine{00057\ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ EventManager\ is\ NULL!\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ manager-\/>listsCount\ =\ maxPossibleListenerLists;}
+\DoxyCodeLine{00063\ \ \ \ \ manager-\/>listeners\_lists\ =\ (\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ **)malloc(maxPossibleListenerLists\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *));}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{if}\ (manager-\/>listeners\_lists\ ==\ NULL)}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ allocate\ memory\ space\ for\ listeners\ lists!\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{comment}{//\ Clear\ memory\ for\ listener\ lists\ to\ avoid\ garbage\ values}}
+\DoxyCodeLine{00072\ \ \ \ \ memset(manager-\/>listeners\_lists,\ 0,\ maxPossibleListenerLists\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *));}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00075\ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00086\ \mbox{\hyperlink{structEventManager}{EventManager}}\ *\mbox{\hyperlink{event__manager_8h_ac43adaf2dfeb23799adf5283602def12}{createEventManager}}(uint32\_t\ maxPossibleListenerLists)}
+\DoxyCodeLine{00087\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \mbox{\hyperlink{structEventManager}{EventManager}}\ *manager\ =\ (\mbox{\hyperlink{structEventManager}{EventManager}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structEventManager}{EventManager}}));}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(manager,\ maxPossibleListenerLists);}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{return}\ manager;}
+\DoxyCodeLine{00093\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00106\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_a640bb9f486c228a8254c32fd55421ce6}{addEventListener}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ (*listener)())}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (!manager\ ||\ !manager-\/>listeners\_lists\ ||\ key\ >=\ manager-\/>listsCount\ ||\ listener\ ==\ NULL)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *newListener\ =\ (\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}));}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordflow}{if}\ (newListener\ ==\ NULL)}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ newListener-\/>listener\ =\ listener;}
+\DoxyCodeLine{00117\ \ \ \ \ newListener-\/>next\ =\ manager-\/>listeners\_lists[key];}
+\DoxyCodeLine{00118\ \ \ \ \ manager-\/>listeners\_lists[key]\ =\ newListener;}
+\DoxyCodeLine{00119\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00120\ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_a7f94fc19c52a19b0d664fc68be67e186}{removeEventListener}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager,\ uint32\_t\ key,\ \textcolor{keywordtype}{void}\ (*listener)())}
+\DoxyCodeLine{00134\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (!manager\ ||\ !manager-\/>listeners\_lists\ ||\ key\ >=\ manager-\/>listsCount\ ||\ listener\ ==\ NULL)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *current\ =\ manager-\/>listeners\_lists[key];}
+\DoxyCodeLine{00139\ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *previous\ =\ NULL;}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00142\ \ \ \ \ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current-\/>listener\ ==\ listener)}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\ ==\ NULL)}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manager-\/>listeners\_lists[key]\ =\ current-\/>next;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>next\ =\ current-\/>next;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ memset(current,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}));}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ free(current);}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ previous\ =\ current;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ current\ =\ current-\/>next;}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00158\ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00170\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_aa8191ebbd1e558217bfc63c0f1e3b81f}{clearEventListeners}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager,\ uint32\_t\ key)}
+\DoxyCodeLine{00171\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{if}\ (key\ >=\ manager-\/>listsCount)}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *current\ =\ manager-\/>listeners\_lists[key];}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00178\ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *toFree\ =\ current;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ current\ =\ current-\/>next;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ memset(toFree,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}));\ \textcolor{comment}{//\ Clear\ memory\ before\ free}}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ free(toFree);}
+\DoxyCodeLine{00183\ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ manager-\/>listeners\_lists[key]\ =\ NULL;}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00198\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_a4ea524a464f810a40b2eff9cd9412313}{clearAllEventListeners}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager)}
+\DoxyCodeLine{00199\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordflow}{for}\ (uint32\_t\ key\ =\ 0;\ key\ <\ manager-\/>listsCount;\ ++key)}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{event__manager_8h_aa8191ebbd1e558217bfc63c0f1e3b81f}{clearEventListeners}}(manager,\ key);}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00204\ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00221\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\mbox{\hyperlink{structEventManager}{EventManager}}\ *manager,\ \textcolor{keywordtype}{bool}\ isStackElement)}
+\DoxyCodeLine{00222\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ uint32\_t\ maxPossibleListenerLists\ =\ manager-\/>listsCount;}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordflow}{if}\ (manager\ ==\ NULL)}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \textcolor{comment}{//\ already\ is\ free}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ listListenerIndex\ =\ 0;\ listListenerIndex\ <\ manager-\/>listsCount;\ ++listListenerIndex)}
+\DoxyCodeLine{00229\ \ \ \ \ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *current\ =\ manager-\/>listeners\_lists[listListenerIndex];}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *toFree\ =\ current;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\ =\ current-\/>next;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ memset(toFree,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}));\ \textcolor{comment}{//\ clear\ memory\ before\ free}}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ free(toFree);}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (current\ !=\ NULL);}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00242\ \ \ \ \ \}}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ memset(manager,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structEventManager}{EventManager}}));}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{if}\ (!isStackElement)}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ free(manager);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00250\ \}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ triggerEvent(manager,\ key)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\ \ \ \ NodeEventListener\ *nodeListener\ =\ manager.listeners\_lists[key];\ \(\backslash\)}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\ \ \ \ while\ (nodeListener)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ nodeListener-\/>listener();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ nodeListener\ =\ nodeListener-\/>next;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,214 @@
+\doxysection{wavefront\+\_\+obj.\+h}
+\hypertarget{wavefront__obj_8h_source}{}\label{wavefront__obj_8h_source}\index{include/utils/wavefront\_obj.h@{include/utils/wavefront\_obj.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WAVEFRONT\_OBJ\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WAVEFRONT\_OBJ\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}3DEngine/mesh.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}3DEngine/material.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}3DEngine/vectorial\_3D.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}3DEngine/linear\_lists/vertex\_linear\_list.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}3DEngine/linear\_lists/vertex\_texture\_linear\_list.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}3DEngine/linear\_lists/vertex\_normal\_list.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}3DEngine/linear\_lists/mesh\_linear\_list.h"{}}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}3DEngine/linear\_lists/face\_linear\_list.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ MAX\_BUFFER\_LINE\ 1024}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ packTwoChars(a,\ b)\ (((int)(b)\ <<\ 8)\ |\ (int)(a))}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{/*\ Key\ definitions\ for\ identifying\ line\ types\ in\ the\ OBJ\ file\ */}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ KEY\_READ\_MTLLIB\_LINE\ packTwoChars('m',\ 't')\ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ KEY\_READ\_OBJECT\_LINE\ packTwoChars('o',\ '\ ')\ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ KEY\_READ\_VERTEX\_LINE\ packTwoChars('v',\ '\ ')\ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ KEY\_READ\_VERTEX\_TEXTURE\_LINE\ packTwoChars('v',\ 't')\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ KEY\_READ\_VERTEX\_NORMAL\_LINE\ packTwoChars('v',\ 'n')\ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ KEY\_READ\_FACE\_LINE\ packTwoChars('f',\ '\ ')\ \ \ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ KEY\_READ\_SMOOTHMODE\_LINE\ packTwoChars('s',\ '\ ')\ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ KEY\_READ\_USE\_MTL\_LINE\ packTwoChars('u',\ 's')\ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00051\ \textcolor{keywordtype}{void}\ parseVertexLine(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *vertices,\ \textcolor{keywordtype}{char}\ *line)}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ vertex\ =\ \{0,\ 0,\ 0\};}
+\DoxyCodeLine{00054\ \ \ \ \ sscanf(line,\ \textcolor{stringliteral}{"{}v\ \%lf\ \%lf\ \%lf"{}},\ \&vertex.x,\ \&vertex.y,\ \&vertex.z);}
+\DoxyCodeLine{00055\ \ \ \ \ addVertex(vertices,\ vertex);}
+\DoxyCodeLine{00056\ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ parseVertexTextureLine(\mbox{\hyperlink{structVertexTextureLinearList}{VertexTextureLinearList}}\ *verticesTexture,\ \textcolor{keywordtype}{char}\ *line)}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vertexTexture\ =\ \{0,\ 0\};}
+\DoxyCodeLine{00067\ \ \ \ \ sscanf(line,\ \textcolor{stringliteral}{"{}vt\ \%lf\ \%lf"{}},\ \&vertexTexture.x,\ \&vertexTexture.y);\ \textcolor{comment}{//\ read\ UV}}
+\DoxyCodeLine{00068\ \ \ \ \ addVertexTexture(verticesTexture,\ vertexTexture);}
+\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00077\ \textcolor{keywordtype}{void}\ parseVertexNormalLine(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *normals,\ \textcolor{keywordtype}{char}\ *line)}
+\DoxyCodeLine{00078\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ normal\ =\ \{0,\ 0,\ 0\};}
+\DoxyCodeLine{00080\ \ \ \ \ sscanf(line,\ \textcolor{stringliteral}{"{}vn\ \%lf\ \%lf\ \%lf"{}},\ \&normal.x,\ \&normal.y,\ \&normal.z);}
+\DoxyCodeLine{00081\ \ \ \ \ addVertexNormal(normals,\ normal);}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00090\ \textcolor{keywordtype}{void}\ parseObjectLine(Mesh3D\ *currentMesh,\ \textcolor{keywordtype}{char}\ *line)}
+\DoxyCodeLine{00091\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ sscanf(line,\ \textcolor{stringliteral}{"{}o\ \%s"{}},\ currentMesh-\/>name);}
+\DoxyCodeLine{00093\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00110\ \textcolor{keywordtype}{void}\ addFaceToList(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *faces,\ \textcolor{keywordtype}{int}\ v1,\ \textcolor{keywordtype}{int}\ vt1,\ \textcolor{keywordtype}{int}\ vn1,\ \textcolor{keywordtype}{int}\ v2,\ \textcolor{keywordtype}{int}\ vt2,\ \textcolor{keywordtype}{int}\ vn2,\ \textcolor{keywordtype}{int}\ v3,\ \textcolor{keywordtype}{int}\ vt3,\ \textcolor{keywordtype}{int}\ vn3,\ \textcolor{keywordtype}{int}\ materialIndex)}
+\DoxyCodeLine{00111\ \{}
+\DoxyCodeLine{00112\ \ \ \ \ FaceIndices\ face\ =\ \{v1,\ vn1,\ vt1,\ v2,\ vn2,\ vt2,\ v3,\ vn3,\ vt3,\ materialIndex\};}
+\DoxyCodeLine{00113\ \ \ \ \ addFace(faces,\ face);}
+\DoxyCodeLine{00114\ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00122\ \textcolor{keywordtype}{void}\ parseFaceLine(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *faces,\ \textcolor{keywordtype}{char}\ *line)}
+\DoxyCodeLine{00123\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{comment}{//\ Temporary\ variables\ for\ parsing}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordtype}{int}\ v[10],\ vt[10],\ vn[10];}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{int}\ numVertices\ =\ 0;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{comment}{//\ Initialize\ arrays\ to\ -\/1\ (indicating\ no\ texture\ or\ normal)}}
+\DoxyCodeLine{00129\ \ \ \ \ memset(v,\ -\/1,\ \textcolor{keyword}{sizeof}(v));}
+\DoxyCodeLine{00130\ \ \ \ \ memset(vt,\ -\/1,\ \textcolor{keyword}{sizeof}(vt));}
+\DoxyCodeLine{00131\ \ \ \ \ memset(vn,\ -\/1,\ \textcolor{keyword}{sizeof}(vn));}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{comment}{//\ Read\ face\ data}}
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordtype}{char}\ *token\ =\ strtok(line,\ \textcolor{stringliteral}{"{}\ "{}});}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (!token\ ||\ strcmp(token,\ \textcolor{stringliteral}{"{}f"{}})\ !=\ 0)}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Not\ a\ face\ line}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{while}\ ((token\ =\ strtok(NULL,\ \textcolor{stringliteral}{"{}\ "{}}))\ !=\ NULL)}
+\DoxyCodeLine{00139\ \ \ \ \ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ vi\ =\ 0,\ vti\ =\ 0,\ vni\ =\ 0;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (sscanf(token,\ \textcolor{stringliteral}{"{}\%d/\%d/\%d"{}},\ \&vi,\ \&vti,\ \&vni)\ ==\ 3)}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (sscanf(token,\ \textcolor{stringliteral}{"{}\%d/\%d"{}},\ \&vi,\ \&vti)\ ==\ 2)}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (sscanf(token,\ \textcolor{stringliteral}{"{}\%d//\%d"{}},\ \&vi,\ \&vni)\ ==\ 2)}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (sscanf(token,\ \textcolor{stringliteral}{"{}\%d"{}},\ \&vi)\ ==\ 1)}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ v[numVertices]\ =\ vi\ -\/\ 1;}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ vt[numVertices]\ =\ vti\ -\/\ 1;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ vn[numVertices]\ =\ vni\ -\/\ 1;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ numVertices++;}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ addFaceToList(faces,\ v[0],\ vt[0],\ vn[0],\ v[1],\ vt[1],\ vn[1],\ v[1\ +\ 1],\ vt[1\ +\ 1],\ vn[1\ +\ 1],\ -\/1);}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{//\ Triangulate\ face\ if\ more\ than\ 3\ vertices}}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{comment}{//\ if\ (numVertices\ >=\ 3)}}
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{comment}{//\ for\ (int\ i\ =\ 1;\ i\ <\ numVertices\ -\/\ 1;\ ++i)}}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{comment}{//\ \{}}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{comment}{//\ Create\ a\ triangle\ from\ vertices\ 0,\ i,\ and\ i+1}}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{comment}{//\ addFaceToList(faces,\ v[0],\ vt[0],\ vn[0],\ v[i],\ vt[i],\ vn[i],\ v[i\ +\ 1],\ vt[i\ +\ 1],\ vn[i\ +\ 1],\ -\/1);}}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00171\ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ UPDATE\_AND\_RESET\_MESH(currentMesh,\ meshes,\ faces)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ if\ ((currentMesh)\ !=\ NULL\ \&\&\ (faces)-\/>countFaces\ >\ 0)\ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (currentMesh)-\/>facesIndices\ =\ convertFaceListToArray(faces);\ \(\backslash\)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (currentMesh)-\/>facesCount\ =\ (faces)-\/>countFaces;\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ addMesh((meshes),\ *(currentMesh));\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ freeFaceLinearList(faces);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ free(currentMesh);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ (currentMesh)\ =\ NULL;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ (0)}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00201\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ MeshGroup\ *readWavefrontObj(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00202\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{if}\ (filename\ ==\ NULL)}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ FILE\ *objFile\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}r"{}});}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{if}\ (objFile\ ==\ NULL)}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \ \ \ \ \mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *vertices\ =\ createVertexLinearList();}
+\DoxyCodeLine{00212\ \ \ \ \ \mbox{\hyperlink{structVertexTextureLinearList}{VertexTextureLinearList}}\ *verticesTexture\ =\ createVertexTextureLinearList();}
+\DoxyCodeLine{00213\ \ \ \ \ \mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *normals\ =\ createVertexNormalLinearList();}
+\DoxyCodeLine{00214\ \ \ \ \ \mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *faces\ =\ createFaceLinearList();}
+\DoxyCodeLine{00215\ \ \ \ \ \mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *meshes\ =\ createMeshLinearList();}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ Mesh3D\ *currentMesh\ =\ createMesh();\ \textcolor{comment}{//\ Create\ mesh\ by\ default\ if\ there\ is\ not\ o\ in\ file}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ MeshGroup\ *meshGroup\ =\ createEmptyMeshGroup();}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordtype}{char}\ currentFileLine[MAX\_BUFFER\_LINE]\ =\ \{0\};}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{while}\ (fgets(currentFileLine,\ MAX\_BUFFER\_LINE,\ objFile)\ !=\ NULL)}
+\DoxyCodeLine{00224\ \ \ \ \ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ uint16\_t\ lineKeyValue\ =\ *(uint16\_t\ *)currentFileLine;}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (lineKeyValue)}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ KEY\_READ\_VERTEX\_LINE:}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ parseVertexLine(vertices,\ currentFileLine);}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ KEY\_READ\_VERTEX\_TEXTURE\_LINE:}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ parseVertexTextureLine(verticesTexture,\ currentFileLine);}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ KEY\_READ\_VERTEX\_NORMAL\_LINE:}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ parseVertexNormalLine(normals,\ currentFileLine);}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ KEY\_READ\_FACE\_LINE:}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ parseFaceLine(faces,\ currentFileLine);}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ KEY\_READ\_OBJECT\_LINE:}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ UPDATE\_AND\_RESET\_MESH(currentMesh,\ meshes,\ faces);}
+\DoxyCodeLine{00243\ }
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ faces\ =\ createFaceLinearList();}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ currentMesh\ =\ createMesh();}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ parseObjectLine(currentMesh,\ currentFileLine);}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00251\ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ UPDATE\_AND\_RESET\_MESH(currentMesh,\ meshes,\ faces);}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ meshGroup-\/>meshes\ =\ convertMeshListToArray(meshes);}
+\DoxyCodeLine{00255\ \ \ \ \ meshGroup-\/>meshCount\ =\ meshes-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}};}
+\DoxyCodeLine{00256\ }
+\DoxyCodeLine{00257\ \ \ \ \ meshGroup-\/>vertices\ =\ convertVertexListToArray(vertices);}
+\DoxyCodeLine{00258\ \ \ \ \ meshGroup-\/>vertexCount\ =\ vertices-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}};}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ meshGroup-\/>vertices\_texture\ =\ convertTextureListToArray(verticesTexture);}
+\DoxyCodeLine{00261\ \ \ \ \ meshGroup-\/>vertexTextureCount\ =\ verticesTexture-\/>\mbox{\hyperlink{structVertexTextureLinearList_a575b1f4c9a2aef383768f83cb2ccef3a}{countTextures}};}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \ \ \ \ meshGroup-\/>normals\ =\ convertNormalListToArray(normals);}
+\DoxyCodeLine{00264\ \ \ \ \ meshGroup-\/>normalsCount\ =\ normals-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ freeVertexLinearList(vertices);}
+\DoxyCodeLine{00267\ \ \ \ \ freeVertexNormalLinearList(normals);}
+\DoxyCodeLine{00268\ \ \ \ \ freeVertexTextureLinearList(verticesTexture);}
+\DoxyCodeLine{00269\ \ \ \ \ freeMeshLinearList(meshes,\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ fclose(objFile);}
+\DoxyCodeLine{00272\ \ \ \ \ objFile\ =\ NULL;}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keywordflow}{return}\ meshGroup;}
+\DoxyCodeLine{00275\ \}}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

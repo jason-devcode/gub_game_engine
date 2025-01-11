@@ -1,0 +1,148 @@
+\doxysection{vertex\+\_\+normal\+\_\+list.\+h}
+\hypertarget{vertex__normal__list_8h_source}{}\label{vertex__normal__list_8h_source}\index{include/utils/3DEngine/linear\_lists/vertex\_normal\_list.h@{include/utils/3DEngine/linear\_lists/vertex\_normal\_list.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VERTEX\_NORMAL\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VERTEX\_NORMAL\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../vectorial\_3D.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ \mbox{\hyperlink{structVertexNormalListNode_a6381c9e9604de407c57a58b853ecd3f1}{vertexNormal}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}};\ }
+\DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}}
+\DoxyCodeLine{00023\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}};\ }
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}};\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}};\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *createVertexNormalLinearList()}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list\ =\ (\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}));}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (!list)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ VertexNormalLinearList"{}});}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}}\ =\ NULL;}
+\DoxyCodeLine{00045\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00046\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}\ =\ 0;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{return}\ list;}
+\DoxyCodeLine{00048\ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initVertexNormalLinearList(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list)}
+\DoxyCodeLine{00058\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}}\ =\ NULL;}
+\DoxyCodeLine{00060\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00061\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}\ =\ 0;}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00072\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ addVertexNormal(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list,\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ vertexNormal)}
+\DoxyCodeLine{00073\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *newNode\ =\ (\mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}));}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{if}\ (!newNode)}
+\DoxyCodeLine{00076\ \ \ \ \ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00079\ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structVertexNormalListNode_a6381c9e9604de407c57a58b853ecd3f1}{vertexNormal}}\ =\ vertexNormal;}
+\DoxyCodeLine{00081\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}}\ =\ NULL;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}})}
+\DoxyCodeLine{00084\ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}}-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}}\ =\ newNode;}
+\DoxyCodeLine{00086\ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}}\ =\ newNode;}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}}\ =\ newNode;}
+\DoxyCodeLine{00092\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}++;}
+\DoxyCodeLine{00093\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeVertexNormalLinearList(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list)}
+\DoxyCodeLine{00103\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}};}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *nextNode;}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00108\ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ nextNode\ =\ current-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ free(current);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ current\ =\ nextNode;}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}}\ =\ NULL;}
+\DoxyCodeLine{00115\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_a3bd32f8db19b723d6c3a37616a4f1ddf}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00116\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}\ =\ 0;}
+\DoxyCodeLine{00117\ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *getVertexNormal(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list,\ \textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00129\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ <\ 0\ ||\ index\ >=\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}})}
+\DoxyCodeLine{00131\ \ \ \ \ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ Index\ out\ of\ bounds}}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}};}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ index;\ i++)}
+\DoxyCodeLine{00137\ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}};}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordflow}{return}\ \&current-\/>\mbox{\hyperlink{structVertexNormalListNode_a6381c9e9604de407c57a58b853ecd3f1}{vertexNormal}};}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ findVertexNormalIndex(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list,\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ vertexNormal)}
+\DoxyCodeLine{00154\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}};}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ 0;}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00159\ \ \ \ \ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(\&current-\/>\mbox{\hyperlink{structVertexNormalListNode_a6381c9e9604de407c57a58b853ecd3f1}{vertexNormal}},\ \&vertexNormal,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}))\ ==\ 0)}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ index;\ \textcolor{comment}{//\ Normal\ vector\ found}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;\ \textcolor{comment}{//\ Normal\ vector\ not\ found}}
+\DoxyCodeLine{00169\ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00180\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *convertNormalListToArray(\mbox{\hyperlink{structVertexNormalLinearList}{VertexNormalLinearList}}\ *list)}
+\DoxyCodeLine{00181\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}\ ==\ 0)}
+\DoxyCodeLine{00183\ \ \ \ \ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ No\ normal\ vectors\ to\ convert}}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *array\ =\ (\mbox{\hyperlink{structVec3f}{Vec3f}}\ *)malloc(list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}}\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (!array)}
+\DoxyCodeLine{00189\ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \mbox{\hyperlink{structVertexNormalListNode}{VertexNormalListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_ae5a633ea2b04f66acd6cc261d23c4c6a}{head}};}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ list-\/>\mbox{\hyperlink{structVertexNormalLinearList_adbc8751377d55d857ad6bbaf0ecab7a1}{countNormals}};\ i++)}
+\DoxyCodeLine{00196\ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ array[i]\ =\ current-\/>\mbox{\hyperlink{structVertexNormalListNode_a6381c9e9604de407c57a58b853ecd3f1}{vertexNormal}};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexNormalListNode_a7815eb444c8518463c0f39a10be7d250}{next}};}
+\DoxyCodeLine{00199\ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ array;}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VERTEX\_NORMAL\_LINEAR\_LIST\_HELPER\_H}}
+
+\end{DoxyCode}

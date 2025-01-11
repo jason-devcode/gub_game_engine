@@ -1,0 +1,20 @@
+\doxysection{screen\+\_\+handler.\+h}
+\hypertarget{sdl1_2screen__handler_8h_source}{}\label{sdl1_2screen__handler_8h_source}\index{include/core/apis/sdl1/screen\_handler.h@{include/core/apis/sdl1/screen\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SCREEN\_API\_HANDLER\_SDL\_1\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SCREEN\_API\_HANDLER\_SDL\_1\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL/SDL.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/running\_state.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}timers\_handler.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}graphic\_environment.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ drawScreen()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\ \ \ \ SDL\_Flip(gGameEngineGraphicEnvironment.screenSurface);\ \(\backslash\)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\ \ \ \ updateTimers();}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

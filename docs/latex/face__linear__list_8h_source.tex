@@ -1,0 +1,136 @@
+\doxysection{face\+\_\+linear\+\_\+list.\+h}
+\hypertarget{face__linear__list_8h_source}{}\label{face__linear__list_8h_source}\index{include/utils/3DEngine/linear\_lists/face\_linear\_list.h@{include/utils/3DEngine/linear\_lists/face\_linear\_list.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FACE\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FACE\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../mesh.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFaceListNode}{FaceListNode}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ FaceIndices\ \mbox{\hyperlink{structFaceListNode_ae2baf2a79fad5f48193027362c162ae6}{face}};\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}};\ }
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structFaceListNode}{FaceListNode}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}};\ \ \ \ \ }
+\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{structFaceLinearList}{FaceLinearList}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *createFaceLinearList()}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list\ =\ (\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}));}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (!list)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ FaceLinearList\(\backslash\)n"{}});}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}}\ =\ NULL;}
+\DoxyCodeLine{00045\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{return}\ list;}
+\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initFaceLinearList(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list)}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}}\ =\ NULL;}
+\DoxyCodeLine{00059\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}\ =\ 0;}
+\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ addFace(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list,\ FaceIndices\ face)}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *newNode\ =\ (\mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structFaceListNode}{FaceListNode}}));}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (!newNode)}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ FaceListNode\(\backslash\)n"{}});}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structFaceListNode_ae2baf2a79fad5f48193027362c162ae6}{face}}\ =\ face;}
+\DoxyCodeLine{00079\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}}\ =\ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};}
+\DoxyCodeLine{00080\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}}\ =\ newNode;}
+\DoxyCodeLine{00081\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}++;}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeFaceLinearList(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list)}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *nextNode;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00097\ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ nextNode\ =\ current-\/>\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ free(current);}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ current\ =\ nextNode;}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}}\ =\ NULL;}
+\DoxyCodeLine{00104\ \ \ \ \ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}\ =\ 0;}
+\DoxyCodeLine{00105\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00116\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ FaceIndices\ *getFace(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list,\ \textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00117\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ <\ 0\ ||\ index\ >=\ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}})}
+\DoxyCodeLine{00119\ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ Index\ out\ of\ bounds}}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ index;\ i++)}
+\DoxyCodeLine{00125\ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}};}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keywordflow}{return}\ \&current-\/>\mbox{\hyperlink{structFaceListNode_ae2baf2a79fad5f48193027362c162ae6}{face}};}
+\DoxyCodeLine{00130\ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00141\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ findFaceIndex(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list,\ FaceIndices\ face)}
+\DoxyCodeLine{00142\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ 0;}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00147\ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(\&current-\/>\mbox{\hyperlink{structFaceListNode_ae2baf2a79fad5f48193027362c162ae6}{face}},\ \&face,\ \textcolor{keyword}{sizeof}(FaceIndices))\ ==\ 0)}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ index;\ \textcolor{comment}{//\ Face\ found}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{00154\ \ \ \ \ \}}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;\ \textcolor{comment}{//\ Face\ not\ found}}
+\DoxyCodeLine{00157\ \}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00168\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ FaceIndices\ *convertFaceListToArray(\mbox{\hyperlink{structFaceLinearList}{FaceLinearList}}\ *list)}
+\DoxyCodeLine{00169\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}\ ==\ 0)}
+\DoxyCodeLine{00171\ \ \ \ \ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ No\ faces\ to\ convert}}
+\DoxyCodeLine{00173\ \ \ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ FaceIndices\ *array\ =\ (FaceIndices\ *)malloc(list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}}\ *\ \textcolor{keyword}{sizeof}(FaceIndices));}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (!array)}
+\DoxyCodeLine{00177\ \ \ \ \ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ face\ array\(\backslash\)n"{}});}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00180\ \ \ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \mbox{\hyperlink{structFaceListNode}{FaceListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structFaceLinearList_a612bf680e3c5fd318421f1600072afa8}{head}};}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ list-\/>\mbox{\hyperlink{structFaceLinearList_a16d26097247a3cf5ea7425daec2aff84}{countFaces}};\ i++)}
+\DoxyCodeLine{00184\ \ \ \ \ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ memcpy(\&array[i],\ \&current-\/>\mbox{\hyperlink{structFaceListNode_ae2baf2a79fad5f48193027362c162ae6}{face}},\ \textcolor{keyword}{sizeof}(FaceIndices));}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structFaceListNode_afc459402ba95c9b097925ed6d13924e0}{next}};}
+\DoxyCodeLine{00187\ \ \ \ \ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{return}\ array;}
+\DoxyCodeLine{00190\ \}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FACE\_LINEAR\_LIST\_HELPER\_H}}
+
+\end{DoxyCode}

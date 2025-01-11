@@ -1,0 +1,90 @@
+\doxysection{base\+\_\+fast\+\_\+triangle\+\_\+fill\+\_\+1.\+h}
+\hypertarget{base__fast__triangle__fill__1_8h_source}{}\label{base__fast__triangle__fill__1_8h_source}\index{include/utils/triangles/base\_fast\_triangle\_fill\_1.h@{include/utils/triangles/base\_fast\_triangle\_fill\_1.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FAST\_FILL\_TRIANGLE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FAST\_FILL\_TRIANGLE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../pixel.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../swap.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ fast\_drawTriangleFill(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ uint32\_t\ color)}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ correct\ Y\ order\ points}}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y2)}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x2);}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y2);}
+\DoxyCodeLine{00019\ \ \ \ \ \}}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y3)}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x3);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y3);}
+\DoxyCodeLine{00024\ \ \ \ \ \}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{if}\ (y2\ >\ y3)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x2,\ x3);}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y2,\ y3);}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (y3\ <\ 0\ ||\ gScreenHeight\ <\ y1)}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ top\ and\ bottom\ screen\ sides}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ DY\_AB\ =\ y2\ -\/\ y1;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ DY\_BC\ =\ y3\ -\/\ y2;}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ DY\_AC\ =\ y3\ -\/\ y1;}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ DX\_AB\ =\ x2\ -\/\ x1;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ DX\_BC\ =\ x3\ -\/\ x2;}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ DX\_AC\ =\ x3\ -\/\ x1;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeLeftX\ =\ (double)(DX\_AB)\ /\ (double)(DY\_AB\ +\ !DY\_AB);}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeRightX\ =\ (double)(DX\_AC)\ /\ (double)(DY\_AC\ +\ !DY\_AC);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeLeftXBC\ =\ (double)(DX\_BC)\ /\ (double)(DY\_BC\ +\ !DY\_BC);}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{double}\ slopeRightXBC\ =\ slopeRightX;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (slopeLeftX\ >\ slopeRightX)}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ swap\_values(slopeLeftX,\ slopeRightX,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ swap\_values(slopeLeftXBC,\ slopeRightXBC,\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00052\ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{double}\ xLeft,\ xRight;}
+\DoxyCodeLine{00055\ \ \ \ \ xLeft\ =\ xRight\ =\ x1;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ top\_triangle:}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{goto}\ check\_first\_iteration;}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ tempLeftX\ =\ xLeft;}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ pixel(tempLeftX,\ y1,\ color);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++tempLeftX\ <=\ xRight);}
+\DoxyCodeLine{00066\ \ \ \ \ check\_first\_iteration:}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ xLeft\ +=\ slopeLeftX;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ xRight\ +=\ slopeRightX;}
+\DoxyCodeLine{00069\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++y1\ <\ y2);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ bottom\_triangle:}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00073\ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ tempLeftX\ =\ xLeft\ -\/\ 1;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ pixel(tempLeftX,\ y1,\ color);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++tempLeftX\ <=\ xRight);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ xLeft\ +=\ slopeLeftXBC;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ xRight\ +=\ slopeRightXBC;}
+\DoxyCodeLine{00081\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++y1\ <\ y3);}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

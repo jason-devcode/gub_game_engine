@@ -1,0 +1,113 @@
+\doxysection{BMPInfo\+Header Struct Reference}
+\hypertarget{structBMPInfoHeader}{}\label{structBMPInfoHeader}\index{BMPInfoHeader@{BMPInfoHeader}}
+
+
+BMP info header structure.  
+
+
+
+
+{\ttfamily \#include $<$bmp.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_ad26b32800df69db0794941a066feb734}{bi\+Size}}
+\item 
+int32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}{bi\+Width}}
+\item 
+int32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}{bi\+Height}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a2ec1038058d2524844771da9d02e8c2e}{bi\+Planes}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{bi\+Bit\+Count}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a084ab95f2f31361ff2ce6f4ceb348b37}{bi\+Compression}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a28f244e0afb677980618d782e79990e1}{bi\+Size\+Image}}
+\item 
+int32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a4e215791ff78ae2c82639f8dde27cdfa}{bi\+XPels\+Per\+Meter}}
+\item 
+int32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_a70cd9add8714091fbcc01cd2f06de332}{bi\+YPels\+Per\+Meter}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_abef2a46f0916de37cc57162c07045854}{bi\+Clr\+Used}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPInfoHeader_ac7abdb77f5ffe710dfab39633e976375}{bi\+Clr\+Important}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+BMP info header structure. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}\index{BMPInfoHeader@{BMPInfoHeader}!biBitCount@{biBitCount}}
+\index{biBitCount@{biBitCount}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biBitCount}{biBitCount}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73} 
+uint16\+\_\+t BMPInfo\+Header\+::bi\+Bit\+Count}
+
+Number of bits per pixel (e.\+g., 24 for RGB, 32 for RGBA) \Hypertarget{structBMPInfoHeader_ac7abdb77f5ffe710dfab39633e976375}\index{BMPInfoHeader@{BMPInfoHeader}!biClrImportant@{biClrImportant}}
+\index{biClrImportant@{biClrImportant}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biClrImportant}{biClrImportant}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_ac7abdb77f5ffe710dfab39633e976375} 
+uint32\+\_\+t BMPInfo\+Header\+::bi\+Clr\+Important}
+
+Number of important colors (0 = all colors) \Hypertarget{structBMPInfoHeader_abef2a46f0916de37cc57162c07045854}\index{BMPInfoHeader@{BMPInfoHeader}!biClrUsed@{biClrUsed}}
+\index{biClrUsed@{biClrUsed}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biClrUsed}{biClrUsed}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_abef2a46f0916de37cc57162c07045854} 
+uint32\+\_\+t BMPInfo\+Header\+::bi\+Clr\+Used}
+
+Number of colors used (0 = all colors) \Hypertarget{structBMPInfoHeader_a084ab95f2f31361ff2ce6f4ceb348b37}\index{BMPInfoHeader@{BMPInfoHeader}!biCompression@{biCompression}}
+\index{biCompression@{biCompression}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biCompression}{biCompression}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a084ab95f2f31361ff2ce6f4ceb348b37} 
+uint32\+\_\+t BMPInfo\+Header\+::bi\+Compression}
+
+Compression type (0 = uncompressed) \Hypertarget{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}\index{BMPInfoHeader@{BMPInfoHeader}!biHeight@{biHeight}}
+\index{biHeight@{biHeight}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biHeight}{biHeight}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557} 
+int32\+\_\+t BMPInfo\+Header\+::bi\+Height}
+
+Height of the image in pixels (can be negative for top-\/down bitmaps) \Hypertarget{structBMPInfoHeader_a2ec1038058d2524844771da9d02e8c2e}\index{BMPInfoHeader@{BMPInfoHeader}!biPlanes@{biPlanes}}
+\index{biPlanes@{biPlanes}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biPlanes}{biPlanes}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a2ec1038058d2524844771da9d02e8c2e} 
+uint16\+\_\+t BMPInfo\+Header\+::bi\+Planes}
+
+Number of color planes (must be 1) \Hypertarget{structBMPInfoHeader_ad26b32800df69db0794941a066feb734}\index{BMPInfoHeader@{BMPInfoHeader}!biSize@{biSize}}
+\index{biSize@{biSize}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biSize}{biSize}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_ad26b32800df69db0794941a066feb734} 
+uint32\+\_\+t BMPInfo\+Header\+::bi\+Size}
+
+Size of this header in bytes \Hypertarget{structBMPInfoHeader_a28f244e0afb677980618d782e79990e1}\index{BMPInfoHeader@{BMPInfoHeader}!biSizeImage@{biSizeImage}}
+\index{biSizeImage@{biSizeImage}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biSizeImage}{biSizeImage}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a28f244e0afb677980618d782e79990e1} 
+uint32\+\_\+t BMPInfo\+Header\+::bi\+Size\+Image}
+
+Size of the pixel data in bytes \Hypertarget{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}\index{BMPInfoHeader@{BMPInfoHeader}!biWidth@{biWidth}}
+\index{biWidth@{biWidth}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biWidth}{biWidth}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be} 
+int32\+\_\+t BMPInfo\+Header\+::bi\+Width}
+
+Width of the image in pixels \Hypertarget{structBMPInfoHeader_a4e215791ff78ae2c82639f8dde27cdfa}\index{BMPInfoHeader@{BMPInfoHeader}!biXPelsPerMeter@{biXPelsPerMeter}}
+\index{biXPelsPerMeter@{biXPelsPerMeter}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biXPelsPerMeter}{biXPelsPerMeter}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a4e215791ff78ae2c82639f8dde27cdfa} 
+int32\+\_\+t BMPInfo\+Header\+::bi\+XPels\+Per\+Meter}
+
+Horizontal resolution (pixels per meter) \Hypertarget{structBMPInfoHeader_a70cd9add8714091fbcc01cd2f06de332}\index{BMPInfoHeader@{BMPInfoHeader}!biYPelsPerMeter@{biYPelsPerMeter}}
+\index{biYPelsPerMeter@{biYPelsPerMeter}!BMPInfoHeader@{BMPInfoHeader}}
+\doxysubsubsection{\texorpdfstring{biYPelsPerMeter}{biYPelsPerMeter}}
+{\footnotesize\ttfamily \label{structBMPInfoHeader_a70cd9add8714091fbcc01cd2f06de332} 
+int32\+\_\+t BMPInfo\+Header\+::bi\+YPels\+Per\+Meter}
+
+Vertical resolution (pixels per meter) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/utils/image/bmp.\+h\end{DoxyCompactItemize}

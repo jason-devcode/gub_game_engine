@@ -1,0 +1,92 @@
+\doxysection{raster8888.\+h}
+\hypertarget{raster8888_8h_source}{}\label{raster8888_8h_source}\index{include/utils/raster/raster8888.h@{include/utils/raster/raster8888.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RASTER\_8888\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RASTER\_8888\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../pixel.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../geometry.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../color.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{font_8h}{../font.h}}"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{comment}{//\ include\ this\ for\ fast\ raster\ rendering}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../core/engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../../core/engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ uint32\_t\ width;\ \ \ \ \ \ \ \textcolor{comment}{//\ Width\ of\ the\ image}}
+\DoxyCodeLine{00018\ \ \ \ \ uint32\_t\ height;\ \ \ \ \ \ \textcolor{comment}{//\ Height\ of\ the\ image}}
+\DoxyCodeLine{00019\ \ \ \ \ uint32\_t\ totalPixels;\ \textcolor{comment}{//\ Total\ number\ of\ pixels\ in\ the\ image}}
+\DoxyCodeLine{00020\ \ \ \ \ uint32\_t\ *pixels;\ \ \ \ \ \textcolor{comment}{//\ Pointer\ to\ pixel\ data\ (RGBA\ format)}}
+\DoxyCodeLine{00021\ \}\ \mbox{\hyperlink{structRaster8888}{Raster8888}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ uint32\_t\ getPixelRaster8888(uint32\_t\ x,\ uint32\_t\ y,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ -\/1\ \&\&\ x\ <\ raster-\/>width\ \&\&\ y\ >\ -\/1\ \&\&\ y\ <\ raster-\/>height)}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ raster-\/>pixels[calculatePixelIndex(x,\ y,\ raster-\/>width)];}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordflow}{return}\ RGBA(0,\ 0,\ 0,\ 0);}
+\DoxyCodeLine{00029\ \}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawRaster8888(int32\_t\ x,\ int32\_t\ y,\ int32\_t\ width,\ int32\_t\ height,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{comment}{//\ protect\ dimensions\ and\ protect\ right\ and\ bottom\ sides}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (framebuffer\ ==\ NULL\ ||\ width\ <\ 0\ ||\ height\ <\ 1\ ||\ !(x\ <\ (\textcolor{keywordtype}{int})gScreenWidth)\ ||\ !(y\ <\ (\textcolor{keywordtype}{int})gScreenHeight))}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{comment}{//\ protect\ left\ and\ top\ sides}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ +\ width\ <\ 0)}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (y\ +\ height\ <\ 0)}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{//\ calculate\ all\ correct\ values\ in\ relation\ to\ screen\ edges\ collisions}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ uint32\_t\ correctWidth\ =\ width;}
+\DoxyCodeLine{00046\ \ \ \ \ uint32\_t\ correctHeight\ =\ height;}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ correctWidth\ -\/=\ (gScreenWidth\ <\ (x\ +\ width))\ ?\ (x\ +\ width)\ -\/\ gScreenWidth\ :\ 0;\ \textcolor{comment}{//\ For\ correct\ right\ side\ width\ colision}}
+\DoxyCodeLine{00049\ \ \ \ \ correctWidth\ +=\ (x\ <\ 0)\ ?\ x\ :\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ correct\ left\ side\ width\ colision}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ correctHeight\ -\/=\ (gScreenHeight\ <\ (y\ +\ height))\ ?\ (y\ +\ height)\ -\/\ gScreenHeight\ :\ 0;\ \textcolor{comment}{//\ For\ correct\ bottom\ side\ height\ colision}}
+\DoxyCodeLine{00052\ \ \ \ \ correctHeight\ +=\ (y\ <\ 0)\ ?\ y\ :\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ correct\ top\ side\ height\ colision}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ uint32\_t\ correctX1\ =\ x\ <\ 0\ ?\ 0\ :\ x;}
+\DoxyCodeLine{00055\ \ \ \ \ uint32\_t\ correctY1\ =\ y\ <\ 0\ ?\ 0\ :\ y;}
+\DoxyCodeLine{00056\ \ \ \ \ uint32\_t\ correctX2\ =\ correctX1\ +\ correctWidth;}
+\DoxyCodeLine{00057\ \ \ \ \ uint32\_t\ correctY2\ =\ correctY1\ +\ correctHeight\ -\/\ 1;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ Calculate\ all\ framebuffer\ iterators}}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *beginPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(0,\ correctY1,\ gScreenWidth)];}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(0,\ correctY2,\ gScreenWidth)];}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelRowIterator\ =\ beginPixelsRowIterator;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ pixelsRowWidth\ =\ gScreenWidth;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ drawRasterScreenHitbox()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ drawRectangleWire(correctX1,\ correctY1,\ correctX2,\ correctY2,\ RGB(255,\ 255,\ 0));\ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ drawRectangleWire(correctX1\ +\ 10,\ correctY1\ +\ 10,\ correctX2\ -\/\ 10,\ correctY2\ -\/\ 10,\ RGB(255,\ 255,\ 255));}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00072\ \ \ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelRow\ =\ \&pixelRowIterator[correctX2];}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelsIterator\ =\ \&pixelRowIterator[correctX1];}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ *pixelsIterator\ =\ RGB(255,\ 0,\ 255);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++pixelsIterator\ <\ endPixelRow);}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ pixelRowIterator\ +=\ pixelsRowWidth;}
+\DoxyCodeLine{00081\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (pixelRowIterator\ <\ endPixelsRowIterator);}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ drawRasterScreenHitbox();}
+\DoxyCodeLine{00084\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

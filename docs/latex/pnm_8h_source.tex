@@ -1,0 +1,310 @@
+\doxysection{pnm.\+h}
+\hypertarget{pnm_8h_source}{}\label{pnm_8h_source}\index{include/utils/image/pnm.h@{include/utils/image/pnm.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PORTABLE\_BITMAP\_UTILS}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PORTABLE\_BITMAP\_UTILS}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../raster.h"{}}\ \textcolor{comment}{//\ For\ raster\ structures}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ uint16\_t\ magicNumber;\ \textcolor{comment}{//\ P1\ for\ ASCII\ version\ -\/\ P4\ for\ binary\ version}}
+\DoxyCodeLine{00018\ \ \ \ \ uint32\_t\ imageWidth;\ \ \textcolor{comment}{//\ Width\ of\ the\ image}}
+\DoxyCodeLine{00019\ \ \ \ \ uint32\_t\ imageHeight;\ \textcolor{comment}{//\ Height\ of\ the\ image}}
+\DoxyCodeLine{00020\ \}\ \mbox{\hyperlink{structPBMHeader}{PBMHeader}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ uint16\_t\ magicNumber;\ \textcolor{comment}{//\ P2\ for\ ASCII\ version\ -\/\ P5\ for\ binary\ version}}
+\DoxyCodeLine{00028\ \ \ \ \ uint32\_t\ imageWidth;\ \ \textcolor{comment}{//\ Width\ of\ the\ image}}
+\DoxyCodeLine{00029\ \ \ \ \ uint32\_t\ imageHeight;\ \textcolor{comment}{//\ Height\ of\ the\ image}}
+\DoxyCodeLine{00030\ \ \ \ \ uint8\_t\ maxGrey;\ \ \ \ \ \ \textcolor{comment}{//\ Maximum\ gray\ value}}
+\DoxyCodeLine{00031\ \}\ \mbox{\hyperlink{structPGMHeader}{PGMHeader}};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ uint16\_t\ magicNumber;\ \textcolor{comment}{//\ P3\ for\ ASCII\ version\ -\/\ P6\ for\ binary\ version}}
+\DoxyCodeLine{00039\ \ \ \ \ uint32\_t\ imageWidth;\ \ \textcolor{comment}{//\ Width\ of\ the\ image}}
+\DoxyCodeLine{00040\ \ \ \ \ uint32\_t\ imageHeight;\ \textcolor{comment}{//\ Height\ of\ the\ image}}
+\DoxyCodeLine{00041\ \ \ \ \ uint8\_t\ maxColor;\ \ \ \ \ \textcolor{comment}{//\ Maximum\ color\ value}}
+\DoxyCodeLine{00042\ \}\ \mbox{\hyperlink{structPPMHeader}{PPMHeader}};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}\ *loadPBM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00051\ \{}
+\DoxyCodeLine{00052\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \mbox{\hyperlink{structPBMHeader}{PBMHeader}}\ header;}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPBMHeader}{PBMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PBM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}\ *raster\ =\ (\mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}));}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster)}
+\DoxyCodeLine{00069\ \ \ \ \ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ raster-\/>width\ =\ header.imageWidth;}
+\DoxyCodeLine{00076\ \ \ \ \ raster-\/>height\ =\ header.imageHeight;}
+\DoxyCodeLine{00077\ \ \ \ \ raster-\/>totalPixels\ =\ (raster-\/>width\ *\ raster-\/>height\ +\ 7)\ /\ 8;\ \textcolor{comment}{//\ Calculating\ total\ bytes}}
+\DoxyCodeLine{00078\ \ \ \ \ raster-\/>pixels\ =\ (uint8\_t\ *)malloc(raster-\/>totalPixels);}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster-\/>pixels)}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(raster-\/>pixels,\ raster-\/>totalPixels,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PBM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{return}\ raster;}
+\DoxyCodeLine{00098\ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ savePBM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}\ *raster)}
+\DoxyCodeLine{00108\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}wb"{}});}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{structPBMHeader}{PBMHeader}}\ header\ =\ \{0x5034,\ raster-\/>width,\ raster-\/>height\};\ \textcolor{comment}{//\ P4\ magic\ number}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPBMHeader}{PBMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00118\ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PBM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(raster-\/>pixels,\ raster-\/>totalPixels,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00125\ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PBM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00133\ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00140\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeRasterMonochrome(\mbox{\hyperlink{structRasterMonochrome}{RasterMonochrome}}\ *raster)}
+\DoxyCodeLine{00141\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00149\ \ \ \ \ \}}
+\DoxyCodeLine{00150\ \}}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00158\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}\ *loadPGM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00159\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00162\ \ \ \ \ \{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00165\ \ \ \ \ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{structPGMHeader}{PGMHeader}}\ header;}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPGMHeader}{PGMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00169\ \ \ \ \ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PGM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00173\ \ \ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}\ *raster\ =\ (\mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}));}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster)}
+\DoxyCodeLine{00177\ \ \ \ \ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00181\ \ \ \ \ \}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ raster-\/>width\ =\ header.imageWidth;}
+\DoxyCodeLine{00184\ \ \ \ \ raster-\/>height\ =\ header.imageHeight;}
+\DoxyCodeLine{00185\ \ \ \ \ raster-\/>totalPixels\ =\ raster-\/>width\ *\ raster-\/>height;}
+\DoxyCodeLine{00186\ \ \ \ \ raster-\/>pixels\ =\ (uint8\_t\ *)malloc(raster-\/>totalPixels);}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster-\/>pixels)}
+\DoxyCodeLine{00188\ \ \ \ \ \{}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(raster-\/>pixels,\ raster-\/>totalPixels,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00196\ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PGM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00202\ \ \ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00205\ \ \ \ \ \textcolor{keywordflow}{return}\ raster;}
+\DoxyCodeLine{00206\ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00215\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ savePGM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}\ *raster)}
+\DoxyCodeLine{00216\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}wb"{}});}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00219\ \ \ \ \ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00222\ \ \ \ \ \}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \mbox{\hyperlink{structPGMHeader}{PGMHeader}}\ header\ =\ \{0x5035,\ raster-\/>width,\ raster-\/>height,\ 255\};\ \textcolor{comment}{//\ P5\ magic\ number,\ maxGrey\ 255}}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPGMHeader}{PGMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00226\ \ \ \ \ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PGM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(raster-\/>pixels,\ raster-\/>totalPixels,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00233\ \ \ \ \ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PGM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00237\ \ \ \ \ \}}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00240\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00241\ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00248\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeRasterGrayScale(\mbox{\hyperlink{structRasterGrayScale}{RasterGrayScale}}\ *raster)}
+\DoxyCodeLine{00249\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00251\ \ \ \ \ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ \}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00266\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *loadPPM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00267\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00270\ \ \ \ \ \{}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00273\ \ \ \ \ \}}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \mbox{\hyperlink{structPPMHeader}{PPMHeader}}\ header;}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPPMHeader}{PPMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00277\ \ \ \ \ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PPM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00281\ \ \ \ \ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster\ =\ (\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structRaster8888}{Raster8888}}));}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster)}
+\DoxyCodeLine{00285\ \ \ \ \ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ raster-\/>width\ =\ header.imageWidth;}
+\DoxyCodeLine{00292\ \ \ \ \ raster-\/>height\ =\ header.imageHeight;}
+\DoxyCodeLine{00293\ \ \ \ \ raster-\/>totalPixels\ =\ raster-\/>width\ *\ raster-\/>height;}
+\DoxyCodeLine{00294\ \ \ \ \ raster-\/>pixels\ =\ (uint32\_t\ *)malloc(raster-\/>totalPixels\ *\ 3);\ \textcolor{comment}{//\ 3\ bytes\ per\ pixel}}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster-\/>pixels)}
+\DoxyCodeLine{00296\ \ \ \ \ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00301\ \ \ \ \ \}}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(raster-\/>pixels,\ raster-\/>totalPixels\ *\ 3,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00304\ \ \ \ \ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ reading\ PPM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordflow}{return}\ raster;}
+\DoxyCodeLine{00314\ \}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00323\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ savePPM(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00324\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}wb"{}});}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00327\ \ \ \ \ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00330\ \ \ \ \ \}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \ \ \mbox{\hyperlink{structPPMHeader}{PPMHeader}}\ header\ =\ \{0x5036,\ raster-\/>width,\ raster-\/>height,\ 255\};\ \textcolor{comment}{//\ P6\ magic\ number,\ maxColor\ 255}}
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structPPMHeader}{PPMHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00334\ \ \ \ \ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PPM\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00338\ \ \ \ \ \}}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(raster-\/>pixels,\ raster-\/>totalPixels\ *\ 3,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00341\ \ \ \ \ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ PPM\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00345\ \ \ \ \ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00348\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00349\ \}}
+\DoxyCodeLine{00355\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeRaster8888(\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00356\ \{}
+\DoxyCodeLine{00357\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00358\ \ \ \ \ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00364\ \ \ \ \ \}}
+\DoxyCodeLine{00365\ \}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PORTABLE\_BITMAP\_UTILS}}
+
+\end{DoxyCode}

@@ -1,0 +1,26 @@
+\doxysection{mouse.\+h}
+\hypertarget{mouse_8h_source}{}\label{mouse_8h_source}\index{include/utils/mouse.h@{include/utils/mouse.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MOUSE\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MOUSE\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../core/managers/mouse\_event\_manager.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../core/constants/mouse\_event\_values.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structMouseState_a6b4f511089560b97fd1a61b7fa546779}{x}};\ }
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structMouseState_af36784f67fabdede3753c3304fdb4f4d}{y}};\ }
+\DoxyCodeLine{00017\ \}\ \mbox{\hyperlink{structMouseState}{MouseState}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ Global\ instance\ of\ MouseState}}
+\DoxyCodeLine{00020\ \mbox{\hyperlink{structMouseState}{MouseState}}\ gMouseState\ =\ \{0,\ 0\};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ GET\_MOUSE\_X()\ (gMouseState.x)}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ GET\_MOUSE\_Y()\ (gMouseState.y)}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MOUSE\_UTILS\_H}}
+
+\end{DoxyCode}

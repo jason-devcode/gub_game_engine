@@ -1,0 +1,20 @@
+\doxysection{frame\+\_\+counter.\+h}
+\hypertarget{frame__counter_8h_source}{}\label{frame__counter_8h_source}\index{include/core/engine\_properties/frame\_counter.h@{include/core/engine\_properties/frame\_counter.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FRAME\_COUNTER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FRAME\_COUNTER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{static}\ uint32\_t\ frameCounter\ =\ 0;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ updateFrameCounter()\ ++frameCounter}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ setFrameCounter(framesCount)\ frameCounter\ =\ (framesCount)}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ resetFrameCounter()\ setFrameCounter(0)}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

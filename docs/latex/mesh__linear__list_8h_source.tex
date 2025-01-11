@@ -1,0 +1,142 @@
+\doxysection{mesh\+\_\+linear\+\_\+list.\+h}
+\hypertarget{mesh__linear__list_8h_source}{}\label{mesh__linear__list_8h_source}\index{include/utils/3DEngine/linear\_lists/mesh\_linear\_list.h@{include/utils/3DEngine/linear\_lists/mesh\_linear\_list.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MESH\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MESH\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../mesh.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMeshListNode}{MeshListNode}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ Mesh3D\ \mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}};\ }
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structMeshListNode}{MeshListNode}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}};\ \ \ \ }
+\DoxyCodeLine{00027\ \}\ \mbox{\hyperlink{structMeshLinearList}{MeshLinearList}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *createMeshLinearList()}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list\ =\ (\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}));}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (!list)}
+\DoxyCodeLine{00040\ \ \ \ \ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ MeshLinearList"{}});}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}}\ =\ NULL;}
+\DoxyCodeLine{00045\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{return}\ list;}
+\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initMeshLinearList(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list)}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}}\ =\ NULL;}
+\DoxyCodeLine{00059\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}\ =\ 0;}
+\DoxyCodeLine{00060\ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00070\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ addMesh(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list,\ Mesh3D\ mesh)}
+\DoxyCodeLine{00071\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *newNode\ =\ (\mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structMeshListNode}{MeshListNode}}));}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (!newNode)}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}}\ =\ mesh;}
+\DoxyCodeLine{00079\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}}\ =\ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};}
+\DoxyCodeLine{00080\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}}\ =\ newNode;}
+\DoxyCodeLine{00081\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}++;}
+\DoxyCodeLine{00082\ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00091\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeMeshLinearList(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list,\ \textcolor{keywordtype}{bool}\ releaseMeshesData)}
+\DoxyCodeLine{00092\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};}
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *nextNode;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00097\ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ nextNode\ =\ current-\/>\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}};}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Free\ the\ mesh's\ dynamically\ allocated\ data\ if\ needed}}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ e.g.,\ freeMeshData(\&current-\/>mesh);}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (releaseMeshesData)}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ releaseMesh3DResources(\&current-\/>\mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}});}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ free(current);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ current\ =\ nextNode;}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}}\ =\ NULL;}
+\DoxyCodeLine{00108\ \ \ \ \ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}\ =\ 0;}
+\DoxyCodeLine{00109\ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00120\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ Mesh3D\ *getMesh(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list,\ \textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00121\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ <\ 0\ ||\ index\ >=\ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}})}
+\DoxyCodeLine{00123\ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ Index\ out\ of\ bounds}}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ index;\ i++)}
+\DoxyCodeLine{00129\ \ \ \ \ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}};}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordflow}{return}\ \&current-\/>\mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}};}
+\DoxyCodeLine{00134\ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ findMeshIndex(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list,\ Mesh3D\ mesh)}
+\DoxyCodeLine{00146\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ 0;}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00151\ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Comparison\ should\ be\ adapted\ to\ compare\ Mesh3D\ structures\ correctly}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ e.g.,\ if\ (compareMeshes(\&current-\/>mesh,\ \&mesh)\ ==\ 0)}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(\&current-\/>\mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}},\ \&mesh,\ \textcolor{keyword}{sizeof}(Mesh3D))\ ==\ 0)}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ index;\ \textcolor{comment}{//\ Mesh\ found}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}};}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;\ \textcolor{comment}{//\ Mesh\ not\ found}}
+\DoxyCodeLine{00163\ \}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00174\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ Mesh3D\ *convertMeshListToArray(\mbox{\hyperlink{structMeshLinearList}{MeshLinearList}}\ *list)}
+\DoxyCodeLine{00175\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}\ ==\ 0)}
+\DoxyCodeLine{00177\ \ \ \ \ \{}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ No\ meshes\ to\ convert}}
+\DoxyCodeLine{00179\ \ \ \ \ \}}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \ \ \ \ Mesh3D\ *array\ =\ (Mesh3D\ *)malloc(list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}}\ *\ \textcolor{keyword}{sizeof}(Mesh3D));}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (!array)}
+\DoxyCodeLine{00183\ \ \ \ \ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00186\ \ \ \ \ \}}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{structMeshListNode}{MeshListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structMeshLinearList_a522610131162043a59d635dc687ec88b}{head}};}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ list-\/>\mbox{\hyperlink{structMeshLinearList_a7d255d763ec43e64fda05a8744b2cae2}{countMeshes}};\ i++)}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ memcpy(\&array[i],\ \&current-\/>\mbox{\hyperlink{structMeshListNode_a8acae077c7313e043c9f28641601c2e5}{mesh}},\ \textcolor{keyword}{sizeof}(Mesh3D));}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structMeshListNode_ad3959db7a673540a742c87a4c41d3f5d}{next}};}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{return}\ array;}
+\DoxyCodeLine{00196\ \}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ MESH\_LINEAR\_LIST\_HELPER\_H}}
+
+\end{DoxyCode}

@@ -1,0 +1,410 @@
+\doxysection{geometry.\+h}
+\hypertarget{geometry_8h_source}{}\label{geometry_8h_source}\index{include/utils/geometry.h@{include/utils/geometry.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GEOMETRY\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GEOMETRY\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}pixel.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}swap.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}fast\_math.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}color.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}pascal\_triangle.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}analytic\_geometry.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}vectorial\_2D.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ MAX\_BEZIER\_POINTS\ 100}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ Global\ pointer\ to\ store\ the\ Pascal\ Triangle\ used\ for\ Bezier\ curve\ calculations}}
+\DoxyCodeLine{00017\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ **gPascalTriangle\ =\ NULL;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ initializeGeometryProps()}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ gPascalTriangle\ =\ createPascalTriangle(MAX\_BEZIER\_POINTS);}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ releaseGeometryResources()}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ freePascalTriangle(gPascalTriangle,\ MAX\_BEZIER\_POINTS);}
+\DoxyCodeLine{00039\ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00051\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00052\ drawHorizontalLine(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y,\ uint32\_t\ color)}
+\DoxyCodeLine{00053\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (y\ <\ 0)}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ up\ screen\ side}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (!(y\ <\ gScreenHeight))}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ bottom\ screen\ side}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (x1\ >\ x2)\ \textcolor{comment}{//\ correct\ x\ order}}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x2);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{if}\ (gScreenWidth\ <\ x1)}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ right\ screen\ side}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{if}\ (x2\ <\ 0)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ left\ screen\ side}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ Correct\ values}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{int}\ correctX1\ =\ x1\ <\ 0\ ?\ 0\ :\ x1;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{int}\ correctX2\ =\ gScreenWidth\ <\ x2\ ?\ gScreenWidth\ -\/\ 1\ :\ x2;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//\ Calculate\ framebuffer\ iterators}}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *beginPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(correctX1,\ y,\ gScreenWidth)];}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelsRowIterator\ =\ \&beginPixelsRowIterator[correctX2\ -\/\ correctX1];}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelsIterator\ =\ beginPixelsRowIterator;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ *pixelsIterator\ =\ color;}
+\DoxyCodeLine{00082\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++pixelsIterator\ <\ endPixelsRowIterator);}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00095\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawVerticalLine(\textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x,\ uint32\_t\ color)}
+\DoxyCodeLine{00096\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ 0)}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ left\ screen\ side}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{if}\ (gScreenWidth\ <\ x)}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ right\ screen\ side}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y2)\ \textcolor{comment}{//\ correct\ y\ order}}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y2);}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (gScreenHeight\ <\ y1)}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ bottom\ screen\ side}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (y2\ <\ 0)}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ up\ screen\ side}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{comment}{//\ Correct\ values}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{int}\ correctY1\ =\ y1\ <\ 0\ ?\ 0\ :\ y1;}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{int}\ correctY2\ =\ y2\ <\ gScreenHeight\ ?\ y2\ :\ gScreenHeight\ -\/\ 1;}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{comment}{//\ Calculate\ framebuffer\ iterators}}
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *beginPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(x,\ correctY1,\ gScreenWidth)];}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(x,\ correctY2,\ gScreenWidth)];}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelsIterator\ =\ beginPixelsRowIterator;}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00123\ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ *pixelsIterator\ =\ color;}
+\DoxyCodeLine{00125\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ ((pixelsIterator\ +=\ gScreenWidth)\ <\ endPixelsRowIterator);}
+\DoxyCodeLine{00126\ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00139\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawLine(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ uint32\_t\ color)}
+\DoxyCodeLine{00140\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ DX\ =\ x2\ -\/\ x1;}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ DY\ =\ y2\ -\/\ y1;}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ absDX\ =\ \mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\_abs}}(DX);}
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ absDY\ =\ \mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\_abs}}(DY);}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ steps\ =\ (double)(absDX\ >\ absDY\ ?\ absDX\ :\ absDY);}
+\DoxyCodeLine{00148\ \ \ \ \ steps\ +=\ !steps;\ \textcolor{comment}{//\ protect\ for\ zero\ division}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ stepX\ =\ (double)DX\ /\ steps;}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ stepY\ =\ (double)DY\ /\ steps;}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ x\ =\ x1;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ y\ =\ y1;}
+\DoxyCodeLine{00155\ \ \ \ \ -\/-\/steps;}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00157\ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ pixel(x,\ y,\ color);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ x\ +=\ stepX;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ y\ +=\ stepY;}
+\DoxyCodeLine{00161\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (steps-\/-\/);}
+\DoxyCodeLine{00162\ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00180\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawLineDepthTest(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{double}\ z1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{double}\ z2,\ uint32\_t\ color)}
+\DoxyCodeLine{00181\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ DX\ =\ x2\ -\/\ x1;}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ DY\ =\ y2\ -\/\ y1;}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ DZ\ =\ z2\ -\/\ z1;}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ absDX\ =\ \mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\_abs}}(DX);}
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ absDY\ =\ \mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\_abs}}(DY);}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ steps\ =\ (double)(absDX\ >\ absDY\ ?\ absDX\ :\ absDY);}
+\DoxyCodeLine{00190\ \ \ \ \ steps\ +=\ !steps;\ \textcolor{comment}{//\ protect\ for\ zero\ division}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ stepX\ =\ (double)DX\ /\ steps;}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ stepY\ =\ (double)DY\ /\ steps;}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ stepZ\ =\ (double)DZ\ /\ steps;}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ x\ =\ x1;}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ y\ =\ y1;}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ z\ =\ z1;}
+\DoxyCodeLine{00199\ \ \ \ \ -\/-\/steps;}
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00201\ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ pixelDepthTest(x,\ y,\ z,\ color);}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ x\ +=\ stepX;}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ y\ +=\ stepY;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ z\ +=\ stepZ;}
+\DoxyCodeLine{00206\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (steps-\/-\/);}
+\DoxyCodeLine{00207\ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00221\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawRectangleWire(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ uint32\_t\ color)}
+\DoxyCodeLine{00222\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ fast\_swap\_bitwise(x1,\ x2);}
+\DoxyCodeLine{00224\ \ \ \ \ fast\_swap\_bitwise(y1,\ y2);}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ drawLine(x1,\ y1,\ x2,\ y1,\ color);}
+\DoxyCodeLine{00227\ \ \ \ \ drawLine(x2,\ y1,\ x2,\ y2,\ color);}
+\DoxyCodeLine{00228\ \ \ \ \ drawLine(x2,\ y2,\ x1,\ y2,\ color);}
+\DoxyCodeLine{00229\ \ \ \ \ drawLine(x1,\ y2,\ x1,\ y1,\ color);}
+\DoxyCodeLine{00230\ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00244\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawRectangleFill(int32\_t\ x1,\ int32\_t\ y1,\ int32\_t\ x2,\ int32\_t\ y2,\ uint32\_t\ color)}
+\DoxyCodeLine{00245\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{comment}{//\ Normalize\ coordinates\ if\ necessary}}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (x1\ >\ x2)}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x2);}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y2)}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y2);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{comment}{//\ Calculate\ width\ and\ height\ from\ normalized\ x1,\ y1,\ x2,\ y2}}
+\DoxyCodeLine{00253\ \ \ \ \ int32\_t\ width\ =\ x2\ -\/\ x1\ +\ 1;}
+\DoxyCodeLine{00254\ \ \ \ \ int32\_t\ height\ =\ y2\ -\/\ y1\ +\ 1;}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{comment}{//\ Protect\ against\ invalid\ dimensions\ and\ out-\/of-\/bounds\ issues}}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordflow}{if}\ (framebuffer\ ==\ NULL\ ||\ width\ <\ 0\ ||\ height\ <\ 0\ ||\ !(x1\ <\ (\textcolor{keywordtype}{int})gScreenWidth)\ ||\ !(y1\ <\ (\textcolor{keywordtype}{int})gScreenHeight))}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{comment}{//\ Protect\ against\ drawing\ outside\ the\ left\ and\ top\ boundaries}}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordflow}{if}\ (x2\ <\ 0)}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00263\ \ \ \ \ \textcolor{keywordflow}{if}\ (y2\ <\ 0)}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{comment}{//\ Calculate\ correct\ values\ in\ relation\ to\ screen\ edges\ collisions}}
+\DoxyCodeLine{00267\ \ \ \ \ uint32\_t\ correctWidth\ =\ width;}
+\DoxyCodeLine{00268\ \ \ \ \ uint32\_t\ correctHeight\ =\ height;}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ correctWidth\ -\/=\ (gScreenWidth\ <\ (x2\ +\ 1))\ ?\ (x2\ +\ 1)\ -\/\ gScreenWidth\ :\ 0;\ \textcolor{comment}{//\ Adjust\ for\ right\ edge\ collision}}
+\DoxyCodeLine{00271\ \ \ \ \ correctWidth\ +=\ (x1\ <\ 0)\ ?\ x1\ :\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adjust\ for\ left\ edge\ collision}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ correctHeight\ -\/=\ (gScreenHeight\ <\ (y2\ +\ 1))\ ?\ (y2\ +\ 1)\ -\/\ gScreenHeight\ :\ 0;\ \textcolor{comment}{//\ Adjust\ for\ bottom\ edge\ collision}}
+\DoxyCodeLine{00274\ \ \ \ \ correctHeight\ +=\ (y1\ <\ 0)\ ?\ y1\ :\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adjust\ for\ top\ edge\ collision}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \ \ uint32\_t\ correctX1\ =\ x1\ <\ 0\ ?\ 0\ :\ x1;}
+\DoxyCodeLine{00277\ \ \ \ \ uint32\_t\ correctY1\ =\ y1\ <\ 0\ ?\ 0\ :\ y1;}
+\DoxyCodeLine{00278\ \ \ \ \ uint32\_t\ correctX2\ =\ correctX1\ +\ correctWidth\ -\/\ 1;}
+\DoxyCodeLine{00279\ \ \ \ \ uint32\_t\ correctY2\ =\ correctY1\ +\ correctHeight\ -\/\ 1;}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{comment}{//\ Calculate\ framebuffer\ iterators}}
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *beginPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(0,\ correctY1,\ gScreenWidth)];}
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelsRowIterator\ =\ \&framebuffer[calculatePixelIndex(0,\ correctY2,\ gScreenWidth)];}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelRowIterator\ =\ beginPixelsRowIterator;}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ pixelsRowWidth\ =\ gScreenWidth;}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00290\ \ \ \ \ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *endPixelRow\ =\ \&pixelRowIterator[correctX2\ +\ 1];}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ *pixelsIterator\ =\ \&pixelRowIterator[correctX1];}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ *pixelsIterator\ =\ color;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++pixelsIterator\ <\ endPixelRow);}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ pixelRowIterator\ +=\ pixelsRowWidth;}
+\DoxyCodeLine{00299\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (pixelRowIterator\ <\ endPixelsRowIterator);}
+\DoxyCodeLine{00300\ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00316\ \textcolor{keywordtype}{void}\ drawCircle(\textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy,\ \textcolor{keywordtype}{int}\ radius,\ \textcolor{keywordtype}{int}\ weight,\ uint32\_t\ color)}
+\DoxyCodeLine{00317\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ correctRadius\ =\ radius\ +\ (weight\ >>\ 1)\ +\ 1;}
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ -\/radius;\ Y\ <\ radius;\ ++Y)}
+\DoxyCodeLine{00320\ \ \ \ \ \{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ -\/radius;\ X\ <\ radius;\ ++X)}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ distance\ =\ (X\ *\ X\ +\ Y\ *\ Y);}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ innerRadius\ =\ radius\ -\/\ (weight\ +\ 1);}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ outRadius\ =\ radius;}
+\DoxyCodeLine{00326\ }
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ squareOutRadius\ =\ outRadius\ *\ outRadius;}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ squareInnerRadius\ =\ innerRadius\ *\ innerRadius;}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (distance\ >\ squareInnerRadius\ \&\&\ distance\ <\ squareOutRadius)}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel(X\ +\ cx,\ Y\ +\ cy,\ color);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \}}
+\DoxyCodeLine{00334\ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00348\ \textcolor{keywordtype}{void}\ drawFilledCircle(\textcolor{keywordtype}{int}\ cx,\ \textcolor{keywordtype}{int}\ cy,\ \textcolor{keywordtype}{int}\ radius,\ uint32\_t\ color)}
+\DoxyCodeLine{00349\ \{}
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ Y\ =\ -\/radius;\ Y\ <\ radius;\ ++Y)}
+\DoxyCodeLine{00351\ \ \ \ \ \{}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ X\ =\ -\/radius;\ X\ <\ radius;\ ++X)}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((X\ *\ X\ +\ Y\ *\ Y)\ <\ radius\ *\ radius)\ \textcolor{comment}{//\ if\ the\ point\ is\ inside\ of\ the\ circle}}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel(X\ +\ cx,\ Y\ +\ cy,\ color);}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00359\ \ \ \ \ \}}
+\DoxyCodeLine{00360\ \}}
+\DoxyCodeLine{00361\ }
+\DoxyCodeLine{00365\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ gCurrentLineToXCoord\ =\ 0;}
+\DoxyCodeLine{00366\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ gCurrentLineToYCoord\ =\ 0;}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00374\ \textcolor{preprocessor}{\#define\ setCurrentLineToCoords(x,\ y)\ \(\backslash\)}}
+\DoxyCodeLine{00375\ \textcolor{preprocessor}{\ \ \ \ gCurrentLineToXCoord\ =\ x;\ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00376\ \textcolor{preprocessor}{\ \ \ \ gCurrentLineToYCoord\ =\ y;}}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00385\ \textcolor{preprocessor}{\#define\ drawLineTo(nextX,\ nextY,\ color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00386\ \textcolor{preprocessor}{\ \ \ \ drawLine(gCurrentLineToXCoord,\ gCurrentLineToYCoord,\ nextX,\ nextY,\ color);\ \(\backslash\)}}
+\DoxyCodeLine{00387\ \textcolor{preprocessor}{\ \ \ \ setCurrentLineToCoords(nextX,\ nextY);}}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00404\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawTriangleWire(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ uint32\_t\ color)}
+\DoxyCodeLine{00405\ \{}
+\DoxyCodeLine{00406\ \ \ \ \ drawLine(x1,\ y1,\ x2,\ y2,\ color);}
+\DoxyCodeLine{00407\ \ \ \ \ drawLine(x2,\ y2,\ x3,\ y3,\ color);}
+\DoxyCodeLine{00408\ \ \ \ \ drawLine(x3,\ y3,\ x1,\ y1,\ color);}
+\DoxyCodeLine{00409\ \}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00431\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawTriangleWireDepthTest(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{double}\ z1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{double}\ z2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ \textcolor{keywordtype}{double}\ z3,\ uint32\_t\ color)}
+\DoxyCodeLine{00432\ \{}
+\DoxyCodeLine{00433\ \ \ \ \ drawLineDepthTest(x1,\ y1,\ z1,\ x2,\ y2,\ z2,\ color);}
+\DoxyCodeLine{00434\ \ \ \ \ drawLineDepthTest(x2,\ y2,\ z2,\ x3,\ y3,\ z3,\ color);}
+\DoxyCodeLine{00435\ \ \ \ \ drawLineDepthTest(x3,\ y3,\ z3,\ x1,\ y1,\ z1,\ color);}
+\DoxyCodeLine{00436\ \}}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00458\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ drawFilledTriangleGradient(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ uint32\_t\ color1,\ uint32\_t\ color2,\ uint32\_t\ color3)}
+\DoxyCodeLine{00459\ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordtype}{int}\ minX\ =\ get\_min\_value\_of\_three(x1,\ x2,\ x3);}
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordtype}{int}\ minY\ =\ get\_min\_value\_of\_three(y1,\ y2,\ y3);}
+\DoxyCodeLine{00462\ \ \ \ \ \textcolor{keywordtype}{int}\ maxX\ =\ get\_max\_value\_of\_three(x1,\ x2,\ x3);}
+\DoxyCodeLine{00463\ \ \ \ \ \textcolor{keywordtype}{int}\ maxY\ =\ get\_max\_value\_of\_three(y1,\ y2,\ y3);}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordflow}{if}\ (maxX\ <\ 0\ ||\ minX\ >\ gScreenWidth)}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ left\ and\ right\ screen\ side}}
+\DoxyCodeLine{00467\ \ \ \ \ \textcolor{keywordflow}{if}\ (maxY\ <\ 0\ ||\ minY\ >\ gScreenHeight)}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ top\ and\ bottom\ screen\ side}}
+\DoxyCodeLine{00469\ }
+\DoxyCodeLine{00470\ \ \ \ \ minX\ =\ get\_max\_value(minX,\ 0);\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cut\ rect\ left\ screen\ side}}
+\DoxyCodeLine{00471\ \ \ \ \ maxX\ =\ get\_min\_value(gScreenWidth,\ maxX);\ \ \textcolor{comment}{//\ cut\ rect\ left\ screen\ side}}
+\DoxyCodeLine{00472\ \ \ \ \ minY\ =\ get\_max\_value(minY,\ 0);\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cut\ rect\ top\ screen\ side}}
+\DoxyCodeLine{00473\ \ \ \ \ maxY\ =\ get\_min\_value(gScreenHeight,\ maxY);\ \textcolor{comment}{//\ cut\ rect\ bottom\ screen\ side}}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ tempTriangleArea\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ x2,\ y2,\ x3,\ y3);}
+\DoxyCodeLine{00476\ \ \ \ \ tempTriangleArea\ +=\ !tempTriangleArea;}
+\DoxyCodeLine{00477\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ invTriangleArea\ =\ 1.0\ /\ tempTriangleArea;}
+\DoxyCodeLine{00478\ }
+\DoxyCodeLine{00479\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ Y\ =\ minY;\ Y\ <\ maxY;\ ++Y)}
+\DoxyCodeLine{00480\ \ \ \ \ \{}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ X\ =\ minX;\ X\ <\ maxX;\ ++X)}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaAlpha\ =\ calculateTriangleAreaFromCoords(X,\ Y,\ x2,\ y2,\ x3,\ y3);}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaBeta\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ X,\ Y,\ x3,\ y3);}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaGamma\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ x2,\ y2,\ X,\ Y);}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((areaAlpha\ <\ 1\ \&\&\ areaBeta\ <\ 1\ \&\&\ areaGamma\ <\ 1)\ ||\ (areaAlpha\ >\ -\/1\ \&\&\ areaBeta\ >\ -\/1\ \&\&\ areaGamma\ >\ -\/1))}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ alpha\ =\ (double)areaAlpha\ *\ invTriangleArea;}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ beta\ =\ (double)areaBeta\ *\ invTriangleArea;}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ gamma\ =\ (double)areaGamma\ *\ invTriangleArea;}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ color\ =\ triangularColorMix(color1,\ color2,\ color3,\ alpha,\ beta,\ gamma);}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel(X,\ Y,\ color);}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00497\ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \}}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00514\ \textcolor{preprocessor}{\#define\ triangularValueMix(value1,\ value2,\ value3,\ alpha,\ beta,\ gamma)\ \(\backslash\)}}
+\DoxyCodeLine{00515\ \textcolor{preprocessor}{\ \ \ \ ((double)(value1)\ *\ (alpha)\ +\ (double)(value2)\ *\ (beta)\ +\ (double)(value3)\ *\ (gamma))}}
+\DoxyCodeLine{00516\ }
+\DoxyCodeLine{00540\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ drawFilledTriangleGradientDepthTest(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ z1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ z2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ \textcolor{keywordtype}{int}\ z3,\ uint32\_t\ color1,\ uint32\_t\ color2,\ uint32\_t\ color3)}
+\DoxyCodeLine{00541\ \{}
+\DoxyCodeLine{00542\ \ \ \ \ \textcolor{comment}{//\ Determine\ the\ bounding\ box\ of\ the\ triangle}}
+\DoxyCodeLine{00543\ \ \ \ \ \textcolor{keywordtype}{int}\ minX\ =\ get\_min\_value\_of\_three(x1,\ x2,\ x3);}
+\DoxyCodeLine{00544\ \ \ \ \ \textcolor{keywordtype}{int}\ minY\ =\ get\_min\_value\_of\_three(y1,\ y2,\ y3);}
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{keywordtype}{int}\ maxX\ =\ get\_max\_value\_of\_three(x1,\ x2,\ x3);}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordtype}{int}\ maxY\ =\ get\_max\_value\_of\_three(y1,\ y2,\ y3);}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{comment}{//\ Clip\ the\ bounding\ box\ to\ the\ screen\ dimensions}}
+\DoxyCodeLine{00549\ \ \ \ \ \textcolor{keywordflow}{if}\ (maxX\ <\ 0\ ||\ minX\ >\ gScreenWidth)}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Protect\ left\ and\ right\ screen\ sides}}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordflow}{if}\ (maxY\ <\ 0\ ||\ minY\ >\ gScreenHeight)}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ Protect\ top\ and\ bottom\ screen\ sides}}
+\DoxyCodeLine{00553\ }
+\DoxyCodeLine{00554\ \ \ \ \ minX\ =\ get\_max\_value(minX,\ 0);\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cut\ rect\ left\ screen\ side}}
+\DoxyCodeLine{00555\ \ \ \ \ maxX\ =\ get\_min\_value(gScreenWidth,\ maxX);\ \ \textcolor{comment}{//\ Cut\ rect\ right\ screen\ side}}
+\DoxyCodeLine{00556\ \ \ \ \ minY\ =\ get\_max\_value(minY,\ 0);\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cut\ rect\ top\ screen\ side}}
+\DoxyCodeLine{00557\ \ \ \ \ maxY\ =\ get\_min\_value(gScreenHeight,\ maxY);\ \textcolor{comment}{//\ Cut\ rect\ bottom\ screen\ side}}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ area\ of\ the\ triangle\ and\ its\ inverse\ for\ interpolation}}
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ tempTriangleArea\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ x2,\ y2,\ x3,\ y3);}
+\DoxyCodeLine{00561\ \ \ \ \ tempTriangleArea\ +=\ !tempTriangleArea;\ \textcolor{comment}{//\ Avoid\ division\ by\ zero}}
+\DoxyCodeLine{00562\ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ invTriangleArea\ =\ 1.0\ /\ tempTriangleArea;}
+\DoxyCodeLine{00563\ }
+\DoxyCodeLine{00564\ \ \ \ \ \textcolor{comment}{//\ drawTriangleWire(x1,\ y1,\ x2,\ y2,\ x3,\ y3,\ 0xFFFFFFFF);}}
+\DoxyCodeLine{00565\ }
+\DoxyCodeLine{00566\ \ \ \ \ \textcolor{comment}{//\ Iterate\ over\ the\ bounding\ box}}
+\DoxyCodeLine{00567\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ Y\ =\ minY;\ Y\ <\ maxY;\ ++Y)}
+\DoxyCodeLine{00568\ \ \ \ \ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ X\ =\ minX;\ X\ <\ maxX;\ ++X)}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ areas\ for\ barycentric\ coordinates}}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaAlpha\ =\ calculateTriangleAreaFromCoords(X,\ Y,\ x2,\ y2,\ x3,\ y3);}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaBeta\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ X,\ Y,\ x3,\ y3);}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{int}\ areaGamma\ =\ calculateTriangleAreaFromCoords(x1,\ y1,\ x2,\ y2,\ X,\ Y);}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ point\ (X,\ Y)\ is\ inside\ the\ triangle}}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((areaAlpha\ <\ 0\ \&\&\ areaBeta\ <\ 0\ \&\&\ areaGamma\ <\ 0)\ ||\ (areaAlpha\ >\ 0\ \&\&\ areaBeta\ >\ 0\ \&\&\ areaGamma\ >\ 0))}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ barycentric\ coordinates}}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ alpha\ =\ (double)areaAlpha\ *\ invTriangleArea;}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ beta\ =\ (double)areaBeta\ *\ invTriangleArea;}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{register}\ \textcolor{keywordtype}{double}\ gamma\ =\ (double)areaGamma\ *\ invTriangleArea;}
+\DoxyCodeLine{00583\ }
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Interpolate\ the\ color\ and\ depth\ value}}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ color\ =\ triangularColorMix(color1,\ color2,\ color3,\ alpha,\ beta,\ gamma);}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ Z\ =\ triangularValueMix(z1,\ z2,\ z3,\ alpha,\ beta,\ gamma);}
+\DoxyCodeLine{00587\ }
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Set\ the\ pixel\ color\ if\ it\ passes\ the\ depth\ test}}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixelDepthTest(X,\ Y,\ Z,\ color);}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00592\ \ \ \ \ \}}
+\DoxyCodeLine{00593\ \}}
+\DoxyCodeLine{00594\ }
+\DoxyCodeLine{00613\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawBezierNPoints(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ *controlPoints,\ \textcolor{keywordtype}{int}\ numControlPoints,\ \textcolor{keywordtype}{int}\ numSteps,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ color)}
+\DoxyCodeLine{00614\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ \textcolor{keywordtype}{float}\ stepSize\ =\ 1.0f\ /\ numSteps;}
+\DoxyCodeLine{00616\ \ \ \ \ \mbox{\hyperlink{structVec2f}{Vec2f}}\ currentPoint,\ previousPoint;}
+\DoxyCodeLine{00617\ }
+\DoxyCodeLine{00618\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ currentStep\ =\ 0;\ currentStep\ <=\ numSteps;\ ++currentStep)}
+\DoxyCodeLine{00619\ \ \ \ \ \{}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ t\ =\ currentStep\ *\ stepSize;}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ currentPoint\ =\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{0,\ 0\};}
+\DoxyCodeLine{00622\ }
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ controlPointIndex\ =\ 0;\ controlPointIndex\ <\ numControlPoints;\ ++controlPointIndex)}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ bernsteinCoefficient\ =\ gPascalTriangle[numControlPoints\ -\/\ 1][controlPointIndex]\ *}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pow(t,\ controlPointIndex)\ *}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pow(1\ -\/\ t,\ numControlPoints\ -\/\ 1\ -\/\ controlPointIndex);}
+\DoxyCodeLine{00628\ }
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ currentPoint.x\ +=\ bernsteinCoefficient\ *\ controlPoints[controlPointIndex].x;}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ currentPoint.y\ +=\ bernsteinCoefficient\ *\ controlPoints[controlPointIndex].y;}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00632\ }
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (currentStep\ >\ 0)}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ drawLine(previousPoint.x,\ previousPoint.y,\ currentPoint.x,\ currentPoint.y,\ color);}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ previousPoint\ =\ currentPoint;}
+\DoxyCodeLine{00636\ \ \ \ \ \}}
+\DoxyCodeLine{00637\ \}}
+\DoxyCodeLine{00638\ }
+\DoxyCodeLine{00639\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

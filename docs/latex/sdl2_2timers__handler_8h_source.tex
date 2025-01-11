@@ -1,0 +1,54 @@
+\doxysection{timers\+\_\+handler.\+h}
+\hypertarget{sdl2_2timers__handler_8h_source}{}\label{sdl2_2timers__handler_8h_source}\index{include/core/apis/sdl2/timers\_handler.h@{include/core/apis/sdl2/timers\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ TIMERS\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ TIMERS\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_timer.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/deltatime.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/previous\_time.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/current\_time.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/frame\_counter.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/fps.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initializeTimers()}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ setCurrenTime(SDL\_GetTicks());}
+\DoxyCodeLine{00022\ \ \ \ \ setPreviousTime(SDL\_GetTicks());}
+\DoxyCodeLine{00023\ \ \ \ \ setFpsStartTime(SDL\_GetTicks());}
+\DoxyCodeLine{00024\ \ \ \ \ setFrameCounter(0);}
+\DoxyCodeLine{00025\ \ \ \ \ setFpsCounter(0);}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ updateTimers()}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ updateFrameCounter();}
+\DoxyCodeLine{00038\ \ \ \ \ setCurrenTime(SDL\_GetTicks());}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ deltatime\ =\ calculateDeltatime(currentTime,\ previousTime);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ setPreviousTime(currentTime);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ update\ fps\ in\ second}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ ((currentTime\ -\/\ fpsStartTime)\ >\ 999)}
+\DoxyCodeLine{00046\ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ fpsCounter\ =\ frameCounter;}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ resetFrameCounter();}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ fpsStartTime\ =\ currentTime;}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00059\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ closeTimers()}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ setCurrenTime(0);}
+\DoxyCodeLine{00062\ \ \ \ \ setPreviousTime(0);}
+\DoxyCodeLine{00063\ \ \ \ \ setFpsStartTime(0);}
+\DoxyCodeLine{00064\ \ \ \ \ setFrameCounter(0);}
+\DoxyCodeLine{00065\ \ \ \ \ setFpsCounter(0);}
+\DoxyCodeLine{00066\ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,21 @@
+\doxysection{mouse\+\_\+event\+\_\+manager.\+h}
+\hypertarget{mouse__event__manager_8h_source}{}\label{mouse__event__manager_8h_source}\index{include/core/managers/mouse\_event\_manager.h@{include/core/managers/mouse\_event\_manager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MOUSE\_EVENT\_MANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MOUSE\_EVENT\_MANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{event__manager_8h}{event\_manager.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Global\ EventManager\ for\ mouse\ events}}
+\DoxyCodeLine{00007\ \textcolor{keyword}{static}\ \mbox{\hyperlink{structEventManager}{EventManager}}\ gMouseEventManager;}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ addMouseEventListener(type,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\ \ \ \ addEventListener(\&gMouseEventManager,\ (uint32\_t)(type),\ (listener))}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ removeMouseEventListener(type,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\ \ \ \ removeEventListener(\&gMouseEventManager,\ (uint32\_t)(type),\ (listener))}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

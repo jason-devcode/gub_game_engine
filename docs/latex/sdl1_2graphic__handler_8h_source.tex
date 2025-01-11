@@ -1,0 +1,72 @@
+\doxysection{graphic\+\_\+handler.\+h}
+\hypertarget{sdl1_2graphic__handler_8h_source}{}\label{sdl1_2graphic__handler_8h_source}\index{include/core/apis/sdl1/graphic\_handler.h@{include/core/apis/sdl1/graphic\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRAPHIC\_API\_HANDLER\_SDL\_1\_2\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRAPHIC\_API\_HANDLER\_SDL\_1\_2\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \textcolor{comment}{//\ For\ boolean\ type\ and\ constants}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdint.h>}\ \ \textcolor{comment}{//\ For\ fixed-\/width\ integer\ types}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL/SDL.h>}\ \textcolor{comment}{//\ For\ SDL\ graphics\ functions}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}graphic\_environment.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/depthbuffer.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/screen\_dimensions.h"{}}\ \textcolor{comment}{//\ For\ screen\ dimensions\ engine\ properties}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{void}\ setWindowTitle(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *title)}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ SDL\_WM\_SetCaption(title,\ NULL);\ \textcolor{comment}{//\ Set\ the\ window\ title,\ with\ no\ icon\ text}}
+\DoxyCodeLine{00022\ \}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{bool}\ initializeGraphicApi(\textcolor{keywordtype}{int}\ widthScreenPixels,\ \textcolor{keywordtype}{int}\ heightScreenPixels,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *windowTitle)}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{comment}{//\ Initialize\ SDL\ video\ subsystem}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_VIDEO)\ <\ 0)}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Print\ an\ error\ message\ if\ SDL\ initialization\ fails}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ initialize\ SDL:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ SDL\_Surface\ *screen\ =\ SDL\_SetVideoMode(widthScreenPixels,\ heightScreenPixels,\ 32,\ SDL\_SWSURFACE);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{if}\ (screen\ ==\ NULL)}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Print\ an\ error\ message\ if\ screen\ initialization\ fails}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ set\ video\ mode:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00054\ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ gGameEngineGraphicEnvironment.screenSurface\ =\ screen;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ gScreenWidth\ =\ widthScreenPixels;}
+\DoxyCodeLine{00059\ \ \ \ \ gScreenHeight\ =\ heightScreenPixels;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Correct\ the\ pixel\ width\ calculation\ based\ on\ screen\ pitch}}
+\DoxyCodeLine{00062\ \ \ \ \ gCorrectPixelsWidth\ =\ screen-\/>pitch\ >>\ 2;\ \textcolor{comment}{//\ >>\ 2\ is\ equivalent\ to\ /\ 4}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ gScreenTotalPixels\ =\ gCorrectPixelsWidth\ *\ heightScreenPixels;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{comment}{//\ Set\ framebuffer\ pointer\ to\ the\ screen’s\ pixel\ data}}
+\DoxyCodeLine{00067\ \ \ \ \ framebuffer\ =\ (uint32\_t\ *)screen-\/>pixels;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ Allocate\ memory\ for\ the\ depth\ buffer}}
+\DoxyCodeLine{00070\ \ \ \ \ depthbuffer\ =\ (\textcolor{keywordtype}{double}\ *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{double}[gScreenWidth\ *\ gScreenHeight]));}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{comment}{//\ Set\ the\ window\ title}}
+\DoxyCodeLine{00073\ \ \ \ \ setWindowTitle(windowTitle);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00083\ \textcolor{keywordtype}{void}\ closeGraphicApi()}
+\DoxyCodeLine{00084\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ SDL\_Quit();\ \textcolor{comment}{//\ Shut\ down\ SDL}}
+\DoxyCodeLine{00086\ \ \ \ \ exit(EXIT\_SUCCESS);}
+\DoxyCodeLine{00087\ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

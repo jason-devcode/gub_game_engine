@@ -1,0 +1,18 @@
+\doxysection{fast\+\_\+min\+\_\+max.\+h}
+\hypertarget{fast__min__max_8h_source}{}\label{fast__min__max_8h_source}\index{include/utils/fast\_math/fast\_min\_max.h@{include/utils/fast\_math/fast\_min\_max.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FAST\_MIN\_MAX\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FAST\_MIN\_MAX\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ get\_min\_value(a,\ b)\ ((a)\ <\ (b)\ ?\ (a)\ :\ (b))}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ get\_max\_value(a,\ b)\ ((a)\ >\ (b)\ ?\ (a)\ :\ (b))}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ get\_min\_value\_of\_three(a,\ b,\ c)\ (get\_min\_value(get\_min\_value(a,\ b),\ c))}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ get\_max\_value\_of\_three(a,\ b,\ c)\ (get\_max\_value(get\_max\_value(a,\ b),\ c))}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FAST\_MIN\_MAX\_H}}
+
+\end{DoxyCode}

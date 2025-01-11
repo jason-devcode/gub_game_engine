@@ -1,0 +1,427 @@
+\doxysection{color\+\_\+palette.\+h}
+\hypertarget{color__palette_8h_source}{}\label{color__palette_8h_source}\index{include/utils/color\_palette.h@{include/utils/color\_palette.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ COLOR\_PALETTE\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ COLOR\_PALETTE\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}color.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ RED\ RGB(255,\ 0,\ 0)}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ GREEN\ RGB(0,\ 255,\ 0)}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ BLUE\ RGB(0,\ 0,\ 255)}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ YELLOW\ RGB(255,\ 255,\ 0)}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ WHITE\ RGB(255,\ 255,\ 255)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ BLACK\ RGB(0,\ 0,\ 0)}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Colors\ palette\ extracted\ from\ tailwind\ css}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ Slate}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ SLATE\_50\ RGB(248,\ 250,\ 252)}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ SLATE\_100\ RGB(241,\ 245,\ 249)}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ SLATE\_200\ RGB(226,\ 232,\ 240)}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ SLATE\_300\ RGB(203,\ 213,\ 225)}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ SLATE\_400\ RGB(148,\ 163,\ 184)}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ SLATE\_500\ RGB(100,\ 116,\ 139)}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ SLATE\_600\ RGB(71,\ 85,\ 105)}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ SLATE\_700\ RGB(51,\ 65,\ 85)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ SLATE\_800\ RGB(30,\ 41,\ 59)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ SLATE\_900\ RGB(15,\ 23,\ 42)}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ SLATE\_950\ RGB(2,\ 6,\ 23)}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{comment}{//\ Gray}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ GRAY\_50\ RGB(249,\ 250,\ 251)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ GRAY\_100\ RGB(243,\ 244,\ 246)}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ GRAY\_200\ RGB(229,\ 231,\ 235)}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ GRAY\_300\ RGB(209,\ 213,\ 219)}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ GRAY\_400\ RGB(156,\ 163,\ 175)}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ GRAY\_500\ RGB(107,\ 114,\ 128)}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ GRAY\_600\ RGB(75,\ 85,\ 99)}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ GRAY\_700\ RGB(55,\ 65,\ 81)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ GRAY\_800\ RGB(31,\ 41,\ 55)}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ GRAY\_900\ RGB(17,\ 24,\ 39)}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ GRAY\_950\ RGB(3,\ 7,\ 18)}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ Zinc}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ ZINC\_50\ RGB(250,\ 250,\ 250)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ ZINC\_100\ RGB(244,\ 244,\ 245)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ ZINC\_200\ RGB(228,\ 228,\ 231)}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ ZINC\_300\ RGB(212,\ 212,\ 216)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\#define\ ZINC\_400\ RGB(161,\ 161,\ 170)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ ZINC\_500\ RGB(113,\ 113,\ 122)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ ZINC\_600\ RGB(82,\ 82,\ 91)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ ZINC\_700\ RGB(63,\ 63,\ 70)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ ZINC\_800\ RGB(39,\ 39,\ 42)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ ZINC\_900\ RGB(24,\ 24,\ 27)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ ZINC\_950\ RGB(9,\ 9,\ 11)}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{//\ Neutral}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ NEUTRAL\_50\ RGB(250,\ 250,\ 250)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ NEUTRAL\_100\ RGB(245,\ 245,\ 245)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ NEUTRAL\_200\ RGB(229,\ 229,\ 229)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ NEUTRAL\_300\ RGB(212,\ 212,\ 212)}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ NEUTRAL\_400\ RGB(163,\ 163,\ 163)}}
+\DoxyCodeLine{00061\ \textcolor{preprocessor}{\#define\ NEUTRAL\_500\ RGB(115,\ 115,\ 115)}}
+\DoxyCodeLine{00062\ \textcolor{preprocessor}{\#define\ NEUTRAL\_600\ RGB(82,\ 82,\ 82)}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ NEUTRAL\_700\ RGB(64,\ 64,\ 64)}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ NEUTRAL\_800\ RGB(38,\ 38,\ 38)}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ NEUTRAL\_900\ RGB(23,\ 23,\ 23)}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ NEUTRAL\_950\ RGB(10,\ 10,\ 10)}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \textcolor{comment}{//\ Stone}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ STONE\_50\ RGB(250,\ 250,\ 249)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ STONE\_100\ RGB(245,\ 245,\ 244)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ STONE\_200\ RGB(231,\ 229,\ 228)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ STONE\_300\ RGB(214,\ 211,\ 209)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ STONE\_400\ RGB(168,\ 162,\ 158)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ STONE\_500\ RGB(120,\ 113,\ 108)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ STONE\_600\ RGB(87,\ 83,\ 78)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#define\ STONE\_700\ RGB(68,\ 64,\ 60)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ STONE\_800\ RGB(41,\ 37,\ 36)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ STONE\_900\ RGB(28,\ 25,\ 23)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ STONE\_950\ RGB(12,\ 10,\ 9)}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ Red}}
+\DoxyCodeLine{00082\ \textcolor{preprocessor}{\#define\ RED\_50\ RGB(254,\ 242,\ 242)}}
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#define\ RED\_100\ RGB(254,\ 226,\ 226)}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ RED\_200\ RGB(254,\ 202,\ 202)}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ RED\_300\ RGB(252,\ 165,\ 165)}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ RED\_400\ RGB(248,\ 113,\ 113)}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ RED\_500\ RGB(239,\ 68,\ 68)}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ RED\_600\ RGB(220,\ 38,\ 38)}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ RED\_700\ RGB(185,\ 28,\ 28)}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ RED\_800\ RGB(153,\ 27,\ 27)}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ RED\_900\ RGB(127,\ 29,\ 29)}}
+\DoxyCodeLine{00092\ \textcolor{preprocessor}{\#define\ RED\_950\ RGB(69,\ 10,\ 10)}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ Orange}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ ORANGE\_50\ RGB(255,\ 247,\ 237)}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ ORANGE\_100\ RGB(255,\ 237,\ 213)}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ ORANGE\_200\ RGB(254,\ 215,\ 170)}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ ORANGE\_300\ RGB(253,\ 186,\ 116)}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ ORANGE\_400\ RGB(251,\ 146,\ 60)}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ ORANGE\_500\ RGB(249,\ 115,\ 22)}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ ORANGE\_600\ RGB(234,\ 88,\ 12)}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ ORANGE\_700\ RGB(194,\ 65,\ 12)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ ORANGE\_800\ RGB(154,\ 52,\ 18)}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ ORANGE\_900\ RGB(124,\ 45,\ 18)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ ORANGE\_950\ RGB(67,\ 20,\ 7)}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{comment}{//\ Amber}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ AMBER\_50\ RGB(255,\ 251,\ 235)}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ AMBER\_100\ RGB(254,\ 243,\ 199)}}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ AMBER\_200\ RGB(253,\ 230,\ 138)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ AMBER\_300\ RGB(252,\ 211,\ 77)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ AMBER\_400\ RGB(251,\ 191,\ 36)}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ AMBER\_500\ RGB(245,\ 158,\ 11)}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ AMBER\_600\ RGB(217,\ 119,\ 6)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ AMBER\_700\ RGB(180,\ 83,\ 9)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\#define\ AMBER\_800\ RGB(146,\ 64,\ 14)}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ AMBER\_900\ RGB(120,\ 53,\ 15)}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ AMBER\_950\ RGB(69,\ 26,\ 3)}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \textcolor{comment}{//\ Yellow}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ YELLOW\_50\ RGB(254,\ 252,\ 232)}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ YELLOW\_100\ RGB(254,\ 249,\ 195)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ YELLOW\_200\ RGB(254,\ 240,\ 138)}}
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ YELLOW\_300\ RGB(253,\ 224,\ 71)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#define\ YELLOW\_400\ RGB(250,\ 204,\ 21)}}
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#define\ YELLOW\_500\ RGB(234,\ 179,\ 8)}}
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#define\ YELLOW\_600\ RGB(202,\ 138,\ 4)}}
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ YELLOW\_700\ RGB(161,\ 98,\ 7)}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#define\ YELLOW\_800\ RGB(133,\ 77,\ 14)}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ YELLOW\_900\ RGB(113,\ 63,\ 18)}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ YELLOW\_950\ RGB(66,\ 32,\ 6)}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \textcolor{comment}{//\ Lime}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ LIME\_50\ RGB(247,\ 254,\ 231)}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ LIME\_100\ RGB(236,\ 252,\ 203)}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ LIME\_200\ RGB(217,\ 249,\ 157)}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ LIME\_300\ RGB(190,\ 242,\ 100)}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ LIME\_400\ RGB(163,\ 230,\ 53)}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ LIME\_500\ RGB(132,\ 204,\ 22)}}
+\DoxyCodeLine{00140\ \textcolor{preprocessor}{\#define\ LIME\_600\ RGB(101,\ 163,\ 13)}}
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ LIME\_700\ RGB(77,\ 124,\ 15)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ LIME\_800\ RGB(63,\ 98,\ 18)}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ LIME\_900\ RGB(54,\ 83,\ 20)}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ LIME\_950\ RGB(26,\ 46,\ 5)}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \textcolor{comment}{//\ Green}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ GREEN\_50\ RGB(240,\ 253,\ 244)}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ GREEN\_100\ RGB(220,\ 252,\ 231)}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ GREEN\_200\ RGB(187,\ 247,\ 208)}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ GREEN\_300\ RGB(134,\ 239,\ 172)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ GREEN\_400\ RGB(74,\ 222,\ 128)}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ GREEN\_500\ RGB(34,\ 197,\ 94)}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ GREEN\_600\ RGB(22,\ 163,\ 74)}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ GREEN\_700\ RGB(21,\ 128,\ 61)}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ GREEN\_800\ RGB(22,\ 101,\ 52)}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ GREEN\_900\ RGB(20,\ 83,\ 45)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ GREEN\_950\ RGB(5,\ 46,\ 22)}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \textcolor{comment}{//\ Emerald}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ EMERALD\_50\ RGB(236,\ 253,\ 245)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ EMERALD\_100\ RGB(209,\ 250,\ 229)}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ EMERALD\_200\ RGB(167,\ 243,\ 208)}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ EMERALD\_300\ RGB(110,\ 231,\ 183)}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ EMERALD\_400\ RGB(52,\ 211,\ 153)}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ EMERALD\_500\ RGB(16,\ 185,\ 129)}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ EMERALD\_600\ RGB(5,\ 150,\ 105)}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ EMERALD\_700\ RGB(4,\ 120,\ 87)}}
+\DoxyCodeLine{00168\ \textcolor{preprocessor}{\#define\ EMERALD\_800\ RGB(6,\ 95,\ 70)}}
+\DoxyCodeLine{00169\ \textcolor{preprocessor}{\#define\ EMERALD\_900\ RGB(6,\ 78,\ 59)}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ EMERALD\_950\ RGB(2,\ 44,\ 34)}}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \textcolor{comment}{//\ Teal}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ TEAL\_50\ RGB(240,\ 253,\ 250)}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ TEAL\_100\ RGB(204,\ 251,\ 241)}}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ TEAL\_200\ RGB(153,\ 246,\ 228)}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ TEAL\_300\ RGB(94,\ 234,\ 212)}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ TEAL\_400\ RGB(45,\ 212,\ 191)}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ TEAL\_500\ RGB(20,\ 184,\ 166)}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ TEAL\_600\ RGB(13,\ 148,\ 136)}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ TEAL\_700\ RGB(15,\ 118,\ 110)}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ TEAL\_800\ RGB(17,\ 94,\ 89)}}
+\DoxyCodeLine{00182\ \textcolor{preprocessor}{\#define\ TEAL\_900\ RGB(19,\ 78,\ 74)}}
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ TEAL\_950\ RGB(4,\ 47,\ 46)}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{comment}{//\ Cyan}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ CYAN\_50\ RGB(236,\ 254,\ 255)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ CYAN\_100\ RGB(207,\ 250,\ 254)}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ CYAN\_200\ RGB(165,\ 243,\ 252)}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ CYAN\_300\ RGB(103,\ 232,\ 249)}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ CYAN\_400\ RGB(34,\ 211,\ 238)}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ CYAN\_500\ RGB(6,\ 182,\ 212)}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ CYAN\_600\ RGB(8,\ 145,\ 178)}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ CYAN\_700\ RGB(14,\ 116,\ 144)}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ CYAN\_800\ RGB(21,\ 94,\ 117)}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ CYAN\_900\ RGB(22,\ 78,\ 99)}}
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#define\ CYAN\_950\ RGB(8,\ 51,\ 68)}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \textcolor{comment}{//\ Sky}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ SKY\_50\ RGB(240,\ 249,\ 255)}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ SKY\_100\ RGB(224,\ 242,\ 254)}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#define\ SKY\_200\ RGB(186,\ 230,\ 253)}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#define\ SKY\_300\ RGB(125,\ 211,\ 252)}}
+\DoxyCodeLine{00203\ \textcolor{preprocessor}{\#define\ SKY\_400\ RGB(56,\ 189,\ 248)}}
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#define\ SKY\_500\ RGB(14,\ 165,\ 233)}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ SKY\_600\ RGB(2,\ 132,\ 199)}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ SKY\_700\ RGB(3,\ 105,\ 161)}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ SKY\_800\ RGB(7,\ 89,\ 133)}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ SKY\_900\ RGB(12,\ 74,\ 110)}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#define\ SKY\_950\ RGB(8,\ 47,\ 73)}}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ \textcolor{comment}{//\ Blue}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ BLUE\_50\ RGB(239,\ 246,\ 255)}}
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#define\ BLUE\_100\ RGB(219,\ 234,\ 254)}}
+\DoxyCodeLine{00214\ \textcolor{preprocessor}{\#define\ BLUE\_200\ RGB(191,\ 219,\ 254)}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ BLUE\_300\ RGB(147,\ 197,\ 253)}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#define\ BLUE\_400\ RGB(96,\ 165,\ 250)}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ BLUE\_500\ RGB(59,\ 130,\ 246)}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ BLUE\_600\ RGB(37,\ 99,\ 235)}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ BLUE\_700\ RGB(29,\ 78,\ 216)}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ BLUE\_800\ RGB(30,\ 64,\ 159)}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ BLUE\_900\ RGB(30,\ 58,\ 138)}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ BLUE\_950\ RGB(23,\ 37,\ 84)}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \textcolor{comment}{//\ Indigo}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ INDIGO\_50\ RGB(238,\ 242,\ 255)}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ INDIGO\_100\ RGB(224,\ 231,\ 255)}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ INDIGO\_200\ RGB(199,\ 210,\ 254)}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ INDIGO\_300\ RGB(165,\ 180,\ 252)}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ INDIGO\_400\ RGB(129,\ 140,\ 248)}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ INDIGO\_500\ RGB(99,\ 102,\ 241)}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#define\ INDIGO\_600\ RGB(79,\ 70,\ 229)}}
+\DoxyCodeLine{00232\ \textcolor{preprocessor}{\#define\ INDIGO\_700\ RGB(67,\ 56,\ 202)}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ INDIGO\_800\ RGB(55,\ 48,\ 163)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ INDIGO\_900\ RGB(49,\ 46,\ 129)}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ INDIGO\_950\ RGB(30,\ 27,\ 75)}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \textcolor{comment}{//\ Violet}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\#define\ VIOLET\_50\ RGB(245,\ 243,\ 255)}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#define\ VIOLET\_100\ RGB(237,\ 233,\ 254)}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ VIOLET\_200\ RGB(221,\ 214,\ 254)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#define\ VIOLET\_300\ RGB(196,\ 181,\ 253)}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ VIOLET\_400\ RGB(167,\ 139,\ 250)}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ VIOLET\_500\ RGB(139,\ 92,\ 246)}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ VIOLET\_600\ RGB(124,\ 58,\ 237)}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\#define\ VIOLET\_700\ RGB(109,\ 28,\ 217)}}
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#define\ VIOLET\_800\ RGB(91,\ 33,\ 182)}}
+\DoxyCodeLine{00247\ \textcolor{preprocessor}{\#define\ VIOLET\_900\ RGB(76,\ 29,\ 149)}}
+\DoxyCodeLine{00248\ \textcolor{preprocessor}{\#define\ VIOLET\_950\ RGB(46,\ 16,\ 101)}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \textcolor{comment}{//\ Purple}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ PURPLE\_50\ RGB(250,\ 245,\ 255)}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ PURPLE\_100\ RGB(243,\ 232,\ 255)}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ PURPLE\_200\ RGB(233,\ 213,\ 255)}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ PURPLE\_300\ RGB(216,\ 180,\ 254)}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ PURPLE\_400\ RGB(192,\ 132,\ 254)}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ PURPLE\_500\ RGB(168,\ 85,\ 247)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ PURPLE\_600\ RGB(147,\ 51,\ 234)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#define\ PURPLE\_700\ RGB(126,\ 34,\ 206)}}
+\DoxyCodeLine{00259\ \textcolor{preprocessor}{\#define\ PURPLE\_800\ RGB(107,\ 33,\ 168)}}
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#define\ PURPLE\_900\ RGB(88,\ 28,\ 135)}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ PURPLE\_950\ RGB(59,\ 7,\ 100)}}
+\DoxyCodeLine{00262\ }
+\DoxyCodeLine{00263\ \textcolor{comment}{//\ Fuchsia}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ FUCHSIA\_50\ RGB(253,\ 244,\ 255)}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ FUCHSIA\_100\ RGB(250,\ 232,\ 255)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ FUCHSIA\_200\ RGB(245,\ 208,\ 254)}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ FUCHSIA\_300\ RGB(240,\ 171,\ 252)}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ FUCHSIA\_400\ RGB(232,\ 121,\ 249)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ FUCHSIA\_500\ RGB(217,\ 70,\ 239)}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#define\ FUCHSIA\_600\ RGB(192,\ 38,\ 211)}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ FUCHSIA\_700\ RGB(162,\ 28,\ 175)}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ FUCHSIA\_800\ RGB(134,\ 25,\ 143)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#define\ FUCHSIA\_900\ RGB(112,\ 26,\ 117)}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#define\ FUCHSIA\_950\ RGB(74,\ 4,\ 78)}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \textcolor{comment}{//\ Pink}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#define\ PINK\_50\ RGB(253,\ 242,\ 248)}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ PINK\_100\ RGB(252,\ 231,\ 243)}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ PINK\_200\ RGB(251,\ 207,\ 232)}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ PINK\_300\ RGB(249,\ 168,\ 212)}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ PINK\_400\ RGB(244,\ 114,\ 182)}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ PINK\_500\ RGB(236,\ 72,\ 153)}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ PINK\_600\ RGB(219,\ 39,\ 119)}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ PINK\_700\ RGB(190,\ 24,\ 93)}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#define\ PINK\_800\ RGB(157,\ 23,\ 77)}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ PINK\_900\ RGB(131,\ 19,\ 67)}}
+\DoxyCodeLine{00287\ \textcolor{preprocessor}{\#define\ PINK\_950\ RGB(80,\ 7,\ 36)}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \textcolor{comment}{//\ Rose}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#define\ ROSE\_50\ RGB(255,\ 241,\ 242)}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#define\ ROSE\_100\ RGB(255,\ 228,\ 230)}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#define\ ROSE\_200\ RGB(254,\ 205,\ 211)}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ ROSE\_300\ RGB(253,\ 164,\ 175)}}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ ROSE\_400\ RGB(251,\ 113,\ 133)}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#define\ ROSE\_500\ RGB(244,\ 63,\ 94)}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ ROSE\_600\ RGB(225,\ 29,\ 72)}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#define\ ROSE\_700\ RGB(190,\ 18,\ 60)}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#define\ ROSE\_800\ RGB(159,\ 18,\ 57)}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#define\ ROSE\_900\ RGB(136,\ 19,\ 55)}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#define\ ROSE\_950\ RGB(76,\ 5,\ 25)}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{preprocessor}{\#define\ COLOR\_COUNT\ 24}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#define\ SHADE\_COUNT\ 11}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ colorTailwindPalette(\textcolor{keywordtype}{int}\ colorIndex,\ \textcolor{keywordtype}{int}\ colorShade)}
+\DoxyCodeLine{00306\ \{}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ colors\_tailwind\_palette[COLOR\_COUNT][SHADE\_COUNT]\ =\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Slate}}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ SLATE\_50,\ SLATE\_100,\ SLATE\_200,\ SLATE\_300,\ SLATE\_400,}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ SLATE\_500,\ SLATE\_600,\ SLATE\_700,\ SLATE\_800,\ SLATE\_900,}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ SLATE\_950\},}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Gray}}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ GRAY\_50,\ GRAY\_100,\ GRAY\_200,\ GRAY\_300,\ GRAY\_400,}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ GRAY\_500,\ GRAY\_600,\ GRAY\_700,\ GRAY\_800,\ GRAY\_900,}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ GRAY\_950\},}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Zinc}}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ ZINC\_50,\ ZINC\_100,\ ZINC\_200,\ ZINC\_300,\ ZINC\_400,}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ ZINC\_500,\ ZINC\_600,\ ZINC\_700,\ ZINC\_800,\ ZINC\_900,}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ ZINC\_950\},}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Neutral}}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ NEUTRAL\_50,\ NEUTRAL\_100,\ NEUTRAL\_200,\ NEUTRAL\_300,\ NEUTRAL\_400,}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ NEUTRAL\_500,\ NEUTRAL\_600,\ NEUTRAL\_700,\ NEUTRAL\_800,\ NEUTRAL\_900,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ NEUTRAL\_950\},}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Stone}}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ STONE\_50,\ STONE\_100,\ STONE\_200,\ STONE\_300,\ STONE\_400,}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ STONE\_500,\ STONE\_600,\ STONE\_700,\ STONE\_800,\ STONE\_900,}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ STONE\_950\},}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Red}}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ RED\_50,\ RED\_100,\ RED\_200,\ RED\_300,\ RED\_400,}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ RED\_500,\ RED\_600,\ RED\_700,\ RED\_800,\ RED\_900,}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ RED\_950\},}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Orange}}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ ORANGE\_50,\ ORANGE\_100,\ ORANGE\_200,\ ORANGE\_300,\ ORANGE\_400,}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ ORANGE\_500,\ ORANGE\_600,\ ORANGE\_700,\ ORANGE\_800,\ ORANGE\_900,}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ ORANGE\_950\},}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Amber}}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ AMBER\_50,\ AMBER\_100,\ AMBER\_200,\ AMBER\_300,\ AMBER\_400,}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ AMBER\_500,\ AMBER\_600,\ AMBER\_700,\ AMBER\_800,\ AMBER\_900,}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ AMBER\_950\},}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Yellow}}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ YELLOW\_50,\ YELLOW\_100,\ YELLOW\_200,\ YELLOW\_300,\ YELLOW\_400,}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ YELLOW\_500,\ YELLOW\_600,\ YELLOW\_700,\ YELLOW\_800,\ YELLOW\_900,}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ YELLOW\_950\},}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Lime}}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ LIME\_50,\ LIME\_100,\ LIME\_200,\ LIME\_300,\ LIME\_400,}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ LIME\_500,\ LIME\_600,\ LIME\_700,\ LIME\_800,\ LIME\_900,}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ LIME\_950\},}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Green}}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ GREEN\_50,\ GREEN\_100,\ GREEN\_200,\ GREEN\_300,\ GREEN\_400,}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ GREEN\_500,\ GREEN\_600,\ GREEN\_700,\ GREEN\_800,\ GREEN\_900,}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \ \ \ \ GREEN\_950\},}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Emerald}}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ EMERALD\_50,\ EMERALD\_100,\ EMERALD\_200,\ EMERALD\_300,\ EMERALD\_400,}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ EMERALD\_500,\ EMERALD\_600,\ EMERALD\_700,\ EMERALD\_800,\ EMERALD\_900,}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ EMERALD\_950\},}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Teal}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ TEAL\_50,\ TEAL\_100,\ TEAL\_200,\ TEAL\_300,\ TEAL\_400,}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ TEAL\_500,\ TEAL\_600,\ TEAL\_700,\ TEAL\_800,\ TEAL\_900,}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ TEAL\_950\},}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Cyan}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ CYAN\_50,\ CYAN\_100,\ CYAN\_200,\ CYAN\_300,\ CYAN\_400,}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ CYAN\_500,\ CYAN\_600,\ CYAN\_700,\ CYAN\_800,\ CYAN\_900,}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ CYAN\_950\},}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sky}}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ SKY\_50,\ SKY\_100,\ SKY\_200,\ SKY\_300,\ SKY\_400,}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \ \ \ \ SKY\_500,\ SKY\_600,\ SKY\_700,\ SKY\_800,\ SKY\_900,}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ \ \ \ \ SKY\_950\},}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Blue}}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ BLUE\_50,\ BLUE\_100,\ BLUE\_200,\ BLUE\_300,\ BLUE\_400,}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ BLUE\_500,\ BLUE\_600,\ BLUE\_700,\ BLUE\_800,\ BLUE\_900,}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ BLUE\_950\},}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Indigo}}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ INDIGO\_50,\ INDIGO\_100,\ INDIGO\_200,\ INDIGO\_300,\ INDIGO\_400,}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ INDIGO\_500,\ INDIGO\_600,\ INDIGO\_700,\ INDIGO\_800,\ INDIGO\_900,}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ INDIGO\_950\},}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Violet}}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ VIOLET\_50,\ VIOLET\_100,\ VIOLET\_200,\ VIOLET\_300,\ VIOLET\_400,}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ VIOLET\_500,\ VIOLET\_600,\ VIOLET\_700,\ VIOLET\_800,\ VIOLET\_900,}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ VIOLET\_950\},}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Purple}}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ PURPLE\_50,\ PURPLE\_100,\ PURPLE\_200,\ PURPLE\_300,\ PURPLE\_400,}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ PURPLE\_500,\ PURPLE\_600,\ PURPLE\_700,\ PURPLE\_800,\ PURPLE\_900,}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ PURPLE\_950\},}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fuchsia}}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ FUCHSIA\_50,\ FUCHSIA\_100,\ FUCHSIA\_200,\ FUCHSIA\_300,\ FUCHSIA\_400,}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ FUCHSIA\_500,\ FUCHSIA\_600,\ FUCHSIA\_700,\ FUCHSIA\_800,\ FUCHSIA\_900,}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ FUCHSIA\_950\},}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Pink}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ PINK\_50,\ PINK\_100,\ PINK\_200,\ PINK\_300,\ PINK\_400,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ PINK\_500,\ PINK\_600,\ PINK\_700,\ PINK\_800,\ PINK\_900,}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ PINK\_950\},}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Rose}}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ ROSE\_50,\ ROSE\_100,\ ROSE\_200,\ ROSE\_300,\ ROSE\_400,}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ ROSE\_500,\ ROSE\_600,\ ROSE\_700,\ ROSE\_800,\ ROSE\_900,}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ ROSE\_950\}\};}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \ \ \ \ \textcolor{keywordflow}{return}\ colors\_tailwind\_palette[colorIndex\ \%\ COLOR\_COUNT][colorShade\ \%\ COLOR\_COUNT];}
+\DoxyCodeLine{00420\ \}}
+\DoxyCodeLine{00421\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

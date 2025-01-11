@@ -1,0 +1,22 @@
+\doxysection{fps.\+h}
+\hypertarget{fps_8h_source}{}\label{fps_8h_source}\index{include/core/engine\_properties/fps.h@{include/core/engine\_properties/fps.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FPS\_COUNTER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FPS\_COUNTER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{static}\ uint32\_t\ fpsCounter\ =\ 0;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{static}\ uint32\_t\ fpsStartTime\ =\ 0;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ setFpsCounter(frames\_per\_second\_count)\ fpsCounter\ =\ frames\_per\_second\_count}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ setFpsStartTime(startTime)\ fpsStartTime\ =\ (startTime)}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ getFps()\ fpsCounter}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

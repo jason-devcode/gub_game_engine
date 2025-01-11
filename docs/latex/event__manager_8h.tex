@@ -1,0 +1,243 @@
+\doxysection{include/core/managers/event\+\_\+manager.h File Reference}
+\hypertarget{event__manager_8h}{}\label{event__manager_8h}\index{include/core/managers/event\_manager.h@{include/core/managers/event\_manager.h}}
+
+
+\doxylink{structEventManager}{Event\+Manager} module for managing event listeners in a flexible and efficient manner.  
+
+
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structNodeEventListener}{Node\+Event\+Listener}}
+\begin{DoxyCompactList}\small\item\em Represents a node in the linked list of event listeners. \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structEventManager}{Event\+Manager}}
+\begin{DoxyCompactList}\small\item\em Represents the event manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{event__manager_8h_acefb4139d7e9c4032e9ffe7337d16593}{trigger\+Event}}(manager,  key)
+\begin{DoxyCompactList}\small\item\em Triggers an event for all listeners in the specified list of the \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{event__manager_8h_af172a7a57f98b406f35e4850069335e7}\label{event__manager_8h_af172a7a57f98b406f35e4850069335e7} 
+typedef struct Node\+Event\+Listener {\bfseries Node\+Event\+Listener}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initialize\+Event\+Manager}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager, uint32\+\_\+t max\+Possible\+Listener\+Lists)
+\begin{DoxyCompactList}\small\item\em Initializes an already created \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{event__manager_8h_ac43adaf2dfeb23799adf5283602def12}{create\+Event\+Manager}} (uint32\+\_\+t max\+Possible\+Listener\+Lists)
+\begin{DoxyCompactList}\small\item\em Creates a new \doxylink{structEventManager}{Event\+Manager} with the specified maximum number of listener lists. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{event__manager_8h_a640bb9f486c228a8254c32fd55421ce6}{add\+Event\+Listener}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager, uint32\+\_\+t key, void(\texorpdfstring{$\ast$}{*}listener)())
+\begin{DoxyCompactList}\small\item\em Adds a listener to the specified list in the \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{event__manager_8h_a7f94fc19c52a19b0d664fc68be67e186}{remove\+Event\+Listener}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager, uint32\+\_\+t key, void(\texorpdfstring{$\ast$}{*}listener)())
+\begin{DoxyCompactList}\small\item\em Removes a listener from the specified list in the \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{event__manager_8h_aa8191ebbd1e558217bfc63c0f1e3b81f}{clear\+Event\+Listeners}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager, uint32\+\_\+t key)
+\begin{DoxyCompactList}\small\item\em Clears all listeners from the specified list in the \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{event__manager_8h_a4ea524a464f810a40b2eff9cd9412313}{clear\+All\+Event\+Listeners}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager)
+\begin{DoxyCompactList}\small\item\em Clears all listener lists in the \doxylink{structEventManager}{Event\+Manager}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{free\+Event\+Manager}} (\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}manager, bool is\+Stack\+Element)
+\begin{DoxyCompactList}\small\item\em Frees the memory allocated for the \doxylink{structEventManager}{Event\+Manager} and its listener lists. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{structEventManager}{Event\+Manager} module for managing event listeners in a flexible and efficient manner. 
+
+This module provides functionality to create, manage, and destroy an \doxylink{structEventManager}{Event\+Manager}, which can handle multiple lists of event listeners. It allows adding, removing, and clearing listeners for specific events or all events. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{event__manager_8h_acefb4139d7e9c4032e9ffe7337d16593}\index{event\_manager.h@{event\_manager.h}!triggerEvent@{triggerEvent}}
+\index{triggerEvent@{triggerEvent}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{triggerEvent}{triggerEvent}}
+{\footnotesize\ttfamily \label{event__manager_8h_acefb4139d7e9c4032e9ffe7337d16593} 
+\#define trigger\+Event(\begin{DoxyParamCaption}\item[{}]{manager}{, }\item[{}]{key}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structNodeEventListener}{NodeEventListener}}\ *nodeListener\ =\ manager.listeners\_lists[key];\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ while\ (nodeListener)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ nodeListener-\/>listener();\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ nodeListener\ =\ nodeListener-\/>next;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Triggers an event for all listeners in the specified list of the \doxylink{structEventManager}{Event\+Manager}. 
+
+This macro iterates through all the nodes in the listener list for the specified key and calls the listener functions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & \doxylink{structEventManager}{Event\+Manager} instance that holds the listener lists. \\
+\hline
+{\em key} & Index of the listener list to trigger the event for. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{event__manager_8h_a640bb9f486c228a8254c32fd55421ce6}\index{event\_manager.h@{event\_manager.h}!addEventListener@{addEventListener}}
+\index{addEventListener@{addEventListener}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{addEventListener()}{addEventListener()}}
+{\footnotesize\ttfamily \label{event__manager_8h_a640bb9f486c228a8254c32fd55421ce6} 
+bool add\+Event\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{, }\item[{uint32\+\_\+t}]{key}{, }\item[{void(\texorpdfstring{$\ast$}{*}}]{listener~}{)()}\end{DoxyParamCaption})}
+
+
+
+Adds a listener to the specified list in the \doxylink{structEventManager}{Event\+Manager}. 
+
+This function creates a new \doxylink{structNodeEventListener}{Node\+Event\+Listener} and appends it to the list of listeners for the specified key.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager}. \\
+\hline
+{\em key} & Index of the listener list to add the listener to. \\
+\hline
+{\em listener} & Pointer to the listener function to add. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the listener was successfully added, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_a4ea524a464f810a40b2eff9cd9412313}\index{event\_manager.h@{event\_manager.h}!clearAllEventListeners@{clearAllEventListeners}}
+\index{clearAllEventListeners@{clearAllEventListeners}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{clearAllEventListeners()}{clearAllEventListeners()}}
+{\footnotesize\ttfamily \label{event__manager_8h_a4ea524a464f810a40b2eff9cd9412313} 
+bool clear\+All\+Event\+Listeners (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{}\end{DoxyParamCaption})}
+
+
+
+Clears all listener lists in the \doxylink{structEventManager}{Event\+Manager}. 
+
+This function removes and deallocates all \doxylink{structNodeEventListener}{Node\+Event\+Listener} nodes from all the lists in the \doxylink{structEventManager}{Event\+Manager}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager}. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if all lists were successfully cleared, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_aa8191ebbd1e558217bfc63c0f1e3b81f}\index{event\_manager.h@{event\_manager.h}!clearEventListeners@{clearEventListeners}}
+\index{clearEventListeners@{clearEventListeners}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{clearEventListeners()}{clearEventListeners()}}
+{\footnotesize\ttfamily \label{event__manager_8h_aa8191ebbd1e558217bfc63c0f1e3b81f} 
+bool clear\+Event\+Listeners (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{, }\item[{uint32\+\_\+t}]{key}{}\end{DoxyParamCaption})}
+
+
+
+Clears all listeners from the specified list in the \doxylink{structEventManager}{Event\+Manager}. 
+
+This function removes and deallocates all \doxylink{structNodeEventListener}{Node\+Event\+Listener} nodes from the list of listeners for the specified key.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager}. \\
+\hline
+{\em key} & Index of the listener list to clear. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the list was successfully cleared, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_ac43adaf2dfeb23799adf5283602def12}\index{event\_manager.h@{event\_manager.h}!createEventManager@{createEventManager}}
+\index{createEventManager@{createEventManager}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{createEventManager()}{createEventManager()}}
+{\footnotesize\ttfamily \label{event__manager_8h_ac43adaf2dfeb23799adf5283602def12} 
+\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*} create\+Event\+Manager (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{max\+Possible\+Listener\+Lists}{}\end{DoxyParamCaption})}
+
+
+
+Creates a new \doxylink{structEventManager}{Event\+Manager} with the specified maximum number of listener lists. 
+
+This function allocates memory for a new \doxylink{structEventManager}{Event\+Manager} and initializes its fields. It also allocates memory for the array of listener lists and initializes all list pointers to NULL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em max\+Possible\+Listener\+Lists} & Maximum number of listener lists the manager can hold. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to the newly created \doxylink{structEventManager}{Event\+Manager}, or NULL if memory allocation fails. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_a94559910de43732dc2da469b42f69298}\index{event\_manager.h@{event\_manager.h}!freeEventManager@{freeEventManager}}
+\index{freeEventManager@{freeEventManager}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{freeEventManager()}{freeEventManager()}}
+{\footnotesize\ttfamily \label{event__manager_8h_a94559910de43732dc2da469b42f69298} 
+bool free\+Event\+Manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{, }\item[{bool}]{is\+Stack\+Element}{}\end{DoxyParamCaption})}
+
+
+
+Frees the memory allocated for the \doxylink{structEventManager}{Event\+Manager} and its listener lists. 
+
+This function deallocates all memory associated with the \doxylink{structEventManager}{Event\+Manager}, including the memory for each event listener and the array of listener lists. It also clears the memory of each node before freeing it to ensure no garbage values are left behind.
+
+If the \doxylink{structEventManager}{Event\+Manager} was created as a stack variable, the {\ttfamily is\+Stack\+Element} parameter should be set to {\ttfamily true} to avoid attempting to free memory that was not allocated dynamically.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager} to be freed. \\
+\hline
+{\em is\+Stack\+Element} & Set to true if the \doxylink{structEventManager}{Event\+Manager} was created as a stack variable. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the \doxylink{structEventManager}{Event\+Manager} was successfully freed or was already NULL, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}\index{event\_manager.h@{event\_manager.h}!initializeEventManager@{initializeEventManager}}
+\index{initializeEventManager@{initializeEventManager}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{initializeEventManager()}{initializeEventManager()}}
+{\footnotesize\ttfamily \label{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5} 
+bool initialize\+Event\+Manager (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{, }\item[{uint32\+\_\+t}]{max\+Possible\+Listener\+Lists}{}\end{DoxyParamCaption})}
+
+
+
+Initializes an already created \doxylink{structEventManager}{Event\+Manager}. 
+
+This function initializes the fields of an already created \doxylink{structEventManager}{Event\+Manager}. It allocates memory for the array of listener lists and initializes all list pointers to NULL.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager} to be initialized. \\
+\hline
+{\em max\+Possible\+Listener\+Lists} & Maximum number of listener lists the manager can hold. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the \doxylink{structEventManager}{Event\+Manager} was successfully initialized, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{event__manager_8h_a7f94fc19c52a19b0d664fc68be67e186}\index{event\_manager.h@{event\_manager.h}!removeEventListener@{removeEventListener}}
+\index{removeEventListener@{removeEventListener}!event\_manager.h@{event\_manager.h}}
+\doxysubsubsection{\texorpdfstring{removeEventListener()}{removeEventListener()}}
+{\footnotesize\ttfamily \label{event__manager_8h_a7f94fc19c52a19b0d664fc68be67e186} 
+bool remove\+Event\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structEventManager}{Event\+Manager}} \texorpdfstring{$\ast$}{*}}]{manager}{, }\item[{uint32\+\_\+t}]{key}{, }\item[{void(\texorpdfstring{$\ast$}{*}}]{listener~}{)()}\end{DoxyParamCaption})}
+
+
+
+Removes a listener from the specified list in the \doxylink{structEventManager}{Event\+Manager}. 
+
+This function searches for a \doxylink{structNodeEventListener}{Node\+Event\+Listener} with the specified listener function and removes it from the list of listeners for the specified key.
+
+
+\begin{DoxyParams}{Parameters}
+{\em manager} & Pointer to the \doxylink{structEventManager}{Event\+Manager}. \\
+\hline
+{\em key} & Index of the listener list to remove the listener from. \\
+\hline
+{\em listener} & Pointer to the listener function to remove. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the listener was successfully removed, false otherwise. 
+\end{DoxyReturn}

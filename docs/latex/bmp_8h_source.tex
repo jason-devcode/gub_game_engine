@@ -1,0 +1,201 @@
+\doxysection{bmp.\+h}
+\hypertarget{bmp_8h_source}{}\label{bmp_8h_source}\index{include/utils/image/bmp.h@{include/utils/image/bmp.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ IMAGE\_FORMAT\_BMP\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ IMAGE\_FORMAT\_BMP\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}\ \textcolor{comment}{//\ For\ fixed-\/width\ integer\ types}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \textcolor{comment}{//\ For\ file\ operations}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdlib.h>}\ \textcolor{comment}{//\ For\ memory\ allocation\ functions}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../raster.h"{}}\ \textcolor{comment}{//\ For\ raster\ type}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ BMP\_BIT\_DEPTH\_24\ 24\ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ BMP\_BIT\_DEPTH\_32\ 32\ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ BMP\_ALPHA\_MASK\ 0xFF000000\ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ BMP\_RED\_SHIFT\ 16\ \ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ BMP\_GREEN\_SHIFT\ 8\ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ BMP\_BLUE\_SHIFT\ 0\ \ \ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ BMP\_ALPHA\_SHIFT\ 24\ \ \ \ \ \ \ \ }\textcolor{preprocessor}{}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#pragma\ pack(push,\ 1)}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9}{bfType}};\ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPFileHeader_a1b8126a94046ec3d4a1e5f569ae9c27d}{bfSize}};\ \ \ \ \ \ }
+\DoxyCodeLine{00029\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structBMPFileHeader_aa4bcd014e35633ea836723d9b9e521ec}{bfReserved1}};\ }
+\DoxyCodeLine{00030\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structBMPFileHeader_a329db915a85b1490f3c144c978465486}{bfReserved2}};\ }
+\DoxyCodeLine{00031\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d}{bfOffBits}};\ \ \ }
+\DoxyCodeLine{00032\ \}\ \mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}};}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#pragma\ pack(pop)}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#pragma\ pack(push,\ 1)}}
+\DoxyCodeLine{00039\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00040\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPInfoHeader_ad26b32800df69db0794941a066feb734}{biSize}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}{biWidth}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00043\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}{biHeight}};\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structBMPInfoHeader_a2ec1038058d2524844771da9d02e8c2e}{biPlanes}};\ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ uint16\_t\ \mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}};\ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPInfoHeader_a084ab95f2f31361ff2ce6f4ceb348b37}{biCompression}};\ \ }
+\DoxyCodeLine{00047\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPInfoHeader_a28f244e0afb677980618d782e79990e1}{biSizeImage}};\ \ \ \ }
+\DoxyCodeLine{00048\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structBMPInfoHeader_a4e215791ff78ae2c82639f8dde27cdfa}{biXPelsPerMeter}};\ }
+\DoxyCodeLine{00049\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structBMPInfoHeader_a70cd9add8714091fbcc01cd2f06de332}{biYPelsPerMeter}};\ }
+\DoxyCodeLine{00050\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPInfoHeader_abef2a46f0916de37cc57162c07045854}{biClrUsed}};\ \ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structBMPInfoHeader_ac7abdb77f5ffe710dfab39633e976375}{biClrImportant}};\ }
+\DoxyCodeLine{00052\ \}\ \mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}};}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#pragma\ pack(pop)}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00066\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *loadBMP(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00067\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00073\ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}}\ fileHeader;}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}}\ infoHeader;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ fread(\&fileHeader,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}}),\ 1,\ file);}
+\DoxyCodeLine{00079\ \ \ \ \ fread(\&infoHeader,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}}),\ 1,\ file);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ file\ is\ a\ BMP}}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (fileHeader.\mbox{\hyperlink{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9}{bfType}}\ !=\ 0x4D42)\ \textcolor{comment}{//\ 'BM'\ in\ little-\/endian}}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Not\ a\ BMP\ file\(\backslash\)n"{}});}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{comment}{//\ Check\ for\ supported\ bit\ depths}}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ !=\ BMP\_BIT\_DEPTH\_24\ \&\&\ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ !=\ BMP\_BIT\_DEPTH\_32)}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Unsupported\ BMP\ bit\ depth:\ \%d\(\backslash\)n"{}},\ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}});}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ Allocate\ memory\ for\ the\ raster}}
+\DoxyCodeLine{00098\ \ \ \ \ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster\ =\ (\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structRaster8888}{Raster8888}}));}
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster)}
+\DoxyCodeLine{00100\ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ raster-\/>width\ =\ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}{biWidth}};}
+\DoxyCodeLine{00107\ \ \ \ \ raster-\/>height\ =\ abs(infoHeader.\mbox{\hyperlink{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}{biHeight}});\ \textcolor{comment}{//\ Height\ can\ be\ negative}}
+\DoxyCodeLine{00108\ \ \ \ \ raster-\/>totalPixels\ =\ raster-\/>width\ *\ raster-\/>height;}
+\DoxyCodeLine{00109\ \ \ \ \ raster-\/>pixels\ =\ (uint32\_t\ *)malloc(raster-\/>totalPixels\ *\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster-\/>pixels)}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{comment}{//\ Move\ the\ file\ pointer\ to\ the\ beginning\ of\ the\ pixel\ data}}
+\DoxyCodeLine{00119\ \ \ \ \ fseek(file,\ fileHeader.\mbox{\hyperlink{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d}{bfOffBits}},\ SEEK\_SET);}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ padded\ row\ size}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{int}\ row\_padded\ =\ ((infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}{biWidth}}\ *\ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ +\ 31)\ /\ 32)\ *\ 4;}
+\DoxyCodeLine{00123\ \ \ \ \ uint8\_t\ *row\ =\ (uint8\_t\ *)malloc(row\_padded);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{if}\ (!row)}
+\DoxyCodeLine{00126\ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{//\ Read\ the\ pixel\ data\ row\ by\ row}}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ raster-\/>height;\ y++)}
+\DoxyCodeLine{00136\ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ row\_index\ =\ (infoHeader.\mbox{\hyperlink{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}{biHeight}}\ >\ 0)\ ?\ (raster-\/>height\ -\/\ y\ -\/\ 1)\ :\ y;\ \textcolor{comment}{//\ Handle\ vertical\ orientation}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ fread(row,\ 1,\ row\_padded,\ file);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ raster-\/>width;\ x++)}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ uint32\_t\ pixel\ =\ 0;}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ ==\ BMP\_BIT\_DEPTH\_24)}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ 24-\/bit\ BMP\ to\ 32-\/bit\ RGBA}}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 3\ +\ 2]\ <<\ BMP\_RED\_SHIFT;\ \ \ \textcolor{comment}{//\ Red}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 3\ +\ 1]\ <<\ BMP\_GREEN\_SHIFT;\ \textcolor{comment}{//\ Green}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 3\ +\ BMP\_BLUE\_SHIFT];\ \ \ \ \ \ \ \textcolor{comment}{//\ Blue}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ BMP\_ALPHA\_MASK;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Alpha\ (opaque)}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ ==\ BMP\_BIT\_DEPTH\_32)}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Read\ 32-\/bit\ BMP\ directly\ to\ 32-\/bit\ RGBA}}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 4\ +\ 2]\ <<\ BMP\_RED\_SHIFT;\ \ \ \textcolor{comment}{//\ Red}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 4\ +\ 1]\ <<\ BMP\_GREEN\_SHIFT;\ \textcolor{comment}{//\ Green}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 4\ +\ BMP\_BLUE\_SHIFT];\ \ \ \ \ \ \ \textcolor{comment}{//\ Blue}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pixel\ |=\ row[x\ *\ 4\ +\ 3]\ <<\ BMP\_ALPHA\_SHIFT;\ \textcolor{comment}{//\ Alpha}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ raster-\/>pixels[row\_index\ *\ raster-\/>width\ +\ x]\ =\ pixel;}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ free(row);}
+\DoxyCodeLine{00167\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{return}\ raster;}
+\DoxyCodeLine{00169\ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00178\ \textcolor{keywordtype}{int}\ saveBMP(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00179\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}wb"{}});}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00182\ \ \ \ \ \{}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}}\ fileHeader\ =\ \{0\};}
+\DoxyCodeLine{00188\ \ \ \ \ \mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}}\ infoHeader\ =\ \{0\};}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ fileHeader.\mbox{\hyperlink{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9}{bfType}}\ =\ 0x4D42;}
+\DoxyCodeLine{00191\ \ \ \ \ fileHeader.\mbox{\hyperlink{structBMPFileHeader_a1b8126a94046ec3d4a1e5f569ae9c27d}{bfSize}}\ =\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}})\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}})\ +\ (raster-\/>totalPixels\ *\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00192\ \ \ \ \ fileHeader.\mbox{\hyperlink{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d}{bfOffBits}}\ =\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}})\ +\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}});}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_ad26b32800df69db0794941a066feb734}{biSize}}\ =\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}});}
+\DoxyCodeLine{00195\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a0a5461bef21c567935e86e3eede549be}{biWidth}}\ =\ raster-\/>width;}
+\DoxyCodeLine{00196\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_ad8ed894159a796ff770848f621b94557}{biHeight}}\ =\ -\/raster-\/>height;\ \textcolor{comment}{//\ Negative\ height\ to\ vertical\ flip}}
+\DoxyCodeLine{00197\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a2ec1038058d2524844771da9d02e8c2e}{biPlanes}}\ =\ 1;}
+\DoxyCodeLine{00198\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a05f63cc34622f99233bc27dce9003f73}{biBitCount}}\ =\ 32;\ \ \ \textcolor{comment}{//\ Assuming\ 32\ bits\ per\ pixel\ (RGBA)}}
+\DoxyCodeLine{00199\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a084ab95f2f31361ff2ce6f4ceb348b37}{biCompression}}\ =\ 0;\ \textcolor{comment}{//\ No\ compression}}
+\DoxyCodeLine{00200\ \ \ \ \ infoHeader.\mbox{\hyperlink{structBMPInfoHeader_a28f244e0afb677980618d782e79990e1}{biSizeImage}}\ =\ raster-\/>totalPixels\ *\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ fwrite(\&fileHeader,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPFileHeader}{BMPFileHeader}}),\ 1,\ file);}
+\DoxyCodeLine{00203\ \ \ \ \ fwrite(\&infoHeader,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structBMPInfoHeader}{BMPInfoHeader}}),\ 1,\ file);}
+\DoxyCodeLine{00204\ \ \ \ \ fwrite(raster-\/>pixels,\ \textcolor{keyword}{sizeof}(uint32\_t),\ raster-\/>totalPixels,\ file);}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00208\ \}}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00215\ \textcolor{keywordtype}{void}\ freeRaster(\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00216\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00218\ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00224\ \ \ \ \ \}}
+\DoxyCodeLine{00225\ \}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,47 @@
+\doxysection{gameloop\+\_\+handler.\+h}
+\hypertarget{sdl1_2gameloop__handler_8h_source}{}\label{sdl1_2gameloop__handler_8h_source}\index{include/core/apis/sdl1/gameloop\_handler.h@{include/core/apis/sdl1/gameloop\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAMELOOP\_API\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAMELOOP\_API\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <SDL/SDL.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <SDL/SDL\_thread.h>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../types/gameloop\_callback.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/running\_state.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__gameloop__handler__}{\_tag\_gameloop\_handler\_}}}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ SDL\_Thread\ *\mbox{\hyperlink{struct__tag__gameloop__handler___afae605e2d840069a7244ae1152f31487}{gameThread}};}
+\DoxyCodeLine{00026\ \}\ \mbox{\hyperlink{structGameloopHandler}{GameloopHandler}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{static}\ \mbox{\hyperlink{structGameloopHandler}{GameloopHandler}}\ gGameloopHandler;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{bool}\ initializeGameloopThread(GameLoopCallback\ gameLoop)}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ SDL\_Thread\ *gameThread\ =\ SDL\_CreateThread((GameLoopCallback)gameLoop,\ NULL);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gameThread)}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ gameloop\ thread\(\backslash\)n"{}});}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ gGameloopHandler.gameThread\ =\ gameThread;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00056\ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ waitGameloopFinish()}
+\DoxyCodeLine{00065\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ setGameRunningState(\textcolor{keyword}{false});}
+\DoxyCodeLine{00067\ \ \ \ \ SDL\_WaitThread(gGameloopHandler.gameThread,\ NULL);}
+\DoxyCodeLine{00068\ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

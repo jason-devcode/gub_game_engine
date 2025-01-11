@@ -1,0 +1,92 @@
+\doxysection{graphic\+\_\+handler.\+h}
+\hypertarget{sdl2_2graphic__handler_8h_source}{}\label{sdl2_2graphic__handler_8h_source}\index{include/core/apis/sdl2/graphic\_handler.h@{include/core/apis/sdl2/graphic\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GRAPHIC\_API\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GRAPHIC\_API\_HANDLER\_SDL\_2\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}graphic\_environment.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/depthbuffer.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{bool}\ createWindowViewport(\textcolor{keywordtype}{int}\ widthScreenPixels,\ \textcolor{keywordtype}{int}\ heightScreenPixels,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *windowTitle)}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_VIDEO)\ <\ 0)}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ SDL\ 2\ video\ subsystem:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ SDL\_Window\ *window\ =\ SDL\_CreateWindow(windowTitle,\ SDL\_WINDOWPOS\_CENTERED,\ SDL\_WINDOWPOS\_CENTERED,\ widthScreenPixels,\ heightScreenPixels,\ SDL\_WINDOW\_SHOWN);}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (!window)}
+\DoxyCodeLine{00037\ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ create\ window\ SDL\ 2:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00040\ \ \ \ \ \}}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ SDL\_Surface\ *screenSurface\ =\ SDL\_GetWindowSurface(window);}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (!screenSurface)}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ get\ window\ surface:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(window);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ SDL\_Quit();}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ gGameEngineGraphicEnvironment.window\ =\ window;}
+\DoxyCodeLine{00053\ \ \ \ \ gGameEngineGraphicEnvironment.screenSurface\ =\ screenSurface;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ gScreenWidth\ =\ widthScreenPixels;}
+\DoxyCodeLine{00056\ \ \ \ \ gCorrectPixelsWidth\ =\ screenSurface-\/>pitch\ >>\ 2;}
+\DoxyCodeLine{00057\ \ \ \ \ gScreenHeight\ =\ heightScreenPixels;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ framebuffer\ =\ (uint32\_t\ *)screenSurface-\/>pixels;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//\ Allocate\ memory\ for\ the\ depth\ buffer}}
+\DoxyCodeLine{00062\ \ \ \ \ depthbuffer\ =\ (\textcolor{keywordtype}{double}\ *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{double}[gScreenWidth\ *\ gScreenHeight]));}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ y\ =\ 0;\ y\ <\ heightScreenPixels;\ ++y)}
+\DoxyCodeLine{00065\ \ \ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ widthScreenPixels;\ ++x)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ framebuffer[y\ *\ widthScreenPixels\ +\ x]\ =\ 0;\ \textcolor{comment}{//\ White}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ SDL\_UpdateWindowSurface(window);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00074\ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00087\ \textcolor{keywordtype}{bool}\ initializeGraphicApi(\textcolor{keywordtype}{int}\ widthScreenPixels,\ \textcolor{keywordtype}{int}\ heightScreenPixels,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *windowTitle)}
+\DoxyCodeLine{00088\ \{}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (!createWindowViewport(widthScreenPixels,\ heightScreenPixels,\ windowTitle))}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ create\ game\ window\ viewport\(\backslash\)n"{}});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00097\ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00106\ \textcolor{keywordtype}{bool}\ closeGraphicApi()}
+\DoxyCodeLine{00107\ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{if}\ (gGameEngineGraphicEnvironment.window)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ SDL\_DestroyWindow(gGameEngineGraphicEnvironment.window);}
+\DoxyCodeLine{00110\ \ \ \ \ gGameEngineGraphicEnvironment.window\ =\ NULL;}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{if}\ (depthbuffer)}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ free(depthbuffer);}
+\DoxyCodeLine{00113\ \ \ \ \ SDL\_Quit();}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00115\ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

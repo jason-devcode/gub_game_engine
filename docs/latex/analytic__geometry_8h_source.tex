@@ -1,0 +1,22 @@
+\doxysection{analytic\+\_\+geometry.\+h}
+\hypertarget{analytic__geometry_8h_source}{}\label{analytic__geometry_8h_source}\index{include/utils/analytic\_geometry.h@{include/utils/analytic\_geometry.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANALYTIC\_GEOMETRY\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANALYTIC\_GEOMETRY\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ calculateParallelogramAreaFromCoords(x1,\ y1,\ x2,\ y2)\ \(\backslash\)}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\ \ \ \ (((x1)\ *\ (y2))\ -\/\ ((x2)\ *\ (y1)))}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ calculateParallelogramAreaFromPoints(A,\ B)\ \(\backslash\)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ calculateParallelogramAreaFromCoords((A).x,\ (A).y,\ (B).x,\ (B).y)}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ calculateTriangleAreaFromPoints(A,\ B,\ C)\ \(\backslash\)}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\ \ \ \ (calculateParallelogramAreaFromCoords((B).x\ -\/\ (A).x,\ (B).y\ -\/\ (A).y,\ (C).x\ -\/\ (A).x,\ (C).y\ -\/\ (A).y)\ /\ 2)}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ calculateTriangleAreaFromCoords(x1,\ y1,\ x2,\ y2,\ x3,\ y3)\ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ (calculateParallelogramAreaFromCoords((x2)\ -\/\ (x1),\ (y2)\ -\/\ (y1),\ (x3)\ -\/\ (x1),\ (y3)\ -\/\ (y1)))}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,14 @@
+\doxysection{fast\+\_\+sqrt.\+h}
+\hypertarget{fast__sqrt_8h_source}{}\label{fast__sqrt_8h_source}\index{include/utils/fast\_math/fast\_sqrt.h@{include/utils/fast\_math/fast\_sqrt.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FAST\_SQRT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FAST\_SQRT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}fast\_inv\_sqrt.h"{}}\ \textcolor{comment}{//\ For\ fast\ inverse\ square\ root}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ fast\_sqrt(number)\ (1.0\ /\ fast\_inv\_sqrt(number))}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

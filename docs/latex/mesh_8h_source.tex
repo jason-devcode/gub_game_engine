@@ -1,0 +1,319 @@
+\doxysection{mesh.\+h}
+\hypertarget{mesh_8h_source}{}\label{mesh_8h_source}\index{include/utils/3DEngine/mesh.h@{include/utils/3DEngine/mesh.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ MESH\_DATA\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ MESH\_DATA\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string.h>}\ \textcolor{comment}{//\ For\ strcpy}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../vectorial\_2D.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}vectorial\_3D.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ MAX\_LENGTH\_MESH\_NAME\ 128}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__face__indices__}{\_tag\_face\_indices\_}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexA,\ vertexTextureA,\ vertexNormalA;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexB,\ vertexTextureB,\ vertexNormalB;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexC,\ vertexTextureC,\ vertexNormalC;}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{int}\ materialIndex;}
+\DoxyCodeLine{00019\ \}\ FaceIndices;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__3d__mesh__data__structure__}{\_tag\_3d\_mesh\_data\_structure\_}}}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{char}\ name[MAX\_LENGTH\_MESH\_NAME];}
+\DoxyCodeLine{00024\ \ \ \ \ FaceIndices\ *facesIndices;\ \textcolor{comment}{//\ v/vt/vn\ v/vt/vn\ v/vt/vn\ format}}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ facesCount;}
+\DoxyCodeLine{00026\ \}\ Mesh3D;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__3d__mesh__group__}{\_tag\_3d\_mesh\_group\_}}}
+\DoxyCodeLine{00029\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *vertices;}
+\DoxyCodeLine{00031\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *normals;}
+\DoxyCodeLine{00032\ \ \ \ \ \mbox{\hyperlink{structVec2f}{Vec2f}}\ *vertices\_texture;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ Mesh3D\ *meshes;\ \textcolor{comment}{//\ Array\ of\ meshes}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexCount;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexTextureCount;}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ normalsCount;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ meshCount;\ \textcolor{comment}{//\ Number\ of\ meshes}}
+\DoxyCodeLine{00040\ \}\ MeshGroup;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00049\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ Mesh3D\ *createMesh()}
+\DoxyCodeLine{00050\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ Mesh3D\ *mesh\ =\ (Mesh3D\ *)malloc(\textcolor{keyword}{sizeof}(Mesh3D));}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mesh)}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ Mesh3D\(\backslash\)n"{}});}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00056\ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ Mesh3D\ fields\ to\ default\ values}}
+\DoxyCodeLine{00059\ \ \ \ \ strcpy(mesh-\/>name,\ \textcolor{stringliteral}{"{}default"{}});}
+\DoxyCodeLine{00060\ \ \ \ \ mesh-\/>facesIndices\ =\ NULL;}
+\DoxyCodeLine{00061\ \ \ \ \ mesh-\/>facesCount\ =\ 0;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ mesh;}
+\DoxyCodeLine{00064\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00078\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ setMeshName(Mesh3D\ *mesh,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name)}
+\DoxyCodeLine{00079\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{if}\ (mesh\ ==\ NULL)}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00082\ \ \ \ \ strcpy(mesh-\/>name,\ name);}
+\DoxyCodeLine{00083\ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00092\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ releaseMesh3DResources(Mesh3D\ *mesh)}
+\DoxyCodeLine{00093\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mesh)}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ Free\ the\ allocated\ memory\ for\ facesIndices}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (mesh-\/>facesIndices)}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ free(mesh-\/>facesIndices);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{comment}{//\ Set\ pointers\ to\ NULL\ after\ freeing}}
+\DoxyCodeLine{00102\ \ \ \ \ mesh-\/>facesIndices\ =\ NULL;}
+\DoxyCodeLine{00103\ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ printMeshData(\textcolor{keyword}{const}\ Mesh3D\ *mesh)}
+\DoxyCodeLine{00113\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mesh)}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Mesh\ is\ NULL.\(\backslash\)n"{}});}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Mesh\ Name:\ \%s\(\backslash\)n"{}},\ mesh-\/>name);}
+\DoxyCodeLine{00121\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Face\ Count:\ \%d\(\backslash\)n"{}},\ mesh-\/>facesCount);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{if}\ (mesh-\/>facesIndices)}
+\DoxyCodeLine{00124\ \ \ \ \ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Faces:\(\backslash\)n"{}});}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ mesh-\/>facesCount;\ ++i)}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ Face\ \%d:\ Vertices(\%d,\ \%d,\ \%d)\ Normals(\%d,\ \%d,\ \%d)\ Textures(\%d,\ \%d,\ \%d)\ Material(\%d)\(\backslash\)n"{}},}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i,}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mesh-\/>facesIndices[i].vertexA,\ mesh-\/>facesIndices[i].vertexB,\ mesh-\/>facesIndices[i].vertexC,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mesh-\/>facesIndices[i].vertexNormalA,\ mesh-\/>facesIndices[i].vertexNormalB,\ mesh-\/>facesIndices[i].vertexNormalC,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mesh-\/>facesIndices[i].vertexTextureA,\ mesh-\/>facesIndices[i].vertexTextureB,\ mesh-\/>facesIndices[i].vertexTextureC,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ mesh-\/>facesIndices[i].materialIndex);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ MeshGroup\ *createEmptyMeshGroup()}
+\DoxyCodeLine{00146\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ MeshGroup\ *group\ =\ (MeshGroup\ *)malloc(\textcolor{keyword}{sizeof}(MeshGroup));}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{if}\ (!group)}
+\DoxyCodeLine{00149\ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ MeshGroup\(\backslash\)n"{}});}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00152\ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ MeshGroup\ fields\ to\ default\ values}}
+\DoxyCodeLine{00155\ \ \ \ \ group-\/>vertices\ =\ NULL;}
+\DoxyCodeLine{00156\ \ \ \ \ group-\/>normals\ =\ NULL;}
+\DoxyCodeLine{00157\ \ \ \ \ group-\/>vertices\_texture\ =\ NULL;}
+\DoxyCodeLine{00158\ \ \ \ \ group-\/>meshes\ =\ NULL;}
+\DoxyCodeLine{00159\ \ \ \ \ group-\/>vertexCount\ =\ 0;}
+\DoxyCodeLine{00160\ \ \ \ \ group-\/>vertexTextureCount\ =\ 0;}
+\DoxyCodeLine{00161\ \ \ \ \ group-\/>normalsCount\ =\ 0;}
+\DoxyCodeLine{00162\ \ \ \ \ group-\/>meshCount\ =\ 0;}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordflow}{return}\ group;}
+\DoxyCodeLine{00165\ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00174\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ releaseMeshGroupResources(MeshGroup\ *group)}
+\DoxyCodeLine{00175\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (!group)}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{comment}{//\ Free\ the\ allocated\ memory\ for\ vertices,\ normals,\ textures}}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>vertices)}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ free(group-\/>vertices);}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>normals)}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ free(group-\/>normals);}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>vertices\_texture)}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ free(group-\/>vertices\_texture);}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \textcolor{comment}{//\ Free\ each\ mesh\ within\ the\ group}}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>meshes)}
+\DoxyCodeLine{00189\ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ group-\/>meshCount;\ ++i)}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ releaseMesh3DResources(\&group-\/>meshes[i]);}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ free(group-\/>meshes);}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{comment}{//\ Set\ pointers\ to\ NULL\ after\ freeing}}
+\DoxyCodeLine{00198\ \ \ \ \ group-\/>vertices\ =\ NULL;}
+\DoxyCodeLine{00199\ \ \ \ \ group-\/>normals\ =\ NULL;}
+\DoxyCodeLine{00200\ \ \ \ \ group-\/>vertices\_texture\ =\ NULL;}
+\DoxyCodeLine{00201\ \ \ \ \ group-\/>meshes\ =\ NULL;}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00214\ MeshGroup\ *mergeMeshGroups(MeshGroup\ **groups,\ \textcolor{keywordtype}{int}\ groupCount)}
+\DoxyCodeLine{00215\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{if}\ (!groups\ ||\ groupCount\ <=\ 0)}
+\DoxyCodeLine{00217\ \ \ \ \ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Invalid\ input\ for\ merging\ mesh\ groups.\(\backslash\)n"{}});}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00220\ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ MeshGroup\ *mergedGroup\ =\ createEmptyMeshGroup();}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{comment}{//\ Calculate\ total\ counts}}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordtype}{int}\ totalVertexCount\ =\ 0;}
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordtype}{int}\ totalNormalCount\ =\ 0;}
+\DoxyCodeLine{00227\ \ \ \ \ \textcolor{keywordtype}{int}\ totalTextureCount\ =\ 0;}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordtype}{int}\ totalMeshCount\ =\ 0;}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ groupCount;\ ++i)}
+\DoxyCodeLine{00231\ \ \ \ \ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (groups[i])}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ totalVertexCount\ +=\ groups[i]-\/>vertexCount;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ totalNormalCount\ +=\ groups[i]-\/>normalsCount;}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ totalTextureCount\ +=\ groups[i]-\/>vertexTextureCount;}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ totalMeshCount\ +=\ groups[i]-\/>meshCount;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{comment}{//\ Allocate\ memory\ for\ the\ merged\ group}}
+\DoxyCodeLine{00242\ \ \ \ \ mergedGroup-\/>vertices\ =\ (\mbox{\hyperlink{structVec3f}{Vec3f}}\ *)malloc(totalVertexCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00243\ \ \ \ \ mergedGroup-\/>normals\ =\ (\mbox{\hyperlink{structVec3f}{Vec3f}}\ *)malloc(totalNormalCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00244\ \ \ \ \ mergedGroup-\/>vertices\_texture\ =\ (\mbox{\hyperlink{structVec2f}{Vec2f}}\ *)malloc(totalTextureCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec2f}{Vec2f}}));}
+\DoxyCodeLine{00245\ \ \ \ \ mergedGroup-\/>meshes\ =\ (Mesh3D\ *)malloc(totalMeshCount\ *\ \textcolor{keyword}{sizeof}(Mesh3D));}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mergedGroup-\/>vertices\ ||\ !mergedGroup-\/>normals\ ||\ !mergedGroup-\/>vertices\_texture\ ||\ !mergedGroup-\/>meshes)}
+\DoxyCodeLine{00248\ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ merged\ mesh\ group.\(\backslash\)n"{}});}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ releaseMeshGroupResources(mergedGroup);}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00252\ \ \ \ \ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00254\ \ \ \ \ \textcolor{comment}{//\ Copy\ data\ and\ adjust\ indices}}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordtype}{int}\ vertexOffset\ =\ 0;}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordtype}{int}\ normalOffset\ =\ 0;}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordtype}{int}\ textureOffset\ =\ 0;}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordtype}{int}\ meshOffset\ =\ 0;}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ groupCount;\ ++i)}
+\DoxyCodeLine{00261\ \ \ \ \ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ MeshGroup\ *group\ =\ groups[i];}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!group)}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ vertices,\ normals,\ and\ textures}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ memcpy(mergedGroup-\/>vertices\ +\ vertexOffset,\ group-\/>vertices,\ group-\/>vertexCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ memcpy(mergedGroup-\/>normals\ +\ normalOffset,\ group-\/>normals,\ group-\/>normalsCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ memcpy(mergedGroup-\/>vertices\_texture\ +\ textureOffset,\ group-\/>vertices\_texture,\ group-\/>vertexTextureCount\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec2f}{Vec2f}}));}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Copy\ and\ adjust\ meshes}}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ j\ =\ 0;\ j\ <\ group-\/>meshCount;\ ++j)}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ Mesh3D\ *sourceMesh\ =\ \&group-\/>meshes[j];}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ Mesh3D\ *targetMesh\ =\ \&mergedGroup-\/>meshes[meshOffset\ +\ j];}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ *targetMesh\ =\ *sourceMesh;}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices\ =\ (FaceIndices\ *)malloc(sourceMesh-\/>facesCount\ *\ \textcolor{keyword}{sizeof}(FaceIndices));}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!targetMesh-\/>facesIndices)}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ facesIndices\ in\ merged\ mesh\ group.\(\backslash\)n"{}});}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ releaseMeshGroupResources(mergedGroup);}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00286\ }
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ memcpy(targetMesh-\/>facesIndices,\ sourceMesh-\/>facesIndices,\ sourceMesh-\/>facesCount\ *\ \textcolor{keyword}{sizeof}(FaceIndices));}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Adjust\ indices}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ k\ =\ 0;\ k\ <\ sourceMesh-\/>facesCount;\ ++k)}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexA\ +=\ vertexOffset;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexB\ +=\ vertexOffset;}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexC\ +=\ vertexOffset;}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexNormalA\ +=\ normalOffset;}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexNormalB\ +=\ normalOffset;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexNormalC\ +=\ normalOffset;}
+\DoxyCodeLine{00299\ }
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexTextureA\ +=\ textureOffset;}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexTextureB\ +=\ textureOffset;}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ targetMesh-\/>facesIndices[k].vertexTextureC\ +=\ textureOffset;}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00305\ }
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ vertexOffset\ +=\ group-\/>vertexCount;}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ normalOffset\ +=\ group-\/>normalsCount;}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ textureOffset\ +=\ group-\/>vertexTextureCount;}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ meshOffset\ +=\ group-\/>meshCount;}
+\DoxyCodeLine{00310\ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ mergedGroup-\/>vertexCount\ =\ totalVertexCount;}
+\DoxyCodeLine{00313\ \ \ \ \ mergedGroup-\/>normalsCount\ =\ totalNormalCount;}
+\DoxyCodeLine{00314\ \ \ \ \ mergedGroup-\/>vertexTextureCount\ =\ totalTextureCount;}
+\DoxyCodeLine{00315\ \ \ \ \ mergedGroup-\/>meshCount\ =\ totalMeshCount;}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordflow}{return}\ mergedGroup;}
+\DoxyCodeLine{00318\ \}}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00327\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ printMeshGroupData(\textcolor{keyword}{const}\ MeshGroup\ *group)}
+\DoxyCodeLine{00328\ \{}
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordflow}{if}\ (!group)}
+\DoxyCodeLine{00330\ \ \ \ \ \{}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}MeshGroup\ is\ NULL.\(\backslash\)n"{}});}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00333\ \ \ \ \ \}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Vertex\ Count:\ \%d\(\backslash\)n"{}},\ group-\/>vertexCount);}
+\DoxyCodeLine{00336\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Texture\ Vertex\ Count:\ \%d\(\backslash\)n"{}},\ group-\/>vertexTextureCount);}
+\DoxyCodeLine{00337\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Normal\ Count:\ \%d\(\backslash\)n"{}},\ group-\/>normalsCount);}
+\DoxyCodeLine{00338\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Mesh\ Count:\ \%d\(\backslash\)n"{}},\ group-\/>meshCount);}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>vertices)}
+\DoxyCodeLine{00341\ \ \ \ \ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Vertices:\(\backslash\)n"{}});}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ group-\/>vertexCount;\ ++i)}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ Vertex\ \%d:\ (\%f,\ \%f,\ \%f)\(\backslash\)n"{}},\ i,\ group-\/>vertices[i].x,\ group-\/>vertices[i].y,\ group-\/>vertices[i].z);}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00347\ \ \ \ \ \}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>vertices\_texture)}
+\DoxyCodeLine{00350\ \ \ \ \ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Texture\ Coordinates:\(\backslash\)n"{}});}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ group-\/>vertexTextureCount;\ ++i)}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ Texture\ \%d:\ (\%f,\ \%f)\(\backslash\)n"{}},\ i,\ group-\/>vertices\_texture[i].x,\ group-\/>vertices\_texture[i].y);}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00356\ \ \ \ \ \}}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>normals)}
+\DoxyCodeLine{00359\ \ \ \ \ \{}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Normals:\(\backslash\)n"{}});}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ group-\/>normalsCount;\ ++i)}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\ \ Normal\ \%d:\ (\%f,\ \%f,\ \%f)\(\backslash\)n"{}},\ i,\ group-\/>normals[i].x,\ group-\/>normals[i].y,\ group-\/>normals[i].z);}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00365\ \ \ \ \ \}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (group-\/>meshes)}
+\DoxyCodeLine{00368\ \ \ \ \ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Meshes:\(\backslash\)n"{}});}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ group-\/>meshCount;\ ++i)}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ printMeshData(\&group-\/>meshes[i]);}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \}}
+\DoxyCodeLine{00375\ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

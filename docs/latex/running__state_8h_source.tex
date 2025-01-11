@@ -1,0 +1,23 @@
+\doxysection{running\+\_\+state.\+h}
+\hypertarget{running__state_8h_source}{}\label{running__state_8h_source}\index{include/core/engine\_properties/running\_state.h@{include/core/engine\_properties/running\_state.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ RUNNING\_STATE\_ENGINE\_PROP\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ RUNNING\_STATE\_ENGINE\_PROP\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ use\ for\ gameloop\ condition}}
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{bool}\ isGameRunning\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ setGameRunningState(state)\ \(\backslash\)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ isGameRunning\ =\ state;\ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ (false);}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ getGameRunningState()\ (isGameRunning)}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

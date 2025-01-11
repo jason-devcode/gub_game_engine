@@ -1,0 +1,373 @@
+\doxysection{key\+\_\+event\+\_\+values.\+h}
+\hypertarget{key__event__values_8h_source}{}\label{key__event__values_8h_source}\index{include/core/constants/key\_event\_values.h@{include/core/constants/key\_event\_values.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ KEY\_EVENT\_VALUES\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ KEY\_EVENT\_VALUES\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifdef\ USE\_SDL\_2}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <SDL2/SDL\_keycode.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ Numbers}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_0\ SDLK\_0}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_1\ SDLK\_1}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_2\ SDLK\_2}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_3\ SDLK\_3}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_4\ SDLK\_4}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_5\ SDLK\_5}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_6\ SDLK\_6}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_7\ SDLK\_7}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_8\ SDLK\_8}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_9\ SDLK\_9}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Letters}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_a\ SDLK\_a}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_b\ SDLK\_b}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_c\ SDLK\_c}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_d\ SDLK\_d}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_e\ SDLK\_e}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_f\ SDLK\_f}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_g\ SDLK\_g}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_h\ SDLK\_h}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_i\ SDLK\_i}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_j\ SDLK\_j}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_k\ SDLK\_k}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_l\ SDLK\_l}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_m\ SDLK\_m}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_n\ SDLK\_n}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_o\ SDLK\_o}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_p\ SDLK\_p}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_q\ SDLK\_q}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_r\ SDLK\_r}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_s\ SDLK\_s}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_t\ SDLK\_t}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_u\ SDLK\_u}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_v\ SDLK\_v}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_w\ SDLK\_w}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_x\ SDLK\_x}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_y\ SDLK\_y}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_z\ SDLK\_z}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{comment}{//\ Symbols\ and\ other\ chars}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_MINUS\ SDLK\_MINUS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_EQUALS\ SDLK\_EQUALS\ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ =}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFTBRACKET\ SDLK\_LEFTBRACKET\ \ \ }\textcolor{comment}{//\ [}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHTBRACKET\ SDLK\_RIGHTBRACKET\ }\textcolor{comment}{//\ ]}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSLASH\ SDLK\_BACKSLASH\ \ \ \ \ \ \ }\textcolor{comment}{//\ \(\backslash\)\ }}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SEMICOLON\ SDLK\_SEMICOLON\ \ \ \ }\textcolor{comment}{//\ ;}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_APOSTROPHE\ SDLK\_APOSTROPHE\ \ \ \ \ }\textcolor{comment}{//\ '}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_GRAVE\ SDLK\_GRAVE\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ \`{}}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_COMMA\ SDLK\_COMMA\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ ,}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PERIOD\ SDLK\_PERIOD\ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ .}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SLASH\ SDLK\_SLASH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ /}}
+\DoxyCodeLine{00060\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_CAPSLOCK\ SDLK\_CAPSLOCK\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Caps\ Lock}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F1\ SDLK\_F1}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F2\ SDLK\_F2}}
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F3\ SDLK\_F3}}
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F4\ SDLK\_F4}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F5\ SDLK\_F5}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F6\ SDLK\_F6}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F7\ SDLK\_F7}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F8\ SDLK\_F8}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F9\ SDLK\_F9}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F10\ SDLK\_F10}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F11\ SDLK\_F11}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F12\ SDLK\_F12}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{comment}{//\ Control}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSPACE\ SDLK\_BACKSPACE}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_TAB\ SDLK\_TAB}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RETURN\ SDLK\_RETURN}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_ESCAPE\ SDLK\_ESCAPE}}
+\DoxyCodeLine{00081\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SPACE\ SDLK\_SPACE}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{comment}{//\ Key\ modifiers}}
+\DoxyCodeLine{00084\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LSHIFT\ SDLK\_LSHIFT}}
+\DoxyCodeLine{00085\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RSHIFT\ SDLK\_RSHIFT}}
+\DoxyCodeLine{00086\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LCTRL\ SDLK\_LCTRL}}
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RCTRL\ SDLK\_RCTRL}}
+\DoxyCodeLine{00088\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LALT\ SDLK\_LALT}}
+\DoxyCodeLine{00089\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RALT\ SDLK\_RALT}}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LGUI\ SDLK\_LGUI}}
+\DoxyCodeLine{00091\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RGUI\ SDLK\_RGUI}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ Numpad}}
+\DoxyCodeLine{00094\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_0\ SDLK\_KP\_0}}
+\DoxyCodeLine{00095\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_1\ SDLK\_KP\_1}}
+\DoxyCodeLine{00096\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_2\ SDLK\_KP\_2}}
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_3\ SDLK\_KP\_3}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_4\ SDLK\_KP\_4}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_5\ SDLK\_KP\_5}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_6\ SDLK\_KP\_6}}
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_7\ SDLK\_KP\_7}}
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_8\ SDLK\_KP\_8}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_9\ SDLK\_KP\_9}}
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_ENTER\ SDLK\_KP\_ENTER}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PLUS\ SDLK\_KP\_PLUS\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ +}}
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MINUS\ SDLK\_KP\_MINUS\ \ \ \ \ \ \ }\textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MULTIPLY\ SDLK\_KP\_MULTIPLY\ }\textcolor{comment}{//\ *}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_DIVIDE\ SDLK\_KP\_DIVIDE\ \ \ \ \ }\textcolor{comment}{//\ /}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PERIOD\ SDLK\_KP\_PERIOD\ \ \ \ \ }\textcolor{comment}{//\ .}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ Arrows}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_UP\ SDLK\_UP}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DOWN\ SDLK\_DOWN}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFT\ SDLK\_LEFT}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHT\ SDLK\_RIGHT}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{comment}{//\ Others}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_INSERT\ SDLK\_INSERT}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_HOME\ SDLK\_HOME}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEUP\ SDLK\_PAGEUP}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEDOWN\ SDLK\_PAGEDOWN}}
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DELETE\ SDLK\_DELETE}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_END\ SDLK\_END}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\#elif\ USE\_SDL\_1}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#include\ <SDL/SDL\_keysym.h>}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \textcolor{comment}{//\ Numbers}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_0\ SDLK\_0}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_1\ SDLK\_1}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_2\ SDLK\_2}}
+\DoxyCodeLine{00133\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_3\ SDLK\_3}}
+\DoxyCodeLine{00134\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_4\ SDLK\_4}}
+\DoxyCodeLine{00135\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_5\ SDLK\_5}}
+\DoxyCodeLine{00136\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_6\ SDLK\_6}}
+\DoxyCodeLine{00137\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_7\ SDLK\_7}}
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_8\ SDLK\_8}}
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_9\ SDLK\_9}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \textcolor{comment}{//\ Letters}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_a\ SDLK\_a}}
+\DoxyCodeLine{00143\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_b\ SDLK\_b}}
+\DoxyCodeLine{00144\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_c\ SDLK\_c}}
+\DoxyCodeLine{00145\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_d\ SDLK\_d}}
+\DoxyCodeLine{00146\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_e\ SDLK\_e}}
+\DoxyCodeLine{00147\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_f\ SDLK\_f}}
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_g\ SDLK\_g}}
+\DoxyCodeLine{00149\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_h\ SDLK\_h}}
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_i\ SDLK\_i}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_j\ SDLK\_j}}
+\DoxyCodeLine{00152\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_k\ SDLK\_k}}
+\DoxyCodeLine{00153\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_l\ SDLK\_l}}
+\DoxyCodeLine{00154\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_m\ SDLK\_m}}
+\DoxyCodeLine{00155\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_n\ SDLK\_n}}
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_o\ SDLK\_o}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_p\ SDLK\_p}}
+\DoxyCodeLine{00158\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_q\ SDLK\_q}}
+\DoxyCodeLine{00159\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_r\ SDLK\_r}}
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_s\ SDLK\_s}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_t\ SDLK\_t}}
+\DoxyCodeLine{00162\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_u\ SDLK\_u}}
+\DoxyCodeLine{00163\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_v\ SDLK\_v}}
+\DoxyCodeLine{00164\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_w\ SDLK\_w}}
+\DoxyCodeLine{00165\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_x\ SDLK\_x}}
+\DoxyCodeLine{00166\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_y\ SDLK\_y}}
+\DoxyCodeLine{00167\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_z\ SDLK\_z}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{comment}{//\ Symbols\ and\ other\ chars}}
+\DoxyCodeLine{00170\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_MINUS\ SDLK\_MINUS\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_EQUALS\ SDLK\_EQUALS\ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ =}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFTBRACKET\ SDLK\_LEFTBRACKET\ \ \ }\textcolor{comment}{//\ [}}
+\DoxyCodeLine{00173\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHTBRACKET\ SDLK\_RIGHTBRACKET\ }\textcolor{comment}{//\ ]}}
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSLASH\ SDLK\_BACKSLASH\ \ \ \ \ \ \ }\textcolor{comment}{//\ \(\backslash\)\ }}
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SEMICOLON\ SDLK\_SEMICOLON\ \ \ \ \ \ \ }\textcolor{comment}{//\ ;}}
+\DoxyCodeLine{00176\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_APOSTROPHE\ SDLK\_QUOTE\ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ '}}
+\DoxyCodeLine{00177\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_GRAVE\ SDLK\_BACKQUOTE\ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ \`{}}}
+\DoxyCodeLine{00178\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_COMMA\ SDLK\_COMMA\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ ,}}
+\DoxyCodeLine{00179\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PERIOD\ SDLK\_PERIOD\ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ .}}
+\DoxyCodeLine{00180\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SLASH\ SDLK\_SLASH\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ /}}
+\DoxyCodeLine{00181\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_CAPSLOCK\ SDLK\_CAPSLOCK\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ Caps\ Lock}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F1\ SDLK\_F1}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F2\ SDLK\_F2}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F3\ SDLK\_F3}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F4\ SDLK\_F4}}
+\DoxyCodeLine{00188\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F5\ SDLK\_F5}}
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F6\ SDLK\_F6}}
+\DoxyCodeLine{00190\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F7\ SDLK\_F7}}
+\DoxyCodeLine{00191\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F8\ SDLK\_F8}}
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F9\ SDLK\_F9}}
+\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F10\ SDLK\_F10}}
+\DoxyCodeLine{00194\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F11\ SDLK\_F11}}
+\DoxyCodeLine{00195\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F12\ SDLK\_F12}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \textcolor{comment}{//\ Control}}
+\DoxyCodeLine{00198\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSPACE\ SDLK\_BACKSPACE}}
+\DoxyCodeLine{00199\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_TAB\ SDLK\_TAB}}
+\DoxyCodeLine{00200\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RETURN\ SDLK\_RETURN}}
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_ESCAPE\ SDLK\_ESCAPE}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SPACE\ SDLK\_SPACE}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{comment}{//\ Modifiers}}
+\DoxyCodeLine{00205\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LSHIFT\ SDLK\_LSHIFT}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RSHIFT\ SDLK\_RSHIFT}}
+\DoxyCodeLine{00207\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LCTRL\ SDLK\_LCTRL}}
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RCTRL\ SDLK\_RCTRL}}
+\DoxyCodeLine{00209\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LALT\ SDLK\_LALT}}
+\DoxyCodeLine{00210\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RALT\ SDLK\_RALT}}
+\DoxyCodeLine{00211\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LMETA\ SDLK\_LMETA}}
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RMETA\ SDLK\_RMETA}}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \textcolor{comment}{//\ Numpad}}
+\DoxyCodeLine{00215\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_0\ SDLK\_KP0}}
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_1\ SDLK\_KP1}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_2\ SDLK\_KP2}}
+\DoxyCodeLine{00218\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_3\ SDLK\_KP3}}
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_4\ SDLK\_KP4}}
+\DoxyCodeLine{00220\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_5\ SDLK\_KP5}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_6\ SDLK\_KP6}}
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_7\ SDLK\_KP7}}
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_8\ SDLK\_KP8}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_9\ SDLK\_KP9}}
+\DoxyCodeLine{00225\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_ENTER\ SDLK\_KP\_ENTER}}
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PLUS\ SDLK\_KP\_PLUS\ \ \ \ \ \ \ \ \ }\textcolor{comment}{//\ +}}
+\DoxyCodeLine{00227\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MINUS\ SDLK\_KP\_MINUS\ \ \ \ \ \ \ }\textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00228\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MULTIPLY\ SDLK\_KP\_MULTIPLY\ }\textcolor{comment}{//\ *}}
+\DoxyCodeLine{00229\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_DIVIDE\ SDLK\_KP\_DIVIDE\ \ \ \ \ }\textcolor{comment}{//\ /}}
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PERIOD\ SDLK\_KP\_PERIOD\ \ \ \ \ }\textcolor{comment}{//\ .}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \textcolor{comment}{//\ Arrows}}
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_UP\ SDLK\_UP}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DOWN\ SDLK\_DOWN}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFT\ SDLK\_LEFT}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHT\ SDLK\_RIGHT}}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{comment}{//\ Others}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_INSERT\ SDLK\_INSERT}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_HOME\ SDLK\_HOME}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEUP\ SDLK\_PAGEUP}}
+\DoxyCodeLine{00242\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEDOWN\ SDLK\_PAGEDOWN}}
+\DoxyCodeLine{00243\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DELETE\ SDLK\_DELETE}}
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_END\ SDLK\_END}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \textcolor{preprocessor}{\#else\ }\textcolor{comment}{//\ DEFAULT\ MACROS\ FOR\ SYNTAX\ INTELLISENSE}}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \textcolor{comment}{//\ Numbers}}
+\DoxyCodeLine{00249\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_0\ '0'}}
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_1\ '1'}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_2\ '2'}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_3\ '3'}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_4\ '4'}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_5\ '5'}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_6\ '6'}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_7\ '7'}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_8\ '8'}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_9\ '9'}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \textcolor{comment}{//\ Letters}}
+\DoxyCodeLine{00261\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_a\ 'a'}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_b\ 'b'}}
+\DoxyCodeLine{00263\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_c\ 'c'}}
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_d\ 'd'}}
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_e\ 'e'}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_f\ 'f'}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_g\ 'g'}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_h\ 'h'}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_i\ 'i'}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_j\ 'j'}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_k\ 'k'}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_l\ 'l'}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_m\ 'm'}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_n\ 'n'}}
+\DoxyCodeLine{00275\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_o\ 'o'}}
+\DoxyCodeLine{00276\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_p\ 'p'}}
+\DoxyCodeLine{00277\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_q\ 'q'}}
+\DoxyCodeLine{00278\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_r\ 'r'}}
+\DoxyCodeLine{00279\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_s\ 's'}}
+\DoxyCodeLine{00280\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_t\ 't'}}
+\DoxyCodeLine{00281\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_u\ 'u'}}
+\DoxyCodeLine{00282\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_v\ 'v'}}
+\DoxyCodeLine{00283\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_w\ 'w'}}
+\DoxyCodeLine{00284\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_x\ 'x'}}
+\DoxyCodeLine{00285\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_y\ 'y'}}
+\DoxyCodeLine{00286\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_z\ 'z'}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{comment}{//\ Symbols\ and\ other\ chars}}
+\DoxyCodeLine{00289\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_MINUS\ '-\/'}}
+\DoxyCodeLine{00290\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_EQUALS\ '='}}
+\DoxyCodeLine{00291\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFTBRACKET\ '['}}
+\DoxyCodeLine{00292\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHTBRACKET\ ']'}}
+\DoxyCodeLine{00293\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSLASH\ '\(\backslash\)\(\backslash\)'\ }}
+\DoxyCodeLine{00294\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SEMICOLON\ ';'}}
+\DoxyCodeLine{00295\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_APOSTROPHE\ '\(\backslash\)''}}
+\DoxyCodeLine{00296\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_GRAVE\ '`'}}
+\DoxyCodeLine{00297\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_COMMA\ ','}}
+\DoxyCodeLine{00298\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PERIOD\ '.'}}
+\DoxyCodeLine{00299\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SLASH\ '/'}}
+\DoxyCodeLine{00300\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_CAPSLOCK\ 0\ \ }\textcolor{comment}{//\ Placeholder\ for\ Caps\ Lock}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00302\ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{00303\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F1\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00304\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F2\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00305\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F3\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00306\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F4\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00307\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F5\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00308\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F6\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00309\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F7\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00310\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F8\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00311\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F9\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00312\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F10\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00313\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F11\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00314\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_F12\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{comment}{//\ Control}}
+\DoxyCodeLine{00317\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_BACKSPACE\ '\(\backslash\)b'}}
+\DoxyCodeLine{00318\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_TAB\ '\(\backslash\)t'}}
+\DoxyCodeLine{00319\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RETURN\ '\(\backslash\)r'}}
+\DoxyCodeLine{00320\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_ESCAPE\ '\(\backslash\)x1B'}}
+\DoxyCodeLine{00321\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_SPACE\ '\ '}}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \textcolor{comment}{//\ Key\ modifiers}}
+\DoxyCodeLine{00324\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LSHIFT\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00325\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RSHIFT\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00326\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LCTRL\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00327\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RCTRL\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00328\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LALT\ 0\ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00329\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RALT\ 0\ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00330\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LGUI\ 0\ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00331\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RGUI\ 0\ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \textcolor{comment}{//\ Numpad}}
+\DoxyCodeLine{00334\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_0\ '0'}}
+\DoxyCodeLine{00335\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_1\ '1'}}
+\DoxyCodeLine{00336\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_2\ '2'}}
+\DoxyCodeLine{00337\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_3\ '3'}}
+\DoxyCodeLine{00338\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_4\ '4'}}
+\DoxyCodeLine{00339\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_5\ '5'}}
+\DoxyCodeLine{00340\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_6\ '6'}}
+\DoxyCodeLine{00341\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_7\ '7'}}
+\DoxyCodeLine{00342\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_8\ '8'}}
+\DoxyCodeLine{00343\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_9\ '9'}}
+\DoxyCodeLine{00344\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_ENTER\ 0\ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00345\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PLUS\ '+'\ \ }\textcolor{comment}{//\ +}}
+\DoxyCodeLine{00346\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MINUS\ '-\/'\ }\textcolor{comment}{//\ -\/}}
+\DoxyCodeLine{00347\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_MULTIPLY\ '*'\ }\textcolor{comment}{//\ *}}
+\DoxyCodeLine{00348\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_DIVIDE\ '/'\ \ \ }\textcolor{comment}{//\ /}}
+\DoxyCodeLine{00349\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_KP\_PERIOD\ '.'\ \ \ }\textcolor{comment}{//\ .}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \textcolor{comment}{//\ Arrows}}
+\DoxyCodeLine{00352\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_UP\ 0\ \ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00353\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DOWN\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_LEFT\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00355\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_RIGHT\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00357\ \textcolor{comment}{//\ Others}}
+\DoxyCodeLine{00358\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_INSERT\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00359\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_HOME\ 0\ \ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00360\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEUP\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00361\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_PAGEDOWN\ 0\ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00362\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_DELETE\ 0\ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00363\ \textcolor{preprocessor}{\#define\ GUB\_KEY\_END\ 0\ \ \ \ \ }\textcolor{comment}{//\ Placeholder}}
+\DoxyCodeLine{00364\ }
+\DoxyCodeLine{00365\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00366\ }
+\DoxyCodeLine{00367\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ KEY\_EVENT\_VALUES\_H}}
+
+\end{DoxyCode}

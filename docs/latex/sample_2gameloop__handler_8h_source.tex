@@ -1,0 +1,24 @@
+\doxysection{gameloop\+\_\+handler.\+h}
+\hypertarget{sample_2gameloop__handler_8h_source}{}\label{sample_2gameloop__handler_8h_source}\index{include/core/apis/sample/gameloop\_handler.h@{include/core/apis/sample/gameloop\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAMELOOP\_API\_HANDLER\_SAMPLE\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAMELOOP\_API\_HANDLER\_SAMPLE\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../../types/gameloop\_callback.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__gameloop__handler__}{\_tag\_gameloop\_handler\_}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ GameLoopCallback\ \mbox{\hyperlink{struct__tag__gameloop__handler___a3e73f68a88c6f254394f567e646e2aa3}{gameLoop}};}
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structGameloopHandler}{GameloopHandler}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{static}\ \mbox{\hyperlink{structGameloopHandler}{GameloopHandler}}\ gGameloopHandler;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{bool}\ initializeGameloopThread(GameLoopCallback\ gameLoop)\ \{\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00042\ \textcolor{keywordtype}{void}\ waitGameloopFinish()\ \{\}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

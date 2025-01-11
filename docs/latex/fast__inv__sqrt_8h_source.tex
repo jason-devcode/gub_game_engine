@@ -1,0 +1,30 @@
+\doxysection{fast\+\_\+inv\+\_\+sqrt.\+h}
+\hypertarget{fast__inv__sqrt_8h_source}{}\label{fast__inv__sqrt_8h_source}\index{include/utils/fast\_math/fast\_inv\_sqrt.h@{include/utils/fast\_math/fast\_inv\_sqrt.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FAST\_INVERSE\_SQRT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FAST\_INVERSE\_SQRT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{float}\ fast\_inv\_sqrt(\textcolor{keywordtype}{float}\ number)}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{long}\ i;}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{float}\ x2,\ y;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ threehalfs\ =\ 1.5f;}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ x2\ =\ number\ *\ 0.5f;}
+\DoxyCodeLine{00027\ \ \ \ \ y\ =\ number;}
+\DoxyCodeLine{00028\ \ \ \ \ i\ =\ *(\textcolor{keywordtype}{long}\ *)\&y;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bit-\/level\ manipulation}}
+\DoxyCodeLine{00029\ \ \ \ \ i\ =\ 0x5f3759df\ -\/\ (i\ >>\ 1);\ \textcolor{comment}{//\ Magic\ number}}
+\DoxyCodeLine{00030\ \ \ \ \ y\ =\ *(\textcolor{keywordtype}{float}\ *)\&i;\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Convert\ back\ to\ float}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{comment}{//\ Improve\ approximation\ with\ one\ iteration\ of\ Newton's\ method}}
+\DoxyCodeLine{00033\ \ \ \ \ y\ *=\ (threehalfs\ -\/\ (x2\ *\ y\ *\ y));}
+\DoxyCodeLine{00034\ \ \ \ \ y\ *=\ (threehalfs\ -\/\ (x2\ *\ y\ *\ y));\ \textcolor{comment}{//\ Optional:\ Higher\ precision}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{return}\ y;}
+\DoxyCodeLine{00037\ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FAST\_INVERSE\_SQRT\_H}}
+
+\end{DoxyCode}

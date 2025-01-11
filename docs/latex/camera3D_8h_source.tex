@@ -1,0 +1,114 @@
+\doxysection{camera3\+D.\+h}
+\hypertarget{camera3D_8h_source}{}\label{camera3D_8h_source}\index{include/utils/3DEngine/camera3D.h@{include/utils/3DEngine/camera3D.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CAMERA\_3D\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CAMERA\_3D\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../fast\_math.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}camera/camera\_properties.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraForward()}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ cameraPosition.x\ +=\ cameraDirection.x\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00014\ \ \ \ \ cameraPosition.y\ +=\ cameraDirection.y\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00015\ \ \ \ \ cameraPosition.z\ +=\ cameraDirection.z\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00016\ \}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraBackward()}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ cameraPosition.x\ -\/=\ cameraDirection.x\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00024\ \ \ \ \ cameraPosition.y\ -\/=\ cameraDirection.y\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00025\ \ \ \ \ cameraPosition.z\ -\/=\ cameraDirection.z\ *\ deltatime\ *\ 0.0001;}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00031\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraLeft()}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ cameraPosition.x\ -\/=\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00034\ \}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraRight()}
+\DoxyCodeLine{00040\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ cameraPosition.x\ +=\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00042\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraUp()}
+\DoxyCodeLine{00048\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ cameraPosition.y\ +=\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ moveCameraDown()}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ cameraPosition.y\ -\/=\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00058\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00063\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ updateCameraDirection()}
+\DoxyCodeLine{00064\ \{}
+\DoxyCodeLine{00065\ \ \ \ \ cosineCameraPitch\ =\ fast\_cosine(cameraPitch),\ sineCameraPitch\ =\ fast\_sine(cameraPitch);}
+\DoxyCodeLine{00066\ \ \ \ \ cosineCameraYaw\ =\ fast\_cosine(cameraYaw),\ sineCameraYaw\ =\ fast\_sine(cameraYaw);}
+\DoxyCodeLine{00067\ \ \ \ \ cosineCameraRoll\ =\ fast\_cosine(cameraRoll),\ sineCameraRoll\ =\ fast\_sine(cameraRoll);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{double}\ tempX\ =\ 0.0,\ X\ =\ 0;}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{double}\ tempY\ =\ 0.0,\ Y\ =\ 0;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{double}\ tempZ\ =\ 1.0,\ Z\ =\ 0;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{comment}{//\ rotate\ X\ Axis\ -\/\ ZY\ plane\ pitch}}
+\DoxyCodeLine{00074\ \ \ \ \ Z\ =\ tempZ\ *\ cosineCameraPitch\ -\/\ tempY\ *\ sineCameraPitch;}
+\DoxyCodeLine{00075\ \ \ \ \ Y\ =\ tempY\ *\ cosineCameraPitch\ +\ tempZ\ *\ sineCameraPitch;}
+\DoxyCodeLine{00076\ \ \ \ \ tempZ\ =\ Z;}
+\DoxyCodeLine{00077\ \ \ \ \ tempY\ =\ Y;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{comment}{//\ rotate\ Y\ Axis\ -\/\ XZ\ plane\ yaw}}
+\DoxyCodeLine{00080\ \ \ \ \ X\ =\ tempX\ *\ cosineCameraYaw\ +\ tempZ\ *\ sineCameraYaw;}
+\DoxyCodeLine{00081\ \ \ \ \ Z\ =\ tempZ\ *\ cosineCameraYaw\ -\/\ tempX\ *\ sineCameraYaw;}
+\DoxyCodeLine{00082\ \ \ \ \ tempX\ =\ X;}
+\DoxyCodeLine{00083\ \ \ \ \ tempZ\ =\ Z;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{comment}{//\ rotate\ Z\ Axis\ -\/\ XY\ plane\ roll}}
+\DoxyCodeLine{00086\ \ \ \ \ X\ =\ tempX\ *\ cosineCameraRoll\ -\/\ tempY\ *\ sineCameraRoll;}
+\DoxyCodeLine{00087\ \ \ \ \ Y\ =\ tempY\ *\ cosineCameraRoll\ +\ tempX\ *\ sineCameraRoll;}
+\DoxyCodeLine{00088\ \ \ \ \ tempX\ =\ X;}
+\DoxyCodeLine{00089\ \ \ \ \ tempY\ =\ Y;}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ cameraDirection.x\ =\ tempX;}
+\DoxyCodeLine{00092\ \ \ \ \ cameraDirection.y\ =\ tempY;}
+\DoxyCodeLine{00093\ \ \ \ \ cameraDirection.z\ =\ tempZ;}
+\DoxyCodeLine{00094\ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00101\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ rotateCameraYaw(\textcolor{keywordtype}{double}\ angle)}
+\DoxyCodeLine{00102\ \{}
+\DoxyCodeLine{00103\ \ \ \ \ cameraYaw\ +=\ angle\ *\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00104\ \ \ \ \ updateCameraDirection();}
+\DoxyCodeLine{00105\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00112\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ rotateCameraPitch(\textcolor{keywordtype}{double}\ angle)}
+\DoxyCodeLine{00113\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ cameraPitch\ +=\ angle\ *\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00115\ \ \ \ \ updateCameraDirection();}
+\DoxyCodeLine{00116\ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00123\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ rotateCameraRoll(\textcolor{keywordtype}{double}\ angle)}
+\DoxyCodeLine{00124\ \{}
+\DoxyCodeLine{00125\ \ \ \ \ cameraRoll\ +=\ angle\ *\ getDeltatime()\ *\ 0.01;}
+\DoxyCodeLine{00126\ \ \ \ \ updateCameraDirection();}
+\DoxyCodeLine{00127\ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00136\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ initializeCamera3D(\mbox{\hyperlink{structVec3f}{Vec3f}}\ initialPosition,\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ initialAngle,\ \textcolor{keywordtype}{double}\ horizontalFov)}
+\DoxyCodeLine{00137\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ cameraFrustumHorizontalFov\ =\ horizontalFov;}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ cameraPosition.x\ =\ initialPosition.x;}
+\DoxyCodeLine{00141\ \ \ \ \ cameraPosition.y\ =\ initialPosition.y;}
+\DoxyCodeLine{00142\ \ \ \ \ cameraPosition.z\ =\ initialPosition.z;}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ cameraPitch\ =\ initialAngle.x;}
+\DoxyCodeLine{00145\ \ \ \ \ cameraYaw\ =\ initialAngle.y;}
+\DoxyCodeLine{00146\ \ \ \ \ cameraRoll\ =\ initialAngle.z;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ updateCameraDirection();}
+\DoxyCodeLine{00149\ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

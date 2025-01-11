@@ -1,0 +1,157 @@
+\doxysection{include/utils/font.h File Reference}
+\hypertarget{font_8h}{}\label{font_8h}\index{include/utils/font.h@{include/utils/font.h}}
+
+
+Header file for font rendering functions.  
+
+
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include "{}../utils/pixel.\+h"{}}\newline
+{\ttfamily \#include "{}font\+\_\+data/font\+\_\+bitmap\+\_\+table.\+data"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{font_8h_a051532a10002bd8f3448ee19916f96c7}\label{font_8h_a051532a10002bd8f3448ee19916f96c7} 
+\#define {\bfseries on\+Draw\+Pixel}~((bit\+Row $>$$>$ X) \& 1)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{font_8h_a3d10aeaf5c5074539fd5cb26c305d995}{draw\+Char}} (int x, int y, char ascii\+Code, uint32\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Draw a single character at a specified position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{font_8h_a156c5fea40e8a188196d29a80ba0035e}{draw\+Text}} (int x, int y, char \texorpdfstring{$\ast$}{*}text, uint32\+\_\+t color)
+\begin{DoxyCompactList}\small\item\em Draw a string of text at a specified position. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{font_8h_ab043c1bbdea372c2f13bbbd8c4de9b40}{draw\+Formatted\+Text}} (int x, int y, uint32\+\_\+t color, const char \texorpdfstring{$\ast$}{*}format,...)
+\begin{DoxyCompactList}\small\item\em Draw formatted text at a specified position. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const uint8\+\_\+t \mbox{\hyperlink{font_8h_a7afd9187225b5fef7285bb93718e67de}{font\+\_\+data}} \mbox{[}256 \texorpdfstring{$\ast$}{*}8\mbox{]}
+\begin{DoxyCompactList}\small\item\em \texorpdfstring{$<$}{<} For boolean type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for font rendering functions. 
+
+This file provides functionality to render characters and text using a bitmap font. It includes functions to draw individual characters and formatted text at specified positions with a given color. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{font_8h_a3d10aeaf5c5074539fd5cb26c305d995}\index{font.h@{font.h}!drawChar@{drawChar}}
+\index{drawChar@{drawChar}!font.h@{font.h}}
+\doxysubsubsection{\texorpdfstring{drawChar()}{drawChar()}}
+{\footnotesize\ttfamily \label{font_8h_a3d10aeaf5c5074539fd5cb26c305d995} 
+void draw\+Char (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{, }\item[{char}]{ascii\+Code}{, }\item[{uint32\+\_\+t}]{color}{}\end{DoxyParamCaption})}
+
+
+
+Draw a single character at a specified position. 
+
+This function renders a character using the provided bitmap font data. The character is drawn at the (x, y) coordinates with the specified color. Each character is represented as an 8x8 bitmap.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the position where the character should be drawn. \\
+\hline
+{\em y} & The y-\/coordinate of the position where the character should be drawn. \\
+\hline
+{\em ascii\+Code} & The ASCII code of the character to be drawn. \\
+\hline
+{\em color} & The color to use for drawing the character. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Pointer to the character\textquotesingle{}s bitmap data.
+
+\texorpdfstring{$<$}{<} Row of the bitmap to be drawn.
+
+\texorpdfstring{$<$}{<} Draw the pixel if it is set in the bitmap.\Hypertarget{font_8h_ab043c1bbdea372c2f13bbbd8c4de9b40}\index{font.h@{font.h}!drawFormattedText@{drawFormattedText}}
+\index{drawFormattedText@{drawFormattedText}!font.h@{font.h}}
+\doxysubsubsection{\texorpdfstring{drawFormattedText()}{drawFormattedText()}}
+{\footnotesize\ttfamily \label{font_8h_ab043c1bbdea372c2f13bbbd8c4de9b40} 
+void draw\+Formatted\+Text (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{, }\item[{uint32\+\_\+t}]{color}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{format}{, }\item[{}]{...}{}\end{DoxyParamCaption})}
+
+
+
+Draw formatted text at a specified position. 
+
+This function allows for formatted text to be drawn at a specified position using a format string similar to {\ttfamily printf}. The formatted text is rendered using the {\ttfamily draw\+Text} function.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the position where the formatted text should start. \\
+\hline
+{\em y} & The y-\/coordinate of the position where the formatted text should start. \\
+\hline
+{\em color} & The color to use for drawing the formatted text. \\
+\hline
+{\em format} & The format string (similar to printf) that specifies how to format the text. \\
+\hline
+{\em ...} & The values to be formatted and included in the text. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Buffer to hold the formatted text.
+
+\texorpdfstring{$<$}{<} Variable argument list for the formatted text.
+
+\texorpdfstring{$<$}{<} Initialize the variable argument list.
+
+\texorpdfstring{$<$}{<} Format the text and store it in the buffer.
+
+\texorpdfstring{$<$}{<} Clean up the variable argument list.
+
+\texorpdfstring{$<$}{<} Draw the formatted text using {\ttfamily draw\+Text}.\Hypertarget{font_8h_a156c5fea40e8a188196d29a80ba0035e}\index{font.h@{font.h}!drawText@{drawText}}
+\index{drawText@{drawText}!font.h@{font.h}}
+\doxysubsubsection{\texorpdfstring{drawText()}{drawText()}}
+{\footnotesize\ttfamily \label{font_8h_a156c5fea40e8a188196d29a80ba0035e} 
+void draw\+Text (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{text}{, }\item[{uint32\+\_\+t}]{color}{}\end{DoxyParamCaption})}
+
+
+
+Draw a string of text at a specified position. 
+
+This function renders a string of text using the {\ttfamily draw\+Char} function. Each character in the string is drawn sequentially with the specified color. The text wraps to the next line if a newline character (\textquotesingle{}~\newline
+\textquotesingle{}) is encountered.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The x-\/coordinate of the position where the text should start. \\
+\hline
+{\em y} & The y-\/coordinate of the position where the text should start. \\
+\hline
+{\em text} & The null-\/terminated string to be drawn. \\
+\hline
+{\em color} & The color to use for drawing the text. \\
+\hline
+\end{DoxyParams}
+\texorpdfstring{$<$}{<} Pointer to the current character in the text.
+
+\texorpdfstring{$<$}{<} Current x-\/coordinate for drawing.
+
+\texorpdfstring{$<$}{<} Current y-\/coordinate for drawing.
+
+\texorpdfstring{$<$}{<} Reset x-\/coordinate to the start of the line.
+
+\texorpdfstring{$<$}{<} Move y-\/coordinate down for the next line.
+
+\texorpdfstring{$<$}{<} Move to the next character.
+
+\texorpdfstring{$<$}{<} Draw the current character.
+
+\texorpdfstring{$<$}{<} Move x-\/coordinate to the right for the next character.
+
+\texorpdfstring{$<$}{<} Move to the next character.
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{font_8h_a7afd9187225b5fef7285bb93718e67de}\index{font.h@{font.h}!font\_data@{font\_data}}
+\index{font\_data@{font\_data}!font.h@{font.h}}
+\doxysubsubsection{\texorpdfstring{font\_data}{font\_data}}
+{\footnotesize\ttfamily \label{font_8h_a7afd9187225b5fef7285bb93718e67de} 
+const uint8\+\_\+t font\+\_\+data\mbox{[}256 \texorpdfstring{$\ast$}{*}8\mbox{]}}
+
+
+
+\texorpdfstring{$<$}{<} For boolean type. 
+
+\texorpdfstring{$<$}{<} For variable argument lists. For string manipulation functions. For standard I/O functions. \texorpdfstring{$<$}{<} For pixel utils. 

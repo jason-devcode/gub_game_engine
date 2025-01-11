@@ -1,0 +1,148 @@
+\doxysection{vertex\+\_\+linear\+\_\+list.\+h}
+\hypertarget{vertex__linear__list_8h_source}{}\label{vertex__linear__list_8h_source}\index{include/utils/3DEngine/linear\_lists/vertex\_linear\_list.h@{include/utils/3DEngine/linear\_lists/vertex\_linear\_list.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VERTEX\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VERTEX\_LINEAR\_LIST\_HELPER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../vectorial\_3D.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexListNode}{VertexListNode}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ \mbox{\hyperlink{structVertexListNode_a2bdc76eba0a7e13f6b2b70cfee6bd5dd}{vertex}};\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}};\ }
+\DoxyCodeLine{00016\ \}\ \mbox{\hyperlink{structVertexListNode}{VertexListNode}};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}}
+\DoxyCodeLine{00022\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}};\ }
+\DoxyCodeLine{00024\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}};\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}};\ \ \ \ }
+\DoxyCodeLine{00026\ \}\ \mbox{\hyperlink{structVertexLinearList}{VertexLinearList}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *createVertexLinearList()}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list\ =\ (\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}));}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{if}\ (!list)}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory\ for\ VertexLinearList"{}});}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}}\ =\ NULL;}
+\DoxyCodeLine{00044\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00045\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}\ =\ 0;}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordflow}{return}\ list;}
+\DoxyCodeLine{00047\ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initVertexLinearList(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list)}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}}\ =\ NULL;}
+\DoxyCodeLine{00059\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00060\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}\ =\ 0;}
+\DoxyCodeLine{00061\ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ addVertex(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list,\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ vertex)}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *newNode\ =\ (\mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVertexListNode}{VertexListNode}}));}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}\ (!newNode)}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structVertexListNode_a2bdc76eba0a7e13f6b2b70cfee6bd5dd}{vertex}}\ =\ vertex;}
+\DoxyCodeLine{00080\ \ \ \ \ newNode-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}}\ =\ NULL;}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}})}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}}-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}}\ =\ newNode;\ \textcolor{comment}{//\ Link\ the\ current\ tail\ to\ the\ new\ node}}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00087\ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}}\ =\ newNode;\ \textcolor{comment}{//\ If\ the\ list\ was\ empty,\ new\ node\ becomes\ the\ head}}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}}\ =\ newNode;\ \textcolor{comment}{//\ Update\ the\ tail\ to\ the\ new\ node}}
+\DoxyCodeLine{00092\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}++;}
+\DoxyCodeLine{00093\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00102\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freeVertexLinearList(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list)}
+\DoxyCodeLine{00103\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}};}
+\DoxyCodeLine{00105\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *nextNode;}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00108\ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ nextNode\ =\ current-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}};}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ free(current);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ current\ =\ nextNode;}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}}\ =\ NULL;}
+\DoxyCodeLine{00115\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_ada796d20e8f001be6d422ce95127bfc5}{tail}}\ =\ NULL;}
+\DoxyCodeLine{00116\ \ \ \ \ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}\ =\ 0;}
+\DoxyCodeLine{00117\ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *getVertex(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list,\ \textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00129\ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ <\ 0\ ||\ index\ >=\ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}})}
+\DoxyCodeLine{00131\ \ \ \ \ \{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ Index\ out\ of\ bounds}}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}};}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ index;\ i++)}
+\DoxyCodeLine{00137\ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}};}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordflow}{return}\ \&current-\/>\mbox{\hyperlink{structVertexListNode_a2bdc76eba0a7e13f6b2b70cfee6bd5dd}{vertex}};}
+\DoxyCodeLine{00142\ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00153\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ findVertexIndex(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list,\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ vertex)}
+\DoxyCodeLine{00154\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}};}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordtype}{int}\ index\ =\ 0;}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{while}\ (current\ !=\ NULL)}
+\DoxyCodeLine{00159\ \ \ \ \ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (memcmp(\&current-\/>\mbox{\hyperlink{structVertexListNode_a2bdc76eba0a7e13f6b2b70cfee6bd5dd}{vertex}},\ \&vertex,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}))\ ==\ 0)}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ index;\ \textcolor{comment}{//\ Vertex\ found}}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}};}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ index++;}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;\ \textcolor{comment}{//\ Vertex\ not\ found}}
+\DoxyCodeLine{00169\ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00180\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *convertVertexListToArray(\mbox{\hyperlink{structVertexLinearList}{VertexLinearList}}\ *list)}
+\DoxyCodeLine{00181\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}\ ==\ 0)}
+\DoxyCodeLine{00183\ \ \ \ \ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ No\ vertices\ to\ convert}}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *array\ =\ (\mbox{\hyperlink{structVec3f}{Vec3f}}\ *)malloc(list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}}\ *\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}}));}
+\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (!array)}
+\DoxyCodeLine{00189\ \ \ \ \ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ allocating\ memory"{}});}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ exit(EXIT\_FAILURE);}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \mbox{\hyperlink{structVertexListNode}{VertexListNode}}\ *current\ =\ list-\/>\mbox{\hyperlink{structVertexLinearList_a9e931bbe5dc0cc1fb06dea7d1165c467}{head}};}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ list-\/>\mbox{\hyperlink{structVertexLinearList_a856034cec4e3943906029d513d47a277}{countVertices}};\ i++)}
+\DoxyCodeLine{00196\ \ \ \ \ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ array[i]\ =\ current-\/>\mbox{\hyperlink{structVertexListNode_a2bdc76eba0a7e13f6b2b70cfee6bd5dd}{vertex}};}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ current\ =\ current-\/>\mbox{\hyperlink{structVertexListNode_a483bf981364871dfa74c7d2ede3b8c0a}{next}};}
+\DoxyCodeLine{00199\ \ \ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ array;}
+\DoxyCodeLine{00202\ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VERTEX\_LINEAR\_LIST\_HELPER\_H}}
+
+\end{DoxyCode}

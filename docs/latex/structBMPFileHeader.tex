@@ -1,0 +1,65 @@
+\doxysection{BMPFile\+Header Struct Reference}
+\hypertarget{structBMPFileHeader}{}\label{structBMPFileHeader}\index{BMPFileHeader@{BMPFileHeader}}
+
+
+BMP file header structure.  
+
+
+
+
+{\ttfamily \#include $<$bmp.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9}{bf\+Type}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPFileHeader_a1b8126a94046ec3d4a1e5f569ae9c27d}{bf\+Size}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structBMPFileHeader_aa4bcd014e35633ea836723d9b9e521ec}{bf\+Reserved1}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{structBMPFileHeader_a329db915a85b1490f3c144c978465486}{bf\+Reserved2}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d}{bf\+Off\+Bits}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+BMP file header structure. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d}\index{BMPFileHeader@{BMPFileHeader}!bfOffBits@{bfOffBits}}
+\index{bfOffBits@{bfOffBits}!BMPFileHeader@{BMPFileHeader}}
+\doxysubsubsection{\texorpdfstring{bfOffBits}{bfOffBits}}
+{\footnotesize\ttfamily \label{structBMPFileHeader_adb045f758afe73a835ad7cfed40ae31d} 
+uint32\+\_\+t BMPFile\+Header\+::bf\+Off\+Bits}
+
+Offset from the beginning of the file to the pixel data \Hypertarget{structBMPFileHeader_aa4bcd014e35633ea836723d9b9e521ec}\index{BMPFileHeader@{BMPFileHeader}!bfReserved1@{bfReserved1}}
+\index{bfReserved1@{bfReserved1}!BMPFileHeader@{BMPFileHeader}}
+\doxysubsubsection{\texorpdfstring{bfReserved1}{bfReserved1}}
+{\footnotesize\ttfamily \label{structBMPFileHeader_aa4bcd014e35633ea836723d9b9e521ec} 
+uint16\+\_\+t BMPFile\+Header\+::bf\+Reserved1}
+
+Reserved; must be zero \Hypertarget{structBMPFileHeader_a329db915a85b1490f3c144c978465486}\index{BMPFileHeader@{BMPFileHeader}!bfReserved2@{bfReserved2}}
+\index{bfReserved2@{bfReserved2}!BMPFileHeader@{BMPFileHeader}}
+\doxysubsubsection{\texorpdfstring{bfReserved2}{bfReserved2}}
+{\footnotesize\ttfamily \label{structBMPFileHeader_a329db915a85b1490f3c144c978465486} 
+uint16\+\_\+t BMPFile\+Header\+::bf\+Reserved2}
+
+Reserved; must be zero \Hypertarget{structBMPFileHeader_a1b8126a94046ec3d4a1e5f569ae9c27d}\index{BMPFileHeader@{BMPFileHeader}!bfSize@{bfSize}}
+\index{bfSize@{bfSize}!BMPFileHeader@{BMPFileHeader}}
+\doxysubsubsection{\texorpdfstring{bfSize}{bfSize}}
+{\footnotesize\ttfamily \label{structBMPFileHeader_a1b8126a94046ec3d4a1e5f569ae9c27d} 
+uint32\+\_\+t BMPFile\+Header\+::bf\+Size}
+
+Size of the BMP file in bytes \Hypertarget{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9}\index{BMPFileHeader@{BMPFileHeader}!bfType@{bfType}}
+\index{bfType@{bfType}!BMPFileHeader@{BMPFileHeader}}
+\doxysubsubsection{\texorpdfstring{bfType}{bfType}}
+{\footnotesize\ttfamily \label{structBMPFileHeader_a48896537fc567afd4e7d3090579f24a9} 
+uint16\+\_\+t BMPFile\+Header\+::bf\+Type}
+
+File type identifier; must be \textquotesingle{}BM\textquotesingle{} (0x4\+D42) 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/utils/image/bmp.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,202 @@
+\doxysection{simple\+\_\+clipping\+\_\+triangle.\+h}
+\hypertarget{simple__clipping__triangle_8h_source}{}\label{simple__clipping__triangle_8h_source}\index{include/utils/triangles/simple\_clipping\_triangle.h@{include/utils/triangles/simple\_clipping\_triangle.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CUT\_TRIANGLE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CUT\_TRIANGLE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../swap.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}fast\_triangle\_fill.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}../geometry.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ MAX\_POLYGON\_POINTS\ 10}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ EDGES\_COUNT\ 4\ }\textcolor{comment}{//\ LEFT\ -\/>\ TOP\ -\/>\ RIGHT\ -\/>\ BOTTOM}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structPoint2D}{Point2D}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ y;}
+\DoxyCodeLine{00016\ \}\ \mbox{\hyperlink{structPoint2D}{Point2D}};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keywordtype}{void}\ clippingLeftScreenSide(\mbox{\hyperlink{structPoint2D}{Point2D}}\ *points,\ \textcolor{keywordtype}{int}\ *count)}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ newPoints[MAX\_POLYGON\_POINTS];}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{int}\ newCount\ =\ 0;}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ *count;\ i++)}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ current\ =\ points[i];}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ next\ =\ points[(i\ +\ 1)\ \%\ *count];}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.x\ >=\ 100)}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ current;}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((current.x\ >=\ 100)\ !=\ (next.x\ >=\ 100))}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ 100;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ current.y\ +\ (next.y\ -\/\ current.y)\ *\ (x\ -\/\ current.x)\ /\ (next.x\ -\/\ current.x);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ (\mbox{\hyperlink{structPoint2D}{Point2D}})\{x,\ y\};}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ *count\ =\ newCount;}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ newCount;\ i++)}
+\DoxyCodeLine{00043\ \ \ \ \ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ points[i]\ =\ newPoints[i];}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{keywordtype}{void}\ clippingRightScreenSide(\mbox{\hyperlink{structPoint2D}{Point2D}}\ *points,\ \textcolor{keywordtype}{int}\ *count)}
+\DoxyCodeLine{00049\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ newPoints[MAX\_POLYGON\_POINTS];}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ newCount\ =\ 0;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ *count;\ i++)}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ current\ =\ points[i];}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ next\ =\ points[(i\ +\ 1)\ \%\ *count];}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.x\ <=\ gScreenWidth\ -\/\ 100)}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ current;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((current.x\ <=\ gScreenWidth\ -\/\ 100)\ !=\ (next.x\ <=\ gScreenWidth\ -\/\ 100))}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ gScreenWidth\ -\/\ 100;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ current.y\ +\ (next.y\ -\/\ current.y)\ *\ (x\ -\/\ current.x)\ /\ (next.x\ -\/\ current.x);}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ (\mbox{\hyperlink{structPoint2D}{Point2D}})\{x,\ y\};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ *count\ =\ newCount;}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ newCount;\ i++)}
+\DoxyCodeLine{00073\ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ points[i]\ =\ newPoints[i];}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{keywordtype}{void}\ clippingTopScreenSide(\mbox{\hyperlink{structPoint2D}{Point2D}}\ *points,\ \textcolor{keywordtype}{int}\ *count)}
+\DoxyCodeLine{00079\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ newPoints[MAX\_POLYGON\_POINTS];}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ newCount\ =\ 0;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ *count;\ i++)}
+\DoxyCodeLine{00084\ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ current\ =\ points[i];}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ next\ =\ points[(i\ +\ 1)\ \%\ *count];}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.y\ >=\ 100)}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ current;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((current.y\ >=\ 100)\ !=\ (next.y\ >=\ 100))}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ 100;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ current.x\ +\ (next.x\ -\/\ current.x)\ *\ (y\ -\/\ current.y)\ /\ (next.y\ -\/\ current.y);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ (\mbox{\hyperlink{structPoint2D}{Point2D}})\{x,\ y\};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ *count\ =\ newCount;}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ newCount;\ i++)}
+\DoxyCodeLine{00103\ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ points[i]\ =\ newPoints[i];}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{keywordtype}{void}\ clippingBottomScreenSide(\mbox{\hyperlink{structPoint2D}{Point2D}}\ *points,\ \textcolor{keywordtype}{int}\ *count)}
+\DoxyCodeLine{00109\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ newPoints[MAX\_POLYGON\_POINTS];}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordtype}{int}\ newCount\ =\ 0;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ *count;\ i++)}
+\DoxyCodeLine{00114\ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ current\ =\ points[i];}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ next\ =\ points[(i\ +\ 1)\ \%\ *count];}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.y\ <=\ gScreenHeight\ -\/\ 100)}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ current;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ ((current.y\ <=\ gScreenHeight\ -\/\ 100)\ !=\ (next.y\ <=\ gScreenHeight\ -\/\ 100))}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ y\ =\ gScreenHeight\ -\/\ 100;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ current.x\ +\ (next.x\ -\/\ current.x)\ *\ (y\ -\/\ current.y)\ /\ (next.y\ -\/\ current.y);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ newPoints[newCount++]\ =\ (\mbox{\hyperlink{structPoint2D}{Point2D}})\{x,\ y\};}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ *count\ =\ newCount;}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ newCount;\ i++)}
+\DoxyCodeLine{00133\ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ points[i]\ =\ newPoints[i];}
+\DoxyCodeLine{00135\ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \}}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ void\ (*clippingSideFunctions[EDGES\_COUNT])(\mbox{\hyperlink{structPoint2D}{Point2D}}\ *points,\ \textcolor{keywordtype}{int}\ *count)\ =\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ clippingLeftScreenSide,}
+\DoxyCodeLine{00140\ \ \ \ \ clippingTopScreenSide,}
+\DoxyCodeLine{00141\ \ \ \ \ clippingRightScreenSide,}
+\DoxyCodeLine{00142\ \ \ \ \ clippingBottomScreenSide\};}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \textcolor{keywordtype}{void}\ drawtriangleScreenClipping(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ y1,\ \textcolor{keywordtype}{int}\ x2,\ \textcolor{keywordtype}{int}\ y2,\ \textcolor{keywordtype}{int}\ x3,\ \textcolor{keywordtype}{int}\ y3,\ uint32\_t\ color)}
+\DoxyCodeLine{00145\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y2)}
+\DoxyCodeLine{00147\ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x2);}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y2);}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordflow}{if}\ (y1\ >\ y3)}
+\DoxyCodeLine{00152\ \ \ \ \ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x1,\ x3);}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y1,\ y3);}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (y2\ >\ y3)}
+\DoxyCodeLine{00157\ \ \ \ \ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(x2,\ x3);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ fast\_swap\_bitwise(y2,\ y3);}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{if}\ (gScreenHeight\ <\ y1\ ||\ y3\ <\ 0)}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ protect\ top\ and\ bottom\ screen\ sides}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keywordtype}{int}\ currentPointsCount\ =\ 3;\ \textcolor{comment}{//\ initial\ polygon\ points}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \mbox{\hyperlink{structPoint2D}{Point2D}}\ points[MAX\_POLYGON\_POINTS]\ =\ \{}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \{x1,\ y1\},\ \{x2,\ y2\},\ \{x3,\ y3\}\};}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ clippingLeftScreenSide(points,\ \&currentPointsCount);}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPointsCount\ ==\ 0)}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ No\ points\ left\ after\ clipping}}
+\DoxyCodeLine{00173\ \ \ \ \ clippingTopScreenSide(points,\ \&currentPointsCount);}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPointsCount\ ==\ 0)}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ No\ points\ left\ after\ clipping}}
+\DoxyCodeLine{00176\ \ \ \ \ clippingRightScreenSide(points,\ \&currentPointsCount);}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPointsCount\ ==\ 0)}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ No\ points\ left\ after\ clipping}}
+\DoxyCodeLine{00179\ \ \ \ \ clippingBottomScreenSide(points,\ \&currentPointsCount);}
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordflow}{if}\ (currentPointsCount\ ==\ 0)}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};\ \textcolor{comment}{//\ No\ points\ left\ after\ clipping}}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordtype}{int}\ pointsIterator\ =\ 1;}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00185\ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ drawFilledTriangleGradient(}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ points[0].x,\ points[0].y,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ points[(pointsIterator)\ \%\ currentPointsCount].x,}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ points[(pointsIterator)\ \%\ currentPointsCount].y,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ points[(pointsIterator\ +\ 1)\ \%\ currentPointsCount].x,}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ points[(pointsIterator\ +\ 1)\ \%\ currentPointsCount].y,}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ color,\ color,\ color);}
+\DoxyCodeLine{00193\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (++pointsIterator\ <\ currentPointsCount);}
+\DoxyCodeLine{00194\ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

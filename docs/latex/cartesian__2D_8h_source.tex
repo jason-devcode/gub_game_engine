@@ -1,0 +1,98 @@
+\doxysection{cartesian\+\_\+2\+D.\+h}
+\hypertarget{cartesian__2D_8h_source}{}\label{cartesian__2D_8h_source}\index{include/utils/cartesian\_2D.h@{include/utils/cartesian\_2D.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CARTESIAN\_2D\_SPACE\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CARTESIAN\_2D\_SPACE\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}color\_palette.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}geometry.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{font_8h}{font.h}}"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ gCartesianMaxXAxisValue\ =\ 8;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ gCartesianMaxYAxisValue\ =\ 8;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ initializeCartesian2DSpaceUtils(\textcolor{keywordtype}{int}\ maxXAxisValue,\ \textcolor{keywordtype}{int}\ maxYAxisValue)}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ gCartesianMaxXAxisValue\ =\ maxXAxisValue;}
+\DoxyCodeLine{00029\ \ \ \ \ gCartesianMaxYAxisValue\ =\ maxYAxisValue;}
+\DoxyCodeLine{00030\ \}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ drawXAxis(colorLines,\ colorText)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\ \ \ \ register\ int\ DX\ =\ gScreenWidth\ /\ (gCartesianMaxXAxisValue\ <<\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\ \ \ \ register\ int\ x\ =\ DX;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00046\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawVerticalLine(0,\ gScreenHeight,\ x,\ GRAY\_900);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00047\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawVerticalLine(gHalfScreenHeight\ -\/\ 5,\ gHalfScreenHeight\ +\ 5,\ x,\ colorLines);\ \(\backslash\)}}
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ ((x\ +=\ DX)\ <\ gScreenWidth);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\ \ \ \ x\ =\ DX;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\ \ \ \ register\ int\ valueXAxis\ =\ -\/(gCartesianMaxXAxisValue\ -\/\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawFormattedText(x\ +\ 4,\ gHalfScreenHeight\ +\ 8,\ colorText,\ "{}\%d"{},\ valueXAxis);\ \ \(\backslash\)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ ++valueXAxis;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ ((x\ +=\ DX)\ <\ gScreenWidth);}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ drawYAxis(colorLines,\ colorText)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ register\ int\ DY\ =\ gScreenHeight\ /\ (gCartesianMaxYAxisValue\ <<\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ register\ int\ y\ =\ DY;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawHorizontalLine(0,\ gScreenWidth,\ y,\ GRAY\_900);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawHorizontalLine(gHalfScreenWidth\ -\/\ 5,\ gHalfScreenWidth\ +\ 5,\ y,\ colorLines);\ \ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ ((y\ +=\ DY)\ <\ gScreenHeight);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\ \ \ \ y\ =\ DY;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\ \ \ \ register\ int\ valueYAxis\ =\ (gCartesianMaxYAxisValue\ -\/\ 1);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\ \ \ \ do\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00077\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00078\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ drawFormattedText(gHalfScreenHeight\ +\ 16,\ y\ -\/\ 10,\ colorText,\ "{}\%d"{},\ valueYAxis);\ \(\backslash\)}}
+\DoxyCodeLine{00079\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ -\/-\/valueYAxis;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\ \ \ \ \}\ while\ ((y\ +=\ DY)\ <\ gScreenHeight);}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ drawScreenCartesianPlane()}
+\DoxyCodeLine{00089\ \{}
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#define\ LINE\_COLOR\ SLATE\_400}}
+\DoxyCodeLine{00091\ \ \ \ \ drawXAxis(LINE\_COLOR,\ GREEN\_900);}
+\DoxyCodeLine{00092\ \ \ \ \ drawYAxis(LINE\_COLOR,\ GREEN\_900);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ drawHorizontalLine(0,\ gScreenWidth,\ gHalfScreenHeight,\ LINE\_COLOR);}
+\DoxyCodeLine{00095\ \ \ \ \ drawVerticalLine(0,\ gScreenHeight,\ gHalfScreenWidth,\ LINE\_COLOR);}
+\DoxyCodeLine{00096\ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00104\ \textcolor{preprocessor}{\#define\ convertScreenXToCartesian2DX(x)\ \(\backslash\)}}
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\ \ \ \ ((double)(int)(((int)(x)\ -\/\ (gHalfScreenWidth))\ *\ gCartesianMaxXAxisValue)\ /\ (double)gHalfScreenWidth)}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ convertScreenYToCartesian2DY(y)\ \(\backslash\)}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\ \ \ \ ((double)(int)(-\/((int)(y)\ -\/\ (gHalfScreenHeight))\ *\ gCartesianMaxYAxisValue)\ /\ (double)gHalfScreenHeight)}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00122\ \textcolor{preprocessor}{\#define\ convertCartesian2DXToScreenX(x)\ \(\backslash\)}}
+\DoxyCodeLine{00123\ \textcolor{preprocessor}{\ \ \ \ (gHalfScreenWidth\ +\ (((x)\ *\ gScreenWidth)\ /\ (gCartesianMaxXAxisValue\ <<\ 1)))}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#define\ convertCartesian2DYToScreenY(y)\ \(\backslash\)}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\ \ \ \ (gHalfScreenHeight\ -\/\ (((y)\ *\ gScreenHeight)\ /\ (gCartesianMaxYAxisValue\ <<\ 1)))}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00141\ \textcolor{preprocessor}{\#define\ pixelCartesian2D(x,\ y,\ color)\ \(\backslash\)}}
+\DoxyCodeLine{00142\ \textcolor{preprocessor}{\ \ \ \ pixel(convertCartesian2DXToScreenX(x),\ convertCartesian2DYToScreenY(y),\ color);}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00150\ \textcolor{preprocessor}{\#define\ setCurrentLineToCoordsCartesian2D(x,\ y)\ \(\backslash\)}}
+\DoxyCodeLine{00151\ \textcolor{preprocessor}{\ \ \ \ setCurrentLineToCoords(convertCartesian2DXToScreenX(x),\ convertCartesian2DYToScreenY(y));}}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00160\ \textcolor{preprocessor}{\#define\ drawLineToCartesian2DCoords(x,\ y,\ color)\ \(\backslash\)}}
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\ \ \ \ drawLineTo(convertCartesian2DXToScreenX(x),\ convertCartesian2DYToScreenY(y),\ color);}}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ drawCircleFillCartesian2D(cx,\ cy,\ radius,\ color)\ \(\backslash\)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\ \ \ \ drawFilledCircle(convertCartesian2DXToScreenX(cx),\ convertCartesian2DYToScreenY(cy),\ radius,\ color);}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00183\ \textcolor{preprocessor}{\#define\ drawParallelogramWireCartesian2D(x1,\ y1,\ x2,\ y2,\ color)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\ \ \ \ drawLine(convertCartesian2DXToScreenX(0),\ convertCartesian2DYToScreenY(0),\ convertCartesian2DXToScreenX(x1),\ convertCartesian2DYToScreenY(y1),\ color);\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\ \ \ \ drawLine(convertCartesian2DXToScreenX(0),\ convertCartesian2DYToScreenY(0),\ convertCartesian2DXToScreenX(x2),\ convertCartesian2DYToScreenY(y2),\ color);\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\ \ \ \ drawLine(convertCartesian2DXToScreenX(x1),\ convertCartesian2DYToScreenY(y1),\ convertCartesian2DXToScreenX(x1\ +\ x2),\ convertCartesian2DYToScreenY(y1\ +\ y2),\ color);\ \(\backslash\)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\ \ \ \ drawLine(convertCartesian2DXToScreenX(x2),\ convertCartesian2DYToScreenY(y2),\ convertCartesian2DXToScreenX(x1\ +\ x2),\ convertCartesian2DYToScreenY(y1\ +\ y2),\ color);}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CARTESIAN\_2D\_SPACE\_UTILS\_H}}
+
+\end{DoxyCode}

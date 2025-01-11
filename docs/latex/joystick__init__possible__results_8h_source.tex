@@ -1,0 +1,23 @@
+\doxysection{joystick\+\_\+init\+\_\+possible\+\_\+results.\+h}
+\hypertarget{joystick__init__possible__results_8h_source}{}\label{joystick__init__possible__results_8h_source}\index{include/core/constants/joystick\_init\_possible\_results.h@{include/core/constants/joystick\_init\_possible\_results.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ JOYSTICK\_INIT\_POSSIBLE\_RESULTS}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ JOYSTICK\_INIT\_POSSIBLE\_RESULTS}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ Enumeration\ representing\ possible\ results\ from\ joystick\ initialization}}
+\DoxyCodeLine{00005\ \textcolor{keyword}{enum}\ JoystickInitPossibleResults}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ NOT\_FOUND\_JOYSTICK,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No\ joystick\ found}}
+\DoxyCodeLine{00008\ \ \ \ \ COULD\_NOT\_OPEN\_JOYSTICK,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Could\ not\ open\ joystick}}
+\DoxyCodeLine{00009\ \ \ \ \ CANNOT\_INITIALIZE\_JOYSTICK\_SUBSYSTEM,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Failed\ to\ initialize\ SDL\ joystick\ subsystem}}
+\DoxyCodeLine{00010\ \ \ \ \ CANNOT\_INITIALIZE\_JOYSTICK\_EVENT\_MANAGER,\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Failed\ to\ initialize\ the\ joystick\ event\ manager}}
+\DoxyCodeLine{00011\ \ \ \ \ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_STRUCTURES,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Failed\ to\ allocate\ memory\ for\ joystick\ structures}}
+\DoxyCodeLine{00012\ \ \ \ \ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_CURRENT\_STATE,\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Failed\ to\ allocate\ memory\ for\ joystick\ state\ array}}
+\DoxyCodeLine{00013\ \ \ \ \ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_PRESSED\_BUTTON\_FLAGS,\ \textcolor{comment}{//\ Failed\ to\ allocate\ memory\ for\ joystick\ button\ flags}}
+\DoxyCodeLine{00014\ \ \ \ \ SUCCESS\_INIT\_JOYSTICK\_SYSTEM\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Successful\ initialization}}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

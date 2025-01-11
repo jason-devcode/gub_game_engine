@@ -1,0 +1,34 @@
+\doxysection{pcx.\+h}
+\hypertarget{pcx_8h_source}{}\label{pcx_8h_source}\index{include/utils/image/pcx.h@{include/utils/image/pcx.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ IMAGE\_FORMAT\_PCX\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ IMAGE\_FORMAT\_PCX\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../byte.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__PcxHeader}{\_PcxHeader}}}
+\DoxyCodeLine{00007\ \{}
+\DoxyCodeLine{00008\ \ \ \ \ BYTE\ Identifier;\ \ \ \ \ \textcolor{comment}{/*\ PCX\ Id\ Number\ (Always\ 0x0A)\ */}}
+\DoxyCodeLine{00009\ \ \ \ \ BYTE\ Version;\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Version\ Number\ */}}
+\DoxyCodeLine{00010\ \ \ \ \ BYTE\ Encoding;\ \ \ \ \ \ \ \textcolor{comment}{/*\ Encoding\ Format\ */}}
+\DoxyCodeLine{00011\ \ \ \ \ BYTE\ BitsPerPixel;\ \ \ \textcolor{comment}{/*\ Bits\ per\ Pixel\ */}}
+\DoxyCodeLine{00012\ \ \ \ \ WORD\ XStart;\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Left\ of\ image\ */}}
+\DoxyCodeLine{00013\ \ \ \ \ WORD\ YStart;\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Top\ of\ Image\ */}}
+\DoxyCodeLine{00014\ \ \ \ \ WORD\ XEnd;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Right\ of\ Image\ \ */}}
+\DoxyCodeLine{00015\ \ \ \ \ WORD\ YEnd;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Bottom\ of\ image\ */}}
+\DoxyCodeLine{00016\ \ \ \ \ WORD\ HorzRes;\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Horizontal\ Resolution\ */}}
+\DoxyCodeLine{00017\ \ \ \ \ WORD\ VertRes;\ \ \ \ \ \ \ \ \textcolor{comment}{/*\ Vertical\ Resolution\ */}}
+\DoxyCodeLine{00018\ \ \ \ \ BYTE\ Palette[48];\ \ \ \ \textcolor{comment}{/*\ 16-\/Color\ EGA\ Palette\ */}}
+\DoxyCodeLine{00019\ \ \ \ \ BYTE\ Reserved1;\ \ \ \ \ \ \textcolor{comment}{/*\ Reserved\ (Always\ 0)\ */}}
+\DoxyCodeLine{00020\ \ \ \ \ BYTE\ NumBitPlanes;\ \ \ \textcolor{comment}{/*\ Number\ of\ Bit\ Planes\ */}}
+\DoxyCodeLine{00021\ \ \ \ \ WORD\ BytesPerLine;\ \ \ \textcolor{comment}{/*\ Bytes\ per\ Scan-\/line\ */}}
+\DoxyCodeLine{00022\ \ \ \ \ WORD\ PaletteType;\ \ \ \ \textcolor{comment}{/*\ Palette\ Type\ */}}
+\DoxyCodeLine{00023\ \ \ \ \ WORD\ HorzScreenSize;\ \textcolor{comment}{/*\ Horizontal\ Screen\ Size\ */}}
+\DoxyCodeLine{00024\ \ \ \ \ WORD\ VertScreenSize;\ \textcolor{comment}{/*\ Vertical\ Screen\ Size\ */}}
+\DoxyCodeLine{00025\ \ \ \ \ BYTE\ Reserved2[54];\ \ \textcolor{comment}{/*\ Reserved\ (Always\ 0)\ */}}
+\DoxyCodeLine{00026\ \}\ PCXHEAD;}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

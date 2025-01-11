@@ -1,0 +1,102 @@
+\doxysection{vectorial\+\_\+2\+D.\+h}
+\hypertarget{vectorial__2D_8h_source}{}\label{vectorial__2D_8h_source}\index{include/utils/vectorial\_2D.h@{include/utils/vectorial\_2D.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ VECTORIAL\_2D\_CALCULUS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ VECTORIAL\_2D\_CALCULUS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}fast\_math.h"{}}\ \textcolor{comment}{//\ For\ fast\ inv\_sqrt\ and\ fast\ sqrt}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ Inline\ keyword\ for\ potentially\ faster\ function\ calls}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ INLINE\ static\ inline}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ Struct\ for\ 2D\ vector\ with\ floating-\/point\ components}}
+\DoxyCodeLine{00011\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{double}\ x,\ y;}
+\DoxyCodeLine{00014\ \}\ \mbox{\hyperlink{structVec2f}{Vec2f}};}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00023\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_add(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v1,\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ v2)}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v1.x\ +\ v2.x,\ v1.y\ +\ v2.y\};}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_subtract(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v1,\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ v2)}
+\DoxyCodeLine{00036\ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v1.x\ -\/\ v2.x,\ v1.y\ -\/\ v2.y\};}
+\DoxyCodeLine{00038\ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00047\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_multiply\_scalar(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v,\ \textcolor{keywordtype}{double}\ scalar)}
+\DoxyCodeLine{00048\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v.x\ *\ scalar,\ v.y\ *\ scalar\};}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00059\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_multiply\_vector(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v1,\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ v2)}
+\DoxyCodeLine{00060\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v1.x\ *\ v2.x,\ v1.y\ *\ v2.y\};}
+\DoxyCodeLine{00062\ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00071\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_divide\_scalar(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v,\ \textcolor{keywordtype}{double}\ scalar)}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{if}\ (scalar\ ==\ 0.0)}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ division\ by\ zero\ (return\ the\ original\ vector\ or\ handle\ it\ differently\ if\ needed)}}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ v;}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v.x\ /\ scalar,\ v.y\ /\ scalar\};}
+\DoxyCodeLine{00079\ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00088\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_divide\_vector(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v1,\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ v2)}
+\DoxyCodeLine{00089\ \{}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ v2.x\ !=\ 0.0\ ?\ v1.x\ /\ v2.x\ :\ v1.x,}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ v2.y\ !=\ 0.0\ ?\ v1.y\ /\ v2.y\ :\ v1.y\};}
+\DoxyCodeLine{00093\ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00102\ INLINE\ \textcolor{keywordtype}{double}\ vec2f\_dot(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v1,\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ v2)}
+\DoxyCodeLine{00103\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{return}\ v1.x\ *\ v2.x\ +\ v1.y\ *\ v2.y;}
+\DoxyCodeLine{00105\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00113\ INLINE\ \textcolor{keywordtype}{double}\ vec2f\_inv\_magnitude(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v)\ \textcolor{comment}{//\ 1\ /\ magnitude}}
+\DoxyCodeLine{00114\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{return}\ fast\_inv\_sqrt(v.x\ *\ v.x\ +\ v.y\ *\ v.y);}
+\DoxyCodeLine{00116\ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00124\ INLINE\ \textcolor{keywordtype}{double}\ vec2f\_magnitude(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v)}
+\DoxyCodeLine{00125\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{return}\ fast\_sqrt(v.x\ *\ v.x\ +\ v.y\ *\ v.y);}
+\DoxyCodeLine{00127\ \}}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00135\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_normalize(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v)}
+\DoxyCodeLine{00136\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{keywordtype}{double}\ inv\_mag\ =\ vec2f\_inv\_magnitude(v);}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{v.x\ *\ inv\_mag,\ v.y\ *\ inv\_mag\};}
+\DoxyCodeLine{00139\ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00152\ INLINE\ \mbox{\hyperlink{structVec2f}{Vec2f}}\ vec2f\_rotate\_by\_angle(\mbox{\hyperlink{structVec2f}{Vec2f}}\ v,\ \textcolor{keywordtype}{float}\ angleInRadians)}
+\DoxyCodeLine{00153\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ sine\_value\ =\ fast\_sine(angleInRadians);}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ cosine\_value\ =\ fast\_cosine(angleInRadians);}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec2f}{Vec2f}})\{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ v.x\ *\ cosine\_value\ -\/\ v.y\ *\ sine\_value,}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ v.y\ *\ cosine\_value\ +\ v.x\ *\ sine\_value\};}
+\DoxyCodeLine{00160\ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00172\ INLINE\ \textcolor{keywordtype}{void}\ vec2f\_rotate\_in\_place(\mbox{\hyperlink{structVec2f}{Vec2f}}\ *v,\ \textcolor{keywordtype}{float}\ angleInRadians)}
+\DoxyCodeLine{00173\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ sine\_value\ =\ fast\_sine(angleInRadians);}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ cosine\_value\ =\ fast\_cosine(angleInRadians);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ tempX\ =\ v-\/>x;}
+\DoxyCodeLine{00178\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ tempY\ =\ v-\/>y;}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ v-\/>x\ =\ tempX\ *\ cosine\_value\ -\/\ tempY\ *\ sine\_value;}
+\DoxyCodeLine{00181\ \ \ \ \ v-\/>y\ =\ tempY\ *\ cosine\_value\ +\ tempX\ *\ sine\_value;}
+\DoxyCodeLine{00182\ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ VECTORIAL\_2D\_CALCULUS\_H}}
+
+\end{DoxyCode}

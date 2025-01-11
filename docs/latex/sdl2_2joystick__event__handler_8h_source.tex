@@ -1,0 +1,330 @@
+\doxysection{joystick\+\_\+event\+\_\+handler.\+h}
+\hypertarget{sdl2_2joystick__event__handler_8h_source}{}\label{sdl2_2joystick__event__handler_8h_source}\index{include/core/apis/sdl2/joystick\_event\_handler.h@{include/core/apis/sdl2/joystick\_event\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ JOYSTICK\_EVENT\_HANDLER\_API\_SDL\_2\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ JOYSTICK\_EVENT\_HANDLER\_API\_SDL\_2\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL2/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdbool.h>}\ \textcolor{comment}{//\ Boolean\ type\ support}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdio.h>}\ \ \ \textcolor{comment}{//\ Standard\ I/O\ operations}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string.h>}\ \ \textcolor{comment}{//\ String\ operations}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../constants/joystick\_max\_axis\_value.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../constants/joystick\_init\_possible\_results.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/joystick.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../../managers/joystick\_event\_manager.h"{}}\ \textcolor{comment}{//\ event\ manager\ for\ joystick\ events}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fast__abs_8h}{../../../utils/fast\_math/fast\_abs.h}}"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ Global\ variables}}
+\DoxyCodeLine{00017\ SDL\_Joystick\ **gJoysticks;\ \textcolor{comment}{//\ Array\ of\ pointers\ to\ SDL\ joystick\ objects}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{bool}\ initJoystickCurrentStateArray()}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ gJoysticksCurrentState\ =\ (JoystickState\ *)malloc(\textcolor{keyword}{sizeof}(JoystickState[maxJoysticks]));}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticksCurrentState)}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ memset(gJoysticksCurrentState,\ 0,\ \textcolor{keyword}{sizeof}(JoystickState[maxJoysticks]));}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00035\ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ releaseJoysticksCurrentStateArray()}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticksCurrentState)}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00044\ \ \ \ \ free(gJoysticksCurrentState);}
+\DoxyCodeLine{00045\ \ \ \ \ gJoysticksCurrentState\ =\ NULL;}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00053\ \textcolor{keywordtype}{bool}\ initJoystickButtonsPressedFlagsArray()}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ gJoystickButtonsPressed\ =\ (\textcolor{keywordtype}{bool}\ *)malloc(\textcolor{keyword}{sizeof}(\textcolor{keywordtype}{bool}[MAX\_JOYSTICK\_LISTENER\_LISTS\_COUNT]));}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoystickButtonsPressed)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ memset(gJoystickButtonsPressed,\ 0,\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{bool}[MAX\_JOYSTICK\_LISTENER\_LISTS\_COUNT]));}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ releaseJoystickButtonsPressedFlagsArray()}
+\DoxyCodeLine{00069\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoystickButtonsPressed)}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00072\ \ \ \ \ free(gJoystickButtonsPressed);}
+\DoxyCodeLine{00073\ \ \ \ \ gJoystickButtonsPressed\ =\ NULL;}
+\DoxyCodeLine{00074\ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{keywordtype}{int}\ initializeJoystickEventHandler()}
+\DoxyCodeLine{00077\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (SDL\_Init(SDL\_INIT\_JOYSTICK)\ <\ 0)}
+\DoxyCodeLine{00079\ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ initialize\ SDL\ Joystick\ subsystem:\ \%s\(\backslash\)n"{}},\ SDL\_GetError());}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CANNOT\_INITIALIZE\_JOYSTICK\_SUBSYSTEM;}
+\DoxyCodeLine{00082\ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (!initJoystickCurrentStateArray())}
+\DoxyCodeLine{00085\ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ allocate\ memory\ space\ for\ joysticks\ current\ state\ array\ \(\backslash\)n"{}});}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_CURRENT\_STATE;}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (!initJoystickButtonsPressedFlagsArray())}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ allocate\ memory\ space\ for\ joysticks\ button\ flags\ \(\backslash\)n"{}});}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_PRESSED\_BUTTON\_FLAGS;}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordtype}{int}\ numJoysticks\ =\ SDL\_NumJoysticks();}
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordflow}{if}\ (numJoysticks\ ==\ 0)}
+\DoxyCodeLine{00098\ \ \ \ \ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}No\ Joysticks\ found\(\backslash\)n"{}});}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NOT\_FOUND\_JOYSTICK;}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordflow}{if}\ (!initializeJoystickEventManager())}
+\DoxyCodeLine{00104\ \ \ \ \ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ initialize\ joystick\ event\ manager\(\backslash\)n"{}});}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CANNOT\_INITIALIZE\_JOYSTICK\_EVENT\_MANAGER;}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{comment}{//\ alloc\ space\ for\ joysticks}}
+\DoxyCodeLine{00110\ \ \ \ \ gJoysticks\ =\ (SDL\_Joystick\ **)malloc(\textcolor{keyword}{sizeof}(SDL\_Joystick\ *[maxJoysticks]));}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticks)}
+\DoxyCodeLine{00113\ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Could\ not\ allocate\ memory\ space\ for\ joystick\ structures\(\backslash\)n"{}});}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ CANNOT\_ALLOC\_MEMORY\_FOR\_JOYSTICKS\_STRUCTURES;}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ numJoysticks\ \&\&\ i\ <\ maxJoysticks;\ i++)}
+\DoxyCodeLine{00119\ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ gJoysticks[i]\ =\ SDL\_JoystickOpen(i);}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks[i]\ ==\ NULL)}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Couldn't\ open\ Joystick\ \%d\(\backslash\)n"{}},\ i);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ ==\ 0)}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ free(gJoysticks);}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gJoysticks\ =\ NULL;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ COULD\_NOT\_OPEN\_JOYSTICK;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ Ignore\ the\ second\ joystick\ if\ it\ can't\ be\ opened}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{keywordflow}{return}\ SUCCESS\_INIT\_JOYSTICK\_SYSTEM;}
+\DoxyCodeLine{00135\ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00143\ \textcolor{keywordtype}{void}\ setJoystickAxisDeadzone(\textcolor{keywordtype}{int}\ newDeadZoneValue)}
+\DoxyCodeLine{00144\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ gJoystickAxisDeadzone\ =\ newDeadZoneValue\ <\ 0\ ?\ -\/newDeadZoneValue\ :\ newDeadZoneValue;}
+\DoxyCodeLine{00146\ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00154\ JoystickState\ *getJoystickState(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00155\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticksCurrentState)}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{return}\ \&gJoysticksCurrentState[index];}
+\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00167\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *getJoystickName(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00168\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\ >=\ 0\ \&\&\ index\ <\ maxJoysticks\ \&\&\ gJoysticks[index]\ !=\ NULL)}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_JoystickName(gJoysticks[index]);}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00172\ \}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00180\ \textcolor{keywordtype}{int}\ getJoystickNumAxes(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00181\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks\ \&\&\ index\ >=\ 0\ \&\&\ index\ <\ maxJoysticks\ \&\&\ gJoysticks[index]\ !=\ NULL)}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_JoystickNumAxes(gJoysticks[index]);}
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00185\ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00193\ \textcolor{keywordtype}{int}\ getJoystickNumButtons(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00194\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks\ \&\&\ index\ >=\ 0\ \&\&\ index\ <\ maxJoysticks\ \&\&\ gJoysticks[index]\ !=\ NULL)}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_JoystickNumButtons(gJoysticks[index]);}
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00198\ \}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00206\ \textcolor{keywordtype}{int}\ getJoystickNumHats(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00207\ \{}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks\ \&\&\ index\ >=\ 0\ \&\&\ index\ <\ maxJoysticks\ \&\&\ gJoysticks[index]\ !=\ NULL)}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_JoystickNumHats(gJoysticks[index]);}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00211\ \}}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00219\ \textcolor{keywordtype}{int}\ getJoystickNumBalls(\textcolor{keywordtype}{int}\ index)}
+\DoxyCodeLine{00220\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks\ \&\&\ index\ >=\ 0\ \&\&\ index\ <\ maxJoysticks\ \&\&\ gJoysticks[index]\ !=\ NULL)}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ SDL\_JoystickNumBalls(gJoysticks[index]);}
+\DoxyCodeLine{00223\ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00224\ \}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00233\ \textcolor{preprocessor}{\#define\ PROCESS\_JOYSTICK\_BUTTON\_PRESSED(event)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00234\ \textcolor{preprocessor}{\ \ \ \ int\ button\ =\ event-\/>jbutton.button;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00235\ \textcolor{preprocessor}{\ \ \ \ int\ joystickIndex\ =\ event-\/>jbutton.which;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00236\ \textcolor{preprocessor}{\ \ \ \ int\ keyButton\ =\ CALCULATE\_JOYPAD\_EVENT\_TYPE(button,\ joystickIndex);\ \(\backslash\)}}
+\DoxyCodeLine{00237\ \textcolor{preprocessor}{\ \ \ \ if\ (!gJoystickButtonsPressed[keyButton])\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00238\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00239\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ gJoystickButtonsPressed[keyButton]\ =\ true;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00240\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ triggerEvent(gJoyStickEventManager,\ keyButton);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00241\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00250\ \textcolor{preprocessor}{\#define\ PROCESS\_JOYSTICK\_BUTTON\_RELEASED(event)\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00251\ \textcolor{preprocessor}{\ \ \ \ int\ button\ =\ event-\/>jbutton.button;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00252\ \textcolor{preprocessor}{\ \ \ \ int\ joystickIndex\ =\ event-\/>jbutton.which;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00253\ \textcolor{preprocessor}{\ \ \ \ int\ keyButton\ =\ CALCULATE\_JOYPAD\_EVENT\_TYPE(button,\ joystickIndex);\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00254\ \textcolor{preprocessor}{\ \ \ \ if\ (gJoystickButtonsPressed[keyButton])\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00255\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ gJoystickButtonsPressed[keyButton]\ =\ false;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ triggerEvent(gJoyStickEventManager,\ CALCULATE\_JOYPAD\_EVENT\_TYPE(button\ +\ JOY\_BUTTON\_0\_RELEASE,\ joystickIndex));\ \(\backslash\)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00265\ \textcolor{preprocessor}{\#define\ TRIGGER\_PRESSED\_JOYSTICKS\_BUTTONS()\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00266\ \textcolor{preprocessor}{\ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00267\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ for\ (int\ i\ =\ 0;\ i\ <\ MAX\_JOYSTICK\_LISTENER\_LISTS\_COUNT;\ ++i)\ \(\backslash\)}}
+\DoxyCodeLine{00268\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00269\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ if\ (gJoystickButtonsPressed[i])\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00270\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00271\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ triggerEvent(gJoyStickEventManager,\ i);\ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00272\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00273\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \(\backslash\)}}
+\DoxyCodeLine{00274\ \textcolor{preprocessor}{\ \ \ \ \}}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00283\ \textcolor{keywordtype}{void}\ handleJoystickEvents(SDL\_Event\ *event)}
+\DoxyCodeLine{00284\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticks\ ||\ gJoyStickEventManager.listsCount\ ==\ 0)}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordflow}{switch}\ (event-\/>type)}
+\DoxyCodeLine{00289\ \ \ \ \ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_JOYAXISMOTION:}
+\DoxyCodeLine{00291\ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ currentJoystickIndex\ =\ \textcolor{keyword}{event}-\/>jaxis.which;}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ JoystickState\ *currentJoystick\ =\ \&gJoysticksCurrentState[currentJoystickIndex];}
+\DoxyCodeLine{00294\ }
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ cast\ to\ double\ to\ fix\ value\ range}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ axisValue\ =\ (double)event-\/>jaxis.value;}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ \ +\ .5\ to\ fix\ range\ [-\/32768,32767]\ to\ range\ [-\/32767.5,32767.5]}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ axisValue\ +=\ 0.5;}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ normalize\ axis\ value\ to\ range\ [-\/1,1]}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ normalizedAxisValue\ =\ axisValue\ /\ MAX\_AXIS\_VALUE;}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ use\ this\ to\ avoid\ extensive\ switch\ or\ else\ if\ conditions}}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ axisType\ =\ \textcolor{keyword}{event}-\/>jaxis.axis;}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ axisIndex\ =}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ (axisType\ ==\ 2)\ ?\ 4\ :\ \textcolor{comment}{//\ condition\ for\ left\ trigger\ axis}}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (axisType\ >=\ 3\ \&\&\ axisType\ <\ 5)\ ?\ (axisType\ -\/\ 1)}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \textcolor{comment}{//\ condition\ for\ right\ X\ and\ Y\ axis}}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ axisType;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ for\ right\ trigger\ axis;}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ *currentAxisPtr\ =\ \&((\textcolor{keywordtype}{double}\ *)currentJoystick)[axisIndex];}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ axis\ value\ is\ less\ than\ joystick\ axis\ deadzone\ break\ sentence}}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\_abs}}(axisValue)\ <\ gJoystickAxisDeadzone)}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ *currentAxisPtr\ =\ 0;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ *currentAxisPtr\ =\ normalizedAxisValue;}
+\DoxyCodeLine{00319\ }
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ printf("{}Joystick\ \%d\ axis\ \%d\ value:\ \%lf\(\backslash\)n"{},\ event-\/>jaxis.which,\ axisIndex,\ normalizedAxisValue);}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_JOYHATMOTION:}
+\DoxyCodeLine{00324\ \ \ \ \ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ currentJoystickIndex\ =\ \textcolor{keyword}{event}-\/>jhat.which;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ JoystickState\ *currentJoystick\ =\ \&gJoysticksCurrentState[currentJoystickIndex];}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event-\/>jhat.value)}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_CENTERED:}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 0;}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 0;}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_UP:}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 0;}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ -\/1;}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_RIGHT:}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 1;}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 0;}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_DOWN:}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 0;}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 1;}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_LEFT:}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ -\/1;}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 0;}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_RIGHTUP:}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 0.70711;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ -\/0.70711;}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_RIGHTDOWN:}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ 0.70711;}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 0.70711;}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_LEFTUP:}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ -\/0.70711;}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ -\/0.70711;}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_HAT\_LEFTDOWN:}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatX\ =\ -\/0.70711;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ currentJoystick-\/>motionHatY\ =\ 0.70711;}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ printf("{}Joystick\ \%d\ hat\ \%d\ value:\ \%d\(\backslash\)n"{},\ event-\/>jhat.which,\ event-\/>jhat.hat,\ event-\/>jhat.value);}}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00369\ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_JOYBUTTONDOWN:}
+\DoxyCodeLine{00371\ \ \ \ \ \{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ PROCESS\_JOYSTICK\_BUTTON\_PRESSED(event);}
+\DoxyCodeLine{00373\ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_JOYBUTTONUP:}
+\DoxyCodeLine{00377\ \ \ \ \ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ PROCESS\_JOYSTICK\_BUTTON\_RELEASED(event);}
+\DoxyCodeLine{00379\ \ \ \ \ \}}
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00381\ \ \ \ \ \}}
+\DoxyCodeLine{00382\ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00389\ \textcolor{keywordtype}{void}\ closeJoystickEventHandler()}
+\DoxyCodeLine{00390\ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{keywordflow}{if}\ (!gJoysticks)}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ close\_sdl\_joystick\_subsystem;}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ joystickIterator\ =\ 0;\ joystickIterator\ <\ maxJoysticks;\ joystickIterator++)}
+\DoxyCodeLine{00395\ \ \ \ \ \{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoysticks[joystickIterator]\ !=\ NULL)}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ SDL\_JoystickClose(gJoysticks[joystickIterator]);}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ gJoysticks[joystickIterator]\ =\ NULL;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00401\ \ \ \ \ \}}
+\DoxyCodeLine{00402\ \ \ \ \ free(gJoysticks);}
+\DoxyCodeLine{00403\ \ \ \ \ gJoysticks\ =\ NULL;}
+\DoxyCodeLine{00404\ close\_sdl\_joystick\_subsystem:}
+\DoxyCodeLine{00405\ \ \ \ \ releaseJoysticksCurrentStateArray();}
+\DoxyCodeLine{00406\ \ \ \ \ releaseJoystickButtonsPressedFlagsArray();}
+\DoxyCodeLine{00407\ \ \ \ \ SDL\_QuitSubSystem(SDL\_INIT\_JOYSTICK);}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \ \ \ \ \textcolor{keywordflow}{if}\ (gJoyStickEventManager.listsCount\ >\ 0)}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gJoyStickEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00411\ \}}
+\DoxyCodeLine{00412\ }
+\DoxyCodeLine{00413\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

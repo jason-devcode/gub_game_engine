@@ -1,0 +1,88 @@
+\doxysection{joystick\+\_\+event\+\_\+manager.\+h}
+\hypertarget{joystick__event__manager_8h_source}{}\label{joystick__event__manager_8h_source}\index{include/core/managers/joystick\_event\_manager.h@{include/core/managers/joystick\_event\_manager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ JOY\_EVENT\_MANAGER\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ JOY\_EVENT\_MANAGER\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{event__manager_8h}{event\_manager.h}}"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../engine\_properties/joystick.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ JOY\_BUTTON\_0\_PRESS,\ \ }
+\DoxyCodeLine{00017\ \ \ \ \ JOY\_BUTTON\_1\_PRESS,\ \ }
+\DoxyCodeLine{00018\ \ \ \ \ JOY\_BUTTON\_2\_PRESS,\ \ }
+\DoxyCodeLine{00019\ \ \ \ \ JOY\_BUTTON\_3\_PRESS,\ \ }
+\DoxyCodeLine{00020\ \ \ \ \ JOY\_BUTTON\_4\_PRESS,\ \ }
+\DoxyCodeLine{00021\ \ \ \ \ JOY\_BUTTON\_5\_PRESS,\ \ }
+\DoxyCodeLine{00022\ \ \ \ \ JOY\_BUTTON\_6\_PRESS,\ \ }
+\DoxyCodeLine{00023\ \ \ \ \ JOY\_BUTTON\_7\_PRESS,\ \ }
+\DoxyCodeLine{00024\ \ \ \ \ JOY\_BUTTON\_8\_PRESS,\ \ }
+\DoxyCodeLine{00025\ \ \ \ \ JOY\_BUTTON\_9\_PRESS,\ \ }
+\DoxyCodeLine{00026\ \ \ \ \ JOY\_BUTTON\_10\_PRESS,\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ Extra\ buttons\ for\ other\ joypad\ layouts}}
+\DoxyCodeLine{00028\ \ \ \ \ JOY\_BUTTON\_11\_PRESS,}
+\DoxyCodeLine{00029\ \ \ \ \ JOY\_BUTTON\_12\_PRESS,}
+\DoxyCodeLine{00030\ \ \ \ \ JOY\_BUTTON\_13\_PRESS,}
+\DoxyCodeLine{00031\ \ \ \ \ JOY\_BUTTON\_14\_PRESS,}
+\DoxyCodeLine{00032\ \ \ \ \ JOY\_BUTTON\_15\_PRESS,}
+\DoxyCodeLine{00033\ \ \ \ \ JOY\_BUTTON\_16\_PRESS,}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{comment}{//\ Release\ button\ joy\ events}}
+\DoxyCodeLine{00036\ \ \ \ \ JOY\_BUTTON\_0\_RELEASE,\ \ }
+\DoxyCodeLine{00037\ \ \ \ \ JOY\_BUTTON\_1\_RELEASE,\ \ }
+\DoxyCodeLine{00038\ \ \ \ \ JOY\_BUTTON\_2\_RELEASE,\ \ }
+\DoxyCodeLine{00039\ \ \ \ \ JOY\_BUTTON\_3\_RELEASE,\ \ }
+\DoxyCodeLine{00040\ \ \ \ \ JOY\_BUTTON\_4\_RELEASE,\ \ }
+\DoxyCodeLine{00041\ \ \ \ \ JOY\_BUTTON\_5\_RELEASE,\ \ }
+\DoxyCodeLine{00042\ \ \ \ \ JOY\_BUTTON\_6\_RELEASE,\ \ }
+\DoxyCodeLine{00043\ \ \ \ \ JOY\_BUTTON\_7\_RELEASE,\ \ }
+\DoxyCodeLine{00044\ \ \ \ \ JOY\_BUTTON\_8\_RELEASE,\ \ }
+\DoxyCodeLine{00045\ \ \ \ \ JOY\_BUTTON\_9\_RELEASE,\ \ }
+\DoxyCodeLine{00046\ \ \ \ \ JOY\_BUTTON\_10\_RELEASE,\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//\ Extra\ buttons\ for\ other\ joypad\ layouts}}
+\DoxyCodeLine{00048\ \ \ \ \ JOY\_BUTTON\_11\_RELEASE,}
+\DoxyCodeLine{00049\ \ \ \ \ JOY\_BUTTON\_12\_RELEASE,}
+\DoxyCodeLine{00050\ \ \ \ \ JOY\_BUTTON\_13\_RELEASE,}
+\DoxyCodeLine{00051\ \ \ \ \ JOY\_BUTTON\_14\_RELEASE,}
+\DoxyCodeLine{00052\ \ \ \ \ JOY\_BUTTON\_15\_RELEASE,}
+\DoxyCodeLine{00053\ \ \ \ \ JOY\_BUTTON\_16\_RELEASE,}
+\DoxyCodeLine{00054\ \ \ \ \ JOY\_HAT\_MOTION,\ \ }
+\DoxyCodeLine{00055\ \ \ \ \ JOY\_AXIS\_MOTION,\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Ignore\ this,\ just\ for\ safe\ memory\ allocation}}
+\DoxyCodeLine{00057\ \ \ \ \ JOY\_PADDING\_1\_EVENT,}
+\DoxyCodeLine{00058\ \ \ \ \ JOY\_PADDING\_2\_EVENT,}
+\DoxyCodeLine{00059\ \ \ \ \ JOY\_PADDING\_3\_EVENT,}
+\DoxyCodeLine{00060\ \ \ \ \ JOY\_LAST\_EVENT\ }
+\DoxyCodeLine{00061\ \}\ JoystickEventTypes;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{//\ Max\ count\ of\ listener\ lists\ for\ several\ joysticks}}
+\DoxyCodeLine{00064\ \textcolor{preprocessor}{\#define\ MAX\_JOYSTICK\_LISTENER\_LISTS\_COUNT\ (JOY\_LAST\_EVENT\ *\ maxJoysticks)}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{enum}}
+\DoxyCodeLine{00067\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ JOYSTICK\_PLAYER\_1,}
+\DoxyCodeLine{00069\ \ \ \ \ JOYSTICK\_PLAYER\_2,}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{comment}{//\ JOYSTICK\_PLAYER\_3,}}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{comment}{//\ JOYSTICK\_PLAYER\_4,}}
+\DoxyCodeLine{00072\ \}\ JoystickIndices;}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00080\ \textcolor{keyword}{static}\ \mbox{\hyperlink{structEventManager}{EventManager}}\ gJoyStickEventManager\ =\ \{NULL,\ 0\};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00089\ \textcolor{keywordtype}{bool}\ initializeJoystickEventManager()}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\&gJoyStickEventManager,\ MAX\_JOYSTICK\_LISTENER\_LISTS\_COUNT);}
+\DoxyCodeLine{00092\ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00101\ \textcolor{preprocessor}{\#define\ CALCULATE\_JOYPAD\_EVENT\_TYPE(eventType,\ joystickPlayerId)\ ((uint32\_t)((eventType)\ +\ ((joystickPlayerId)\ *\ (JOY\_LAST\_EVENT))))}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ addJoystickEventListener(type,\ joystickPlayerId,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\ \ \ \ addEventListener(\&gJoyStickEventManager,\ CALCULATE\_JOYPAD\_EVENT\_TYPE(type,\ joystickPlayerId),\ (listener))}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00124\ \textcolor{preprocessor}{\#define\ removeJoystickEventListener(type,\ joystickPlayerId,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00125\ \textcolor{preprocessor}{\ \ \ \ removeEventListener(\&gJoyStickEventManager,\ CALCULATE\_JOYPAD\_EVENT\_TYPE(type,\ joystickPlayerId),\ (listener))}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

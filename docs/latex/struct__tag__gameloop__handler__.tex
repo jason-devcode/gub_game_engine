@@ -1,0 +1,50 @@
+\doxysection{\+\_\+tag\+\_\+gameloop\+\_\+handler\+\_\+ Struct Reference}
+\hypertarget{struct__tag__gameloop__handler__}{}\label{struct__tag__gameloop__handler__}\index{\_tag\_gameloop\_handler\_@{\_tag\_gameloop\_handler\_}}
+
+
+Structure that defines the game loop handler.  
+
+
+
+
+{\ttfamily \#include $<$gameloop\+\_\+handler.\+h$>$}
+
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct__tag__gameloop__handler___a3e73f68a88c6f254394f567e646e2aa3}\label{struct__tag__gameloop__handler___a3e73f68a88c6f254394f567e646e2aa3} 
+Game\+Loop\+Callback {\bfseries game\+Loop}
+\begin{DoxyCompactList}\small\item\em The callback function that represents the game loop. \end{DoxyCompactList}\item 
+SDL\+\_\+\+Thread \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{struct__tag__gameloop__handler___afae605e2d840069a7244ae1152f31487}{game\+Thread}}
+\begin{DoxyCompactList}\small\item\em SDL thread handle for the game loop. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure that defines the game loop handler. 
+
+Structure to manage the game loop thread.
+
+This structure is used to manage the game loop within the application.
+
+This structure holds the SDL thread handle used for running the game loop. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct__tag__gameloop__handler___afae605e2d840069a7244ae1152f31487}\index{\_tag\_gameloop\_handler\_@{\_tag\_gameloop\_handler\_}!gameThread@{gameThread}}
+\index{gameThread@{gameThread}!\_tag\_gameloop\_handler\_@{\_tag\_gameloop\_handler\_}}
+\doxysubsubsection{\texorpdfstring{gameThread}{gameThread}}
+{\footnotesize\ttfamily \label{struct__tag__gameloop__handler___afae605e2d840069a7244ae1152f31487} 
+SDL\+\_\+\+Thread \texorpdfstring{$\ast$}{*} \+\_\+tag\+\_\+gameloop\+\_\+handler\+\_\+\+::game\+Thread}
+
+
+
+SDL thread handle for the game loop. 
+
+This member holds the SDL thread handle used to run the game loop in a separate thread.
+
+SDL thread handle for the game loop. 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/core/apis/sample/gameloop\+\_\+handler.\+h\item 
+include/core/apis/sdl1/gameloop\+\_\+handler.\+h\item 
+include/core/apis/sdl2/gameloop\+\_\+handler.\+h\end{DoxyCompactItemize}

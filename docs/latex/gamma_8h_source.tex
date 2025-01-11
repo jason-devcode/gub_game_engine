@@ -1,0 +1,57 @@
+\doxysection{gamma.\+h}
+\hypertarget{gamma_8h_source}{}\label{gamma_8h_source}\index{include/utils/gamma.h@{include/utils/gamma.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ GAMMA\_CORRECTION\_UTILS\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ GAMMA\_CORRECTION\_UTILS\_H}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}color.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <math.h>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ GAMMA\_TABLE\_SIZE\ 256}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00024\ uint8\_t\ gammaTable[GAMMA\_TABLE\_SIZE]\ =\ \{}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ "{}gamma\_data/gamma\_2.2.data"{}}}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00039\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ uint32\_t\ applyGammaCorrection(uint32\_t\ color,\ \textcolor{keywordtype}{double}\ gammaFactor)}
+\DoxyCodeLine{00040\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{double}\ R\ =\ (double)GETR(color)\ /\ 255.0;\ \textcolor{comment}{//\ Decimal\ representation\ of\ the\ red\ channel\ [0-\/1]}}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{double}\ G\ =\ (double)GETG(color)\ /\ 255.0;\ \textcolor{comment}{//\ Decimal\ representation\ of\ the\ green\ channel\ [0-\/1]}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{double}\ B\ =\ (double)GETB(color)\ /\ 255.0;\ \textcolor{comment}{//\ Decimal\ representation\ of\ the\ blue\ channel\ [0-\/1]}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ uint8\_t\ newR\ =\ (uint8\_t)(pow(R,\ 1\ /\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00046\ \ \ \ \ uint8\_t\ newG\ =\ (uint8\_t)(pow(G,\ 1\ /\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00047\ \ \ \ \ uint8\_t\ newB\ =\ (uint8\_t)(pow(B,\ 1\ /\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return}\ RGB(newR,\ newG,\ newB);}
+\DoxyCodeLine{00050\ \}}
+\DoxyCodeLine{00062\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ uint32\_t\ applyInverseGammaCorrection(uint32\_t\ color,\ \textcolor{keywordtype}{double}\ gammaFactor)}
+\DoxyCodeLine{00063\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{double}\ R\ =\ (double)GETR(color)\ /\ 255.0;}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{double}\ G\ =\ (double)GETG(color)\ /\ 255.0;}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{double}\ B\ =\ (double)GETB(color)\ /\ 255.0;}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ uint8\_t\ newR\ =\ (uint8\_t)(pow(R,\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00069\ \ \ \ \ uint8\_t\ newG\ =\ (uint8\_t)(pow(G,\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00070\ \ \ \ \ uint8\_t\ newB\ =\ (uint8\_t)(pow(B,\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordflow}{return}\ RGB(newR,\ newG,\ newB);}
+\DoxyCodeLine{00073\ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ generateGammaTable(uint8\_t\ gammaTable[GAMMA\_TABLE\_SIZE],\ \textcolor{keywordtype}{double}\ gammaFactor)}
+\DoxyCodeLine{00085\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ GAMMA\_TABLE\_SIZE;\ ++i)}
+\DoxyCodeLine{00087\ \ \ \ \ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ gammaTable[i]\ =\ (uint8\_t)(pow((\textcolor{keywordtype}{double})i\ /\ 255.0,\ 1.0\ /\ gammaFactor)\ *\ 255.0);}
+\DoxyCodeLine{00089\ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00102\ \textcolor{preprocessor}{\#define\ fast\_applyGammaCorrection(color)\ \(\backslash\)}}
+\DoxyCodeLine{00103\ \textcolor{preprocessor}{\ \ \ \ RGB(gammaTable[GETR(color)],\ gammaTable[GETG(color)],\ gammaTable[GETB(color)])}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ GAMMA\_CORRECTION\_UTILS\_H}}
+
+\end{DoxyCode}

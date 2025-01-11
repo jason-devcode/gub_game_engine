@@ -1,0 +1,50 @@
+\doxysection{pascal\+\_\+triangle.\+h}
+\hypertarget{pascal__triangle_8h_source}{}\label{pascal__triangle_8h_source}\index{include/utils/pascal\_triangle.h@{include/utils/pascal\_triangle.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PASCAL\_TRIANGLE\_GENERATOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PASCAL\_TRIANGLE\_GENERATOR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ **createPascalTriangle(\textcolor{keywordtype}{int}\ maxRow)}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{int}\ **pascalTriangle\ =\ (\textcolor{keywordtype}{int}\ **)malloc((maxRow\ +\ 1)\ *\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}\ *));}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pascalTriangle)}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;\ \textcolor{comment}{//\ Return\ NULL\ if\ memory\ allocation\ fails}}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ currentRow\ =\ 0;\ currentRow\ <=\ maxRow;\ ++currentRow)}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ pascalTriangle[currentRow]\ =\ (\textcolor{keywordtype}{int}\ *)malloc((currentRow\ +\ 1)\ *\ \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!pascalTriangle[currentRow])}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Free\ previously\ allocated\ memory\ if\ allocation\ fails}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ previousRow\ =\ 0;\ previousRow\ <\ currentRow;\ ++previousRow)}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ free(pascalTriangle[previousRow]);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ free(pascalTriangle);}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ first\ and\ last\ elements\ of\ each\ row\ are\ always\ 1}}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ pascalTriangle[currentRow][0]\ =\ pascalTriangle[currentRow][currentRow]\ =\ 1;}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ inner\ elements\ of\ the\ row}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ column\ =\ 1;\ column\ <\ currentRow;\ ++column)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ pascalTriangle[currentRow][column]\ =\ pascalTriangle[currentRow\ -\/\ 1][column\ -\/\ 1]\ +\ pascalTriangle[currentRow\ -\/\ 1][column];}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{return}\ pascalTriangle;}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ freePascalTriangle(\textcolor{keywordtype}{int}\ **pascalTriangle,\ \textcolor{keywordtype}{int}\ maxRow)}
+\DoxyCodeLine{00057\ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ currentRow\ =\ 0;\ currentRow\ <=\ maxRow;\ ++currentRow)}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ free(pascalTriangle[currentRow]);}
+\DoxyCodeLine{00060\ \ \ \ \ free(pascalTriangle);}
+\DoxyCodeLine{00061\ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

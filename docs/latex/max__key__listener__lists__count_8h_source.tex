@@ -1,0 +1,26 @@
+\doxysection{max\+\_\+key\+\_\+listener\+\_\+lists\+\_\+count.\+h}
+\hypertarget{max__key__listener__lists__count_8h_source}{}\label{max__key__listener__lists__count_8h_source}\index{include/core/constants/max\_key\_listener\_lists\_count.h@{include/core/constants/max\_key\_listener\_lists\_count.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ CONSTANT\_MAX\_KEY\_LISTENER\_LISTS\_COUNT\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ CONSTANT\_MAX\_KEY\_LISTENER\_LISTS\_COUNT\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#ifdef\ USE\_SDL\_2}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}SDL2/SDL\_keycode.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#ifdef\ IN\_ANDROID\ }\textcolor{comment}{//\ In\ android\ SDL\_SCANCODE\_ENDCALL\ is\ not\ available}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ MAX\_KEY\_LISTENER\_LISTS\_COUNT\ 290}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ MAX\_KEY\_LISTENER\_LISTS\_COUNT\ SDL\_SCANCODE\_ENDCALL}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ KeyCode\ SDL\_KeyCode}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#elif\ USE\_SDL\_1}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}SDL/SDL\_keysym.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ MAX\_KEY\_LISTENER\_LISTS\_COUNT\ SDLK\_LAST}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ KeyCode\ SDLKey}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ MAX\_KEY\_LISTENER\_LISTS\_COUNT\ (0)\ }\textcolor{comment}{//\ Default\ value\ for\ syntax\ highlighting}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,24 @@
+\doxysection{fast\+\_\+cotangent.\+h}
+\hypertarget{fast__cotangent_8h_source}{}\label{fast__cotangent_8h_source}\index{include/utils/fast\_math/fast\_cotangent.h@{include/utils/fast\_math/fast\_cotangent.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FAST\_COTANGENT\_FUNCTION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FAST\_COTANGENT\_FUNCTION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../math\_constants.h"{}}\ \textcolor{comment}{//\ For\ trigonometry\ utilities}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{fast__abs_8h}{fast\_abs.h}}"{}}\ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ fast\ abs}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ cotangent\_table[360]\ =\ \{}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}../math\_data/cotangent\_table.data"{}}}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{double}\ fast\_cotangent(\textcolor{keywordtype}{double}\ angleInRadians)}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{int}\ angleInDegrees\ =\ ((int)radiansToDegrees(angleInRadians)\ \%\ 360);}
+\DoxyCodeLine{00029\ \ \ \ \ angleInDegrees\ =\ (angleInDegrees\ <\ 0)\ ?\ 360\ +\ angleInDegrees\ :\ angleInDegrees;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{return}\ cotangent\_table[angleInDegrees];}
+\DoxyCodeLine{00031\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ FAST\_COTANGENT\_FUNCTION\_H}}
+
+\end{DoxyCode}

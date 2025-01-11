@@ -1,0 +1,19 @@
+\doxysection{pause\+\_\+gameloop\+\_\+for\+\_\+rendering.\+h}
+\hypertarget{pause__gameloop__for__rendering_8h_source}{}\label{pause__gameloop__for__rendering_8h_source}\index{include/core/engine\_properties/pause\_gameloop\_for\_rendering.h@{include/core/engine\_properties/pause\_gameloop\_for\_rendering.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PAUSE\_GAMELOOP\_FOR\_RENDERING}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PAUSE\_GAMELOOP\_FOR\_RENDERING}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{bool}\ pauseGameLoopForRendering\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ pauseGameloop()\ (pauseGameLoopForRendering\ =\ true)}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ resumeGameloop()\ (pauseGameLoopForRendering\ =\ false)}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

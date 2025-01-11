@@ -1,0 +1,119 @@
+\doxysection{plane.\+h}
+\hypertarget{plane_8h_source}{}\label{plane_8h_source}\index{include/utils/3DEngine/geometry/plane.h@{include/utils/3DEngine/geometry/plane.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PLANE\_MESH\_GENERATOR\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PLANE\_MESH\_GENERATOR\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../mesh.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{enum}\ PlaneOrientations}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ PLANE\_LEFT,}
+\DoxyCodeLine{00021\ \ \ \ \ PLANE\_BACK,}
+\DoxyCodeLine{00022\ \ \ \ \ PLANE\_TOP,}
+\DoxyCodeLine{00023\ \ \ \ \ PLANE\_FRONT,}
+\DoxyCodeLine{00024\ \ \ \ \ PLANE\_BOTTOM,}
+\DoxyCodeLine{00025\ \ \ \ \ PLANE\_RIGHT}
+\DoxyCodeLine{00026\ \};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00042\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ MeshGroup\ *generatePlane3D(\textcolor{keywordtype}{int}\ horizontalResolution,\ \textcolor{keywordtype}{int}\ verticalResolution,\ \textcolor{keywordtype}{int}\ orientation)}
+\DoxyCodeLine{00043\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (horizontalResolution\ <=\ 1\ ||\ verticalResolution\ <=\ 1)}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ MeshGroup\ *planeMeshData\ =\ createEmptyMeshGroup();}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ planeMeshData-\/>meshes\ =\ createMesh();}
+\DoxyCodeLine{00050\ \ \ \ \ planeMeshData-\/>meshCount\ =\ 1;}
+\DoxyCodeLine{00051\ \ \ \ \ setMeshName(planeMeshData-\/>meshes,\ \textcolor{stringliteral}{"{}plane\ mesh"{}});}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{int}\ totalVertices\ =\ horizontalResolution\ *\ verticalResolution;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ planeMeshData-\/>vertices\ =\ (\mbox{\hyperlink{structVec3f}{Vec3f}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structVec3f}{Vec3f}})\ *\ totalVertices);}
+\DoxyCodeLine{00056\ \ \ \ \ planeMeshData-\/>vertexCount\ =\ totalVertices;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \mbox{\hyperlink{structVec3f}{Vec3f}}\ *vertexIterator\ =\ planeMeshData-\/>vertices;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{double}\ invHorizontalResolution\ =\ 2\ /\ (double)(horizontalResolution\ -\/\ 1);}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{double}\ invVerticalResolution\ =\ 2\ /\ (double)(verticalResolution\ -\/\ 1);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{comment}{//\ generate\ vertices\ first}}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ verticalVertexIndex\ =\ 0;\ verticalVertexIndex\ <\ verticalResolution;\ verticalVertexIndex++)}
+\DoxyCodeLine{00065\ \ \ \ \ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ horizontalVertexIndex\ =\ 0;\ horizontalVertexIndex\ <\ verticalResolution;\ horizontalVertexIndex++)}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ x\ =\ -\/1\ +\ horizontalVertexIndex\ *\ invHorizontalResolution;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ y\ =\ 1\ +\ -\/verticalVertexIndex\ *\ invVerticalResolution;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (orientation)}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_LEFT:}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ -\/1;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ y;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ x;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_RIGHT:}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ 1;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ y;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ -\/x;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_BACK:}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ x;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ y;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ 1;}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_FRONT:}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ x;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ y;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ -\/1;}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_TOP:}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ x;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ 1;}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ y;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ PLANE\_BOTTOM:}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>x\ =\ x;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>y\ =\ -\/1;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertexIterator-\/>z\ =\ y;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ ++vertexIterator;}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{comment}{//\ generate\ face\ indices}}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keywordtype}{int}\ totalFaces\ =\ ((horizontalResolution\ -\/\ 1)\ <<\ 1)\ *\ (verticalResolution\ -\/\ 1);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ planeMeshData-\/>meshes-\/>facesCount\ =\ totalFaces;}
+\DoxyCodeLine{00116\ \ \ \ \ planeMeshData-\/>meshes-\/>facesIndices\ =\ (FaceIndices\ *)malloc(\textcolor{keyword}{sizeof}(FaceIndices[totalFaces]));}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ FaceIndices\ *faceIterator\ =\ planeMeshData-\/>meshes-\/>facesIndices;}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ verticalVertexIndex\ =\ 0;\ verticalVertexIndex\ <\ verticalResolution\ -\/\ 1;\ verticalVertexIndex++)}
+\DoxyCodeLine{00121\ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ horizontalVertexIndex\ =\ 0;\ horizontalVertexIndex\ <\ horizontalResolution\ -\/\ 1;\ horizontalVertexIndex++)}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[0].vertexA\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex;}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[0].vertexB\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex\ +\ 1;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[0].vertexC\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex\ +\ horizontalResolution\ +\ 1;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[1].vertexA\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[1].vertexB\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex\ +\ horizontalResolution\ +\ 1;}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator[1].vertexC\ =\ horizontalVertexIndex\ +\ horizontalResolution\ *\ verticalVertexIndex\ +\ horizontalResolution;}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ faceIterator\ +=\ 2;}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{return}\ planeMeshData;}
+\DoxyCodeLine{00137\ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

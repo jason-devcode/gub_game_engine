@@ -1,0 +1,45 @@
+\doxysection{include/utils/fast\+\_\+math/fast\+\_\+abs.h File Reference}
+\hypertarget{fast__abs_8h}{}\label{fast__abs_8h}\index{include/utils/fast\_math/fast\_abs.h@{include/utils/fast\_math/fast\_abs.h}}
+
+
+Defines a macro for computing absolute values quickly.  
+
+
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}{fast\+\_\+abs}}(x)
+\begin{DoxyCompactList}\small\item\em Computes the absolute value of a number. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Defines a macro for computing absolute values quickly. 
+
+Provides a macro {\ttfamily fast\+\_\+abs} to compute the absolute value of a number with minimal overhead. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c}\index{fast\_abs.h@{fast\_abs.h}!fast\_abs@{fast\_abs}}
+\index{fast\_abs@{fast\_abs}!fast\_abs.h@{fast\_abs.h}}
+\doxysubsubsection{\texorpdfstring{fast\_abs}{fast\_abs}}
+{\footnotesize\ttfamily \label{fast__abs_8h_a2b6067861ba555f9ca54fb8c48bf026c} 
+\#define fast\+\_\+abs(\begin{DoxyParamCaption}\item[{}]{x}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{((x)\ <\ 0\ ?\ -\/(x)\ :\ (x))}
+
+\end{DoxyCode}
+
+
+Computes the absolute value of a number. 
+
+Returns the absolute value of {\ttfamily x} by checking if {\ttfamily x} is negative and negating it if necessary.
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The number to compute the absolute value of. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The absolute value of {\ttfamily x}. 
+\end{DoxyReturn}

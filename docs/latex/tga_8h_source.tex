@@ -1,0 +1,262 @@
+\doxysection{tga.\+h}
+\hypertarget{tga_8h_source}{}\label{tga_8h_source}\index{include/utils/image/tga.h@{include/utils/image/tga.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ IMAGE\_FORMAT\_TGA\_UTILS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ IMAGE\_FORMAT\_TGA\_UTILS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ TGA\ Header\ Structure}}
+\DoxyCodeLine{00010\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ uint8\_t\ idLength;}
+\DoxyCodeLine{00013\ \ \ \ \ uint8\_t\ colorMapType;}
+\DoxyCodeLine{00014\ \ \ \ \ uint8\_t\ imageType;}
+\DoxyCodeLine{00015\ \ \ \ \ uint16\_t\ colorMapStart;}
+\DoxyCodeLine{00016\ \ \ \ \ uint16\_t\ colorMapLength;}
+\DoxyCodeLine{00017\ \ \ \ \ uint8\_t\ colorMapDepth;}
+\DoxyCodeLine{00018\ \ \ \ \ uint16\_t\ xOrigin;}
+\DoxyCodeLine{00019\ \ \ \ \ uint16\_t\ yOrigin;}
+\DoxyCodeLine{00020\ \ \ \ \ uint16\_t\ width;}
+\DoxyCodeLine{00021\ \ \ \ \ uint16\_t\ height;}
+\DoxyCodeLine{00022\ \ \ \ \ uint8\_t\ pixelDepth;}
+\DoxyCodeLine{00023\ \ \ \ \ uint8\_t\ imageDescriptor;}
+\DoxyCodeLine{00024\ \}\ \mbox{\hyperlink{structTGAHeader}{TGAHeader}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ "{}../raster.h"{}}\ \textcolor{comment}{//\ Raster\ Structure\ for\ 32-\/bit\ RGBA}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{comment}{//\ Helper\ function\ to\ handle\ errors\ and\ clean\ up\ resources}}
+\DoxyCodeLine{00029\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ handleError(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *message,\ FILE\ *file,\ uint8\_t\ *tempPixels,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ perror(message);}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordflow}{if}\ (tempPixels)}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ free(tempPixels);}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{if}\ (file)}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00042\ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ Array\ of\ function\ pointers\ for\ different\ pixel\ data\ compression\ types}}
+\DoxyCodeLine{00045\ \textcolor{keyword}{static}\ int\ (*readPixelData[])(FILE\ *file,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)\ =\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ [2]\ =\ readUncompressedRGB,\ \textcolor{comment}{//\ Uncompressed\ RGB}}
+\DoxyCodeLine{00047\ \ \ \ \ [10]\ =\ readCompressedRGB\ \ \ \textcolor{comment}{//\ Compressed\ RGB}}
+\DoxyCodeLine{00048\ \};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \textcolor{comment}{//\ Function\ to\ load\ TGA\ image}}
+\DoxyCodeLine{00051\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *loadTGA(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename)}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}rb"{}});}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00055\ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{structTGAHeader}{TGAHeader}}\ header;}
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structTGAHeader}{TGAHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00062\ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Error\ reading\ TGA\ header"{}},\ file,\ NULL,\ NULL);}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00065\ \ \ \ \ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.imageType\ !=\ 2\ \&\&\ header.imageType\ !=\ 10)}
+\DoxyCodeLine{00068\ \ \ \ \ \{\ \textcolor{comment}{//\ Only\ supporting\ uncompressed\ RGB\ and\ RLE\ RGB}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Unsupported\ TGA\ image\ type"{}},\ file,\ NULL,\ NULL);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster\ =\ (\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structRaster8888}{Raster8888}}));}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster)}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Memory\ allocation\ failed"{}},\ file,\ NULL,\ NULL);}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ raster-\/>width\ =\ header.width;}
+\DoxyCodeLine{00081\ \ \ \ \ raster-\/>height\ =\ header.height;}
+\DoxyCodeLine{00082\ \ \ \ \ raster-\/>totalPixels\ =\ raster-\/>width\ *\ raster-\/>height;}
+\DoxyCodeLine{00083\ \ \ \ \ raster-\/>pixels\ =\ (uint32\_t\ *)malloc(raster-\/>totalPixels\ *\ \textcolor{keyword}{sizeof}(uint32\_t));}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (!raster-\/>pixels)}
+\DoxyCodeLine{00085\ \ \ \ \ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Memory\ allocation\ failed"{}},\ file,\ NULL,\ raster);}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00088\ \ \ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{int}\ result\ =\ 0;}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.imageType\ <\ \textcolor{keyword}{sizeof}(readPixelData)\ /\ \textcolor{keyword}{sizeof}(readPixelData[0])\ \&\&\ readPixelData[header.imageType])}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ result\ =\ readPixelData[header.imageType](file,\ raster);}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00096\ \ \ \ \ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Unsupported\ TGA\ image\ type"{}},\ file,\ NULL,\ raster);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00099\ \ \ \ \ \}}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ !=\ 0)}
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ handleError(\textcolor{stringliteral}{"{}Error\ reading\ TGA\ pixel\ data"{}},\ file,\ NULL,\ raster);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00105\ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordflow}{return}\ raster;}
+\DoxyCodeLine{00109\ \}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \textcolor{comment}{//\ Function\ to\ read\ uncompressed\ RGB\ pixel\ data}}
+\DoxyCodeLine{00112\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ readUncompressedRGB(FILE\ *file,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00113\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pixelDataSize\ =\ raster-\/>totalPixels\ *\ 3;}
+\DoxyCodeLine{00115\ \ \ \ \ uint8\_t\ *tempPixels\ =\ (uint8\_t\ *)malloc(pixelDataSize);}
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{if}\ (!tempPixels)}
+\DoxyCodeLine{00117\ \ \ \ \ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00119\ \ \ \ \ \}}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(tempPixels,\ pixelDataSize,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00122\ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ free(tempPixels);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00125\ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ raster-\/>totalPixels;\ ++i)}
+\DoxyCodeLine{00128\ \ \ \ \ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ uint8\_t\ r\ =\ tempPixels[i\ *\ 3\ +\ 0];}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ uint8\_t\ g\ =\ tempPixels[i\ *\ 3\ +\ 1];}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ uint8\_t\ b\ =\ tempPixels[i\ *\ 3\ +\ 2];}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ raster-\/>pixels[i]\ =\ (255\ <<\ 24)\ |\ (r\ <<\ 16)\ |\ (g\ <<\ 8)\ |\ b;\ \textcolor{comment}{//\ Set\ alpha\ to\ 255}}
+\DoxyCodeLine{00133\ \ \ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ free(tempPixels);}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00137\ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \textcolor{comment}{//\ Function\ to\ read\ compressed\ RGB\ pixel\ data\ (RLE)}}
+\DoxyCodeLine{00140\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{int}\ readCompressedRGB(FILE\ *file,\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00141\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pixelIndex\ =\ 0;}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordflow}{while}\ (pixelIndex\ <\ raster-\/>totalPixels)}
+\DoxyCodeLine{00144\ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ uint8\_t\ headerByte;}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(\&headerByte,\ \textcolor{keyword}{sizeof}(uint8\_t),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ isRLE\ =\ (headerByte\ \&\ 0x80)\ !=\ 0;}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ uint8\_t\ count\ =\ (headerByte\ \&\ 0x7F)\ +\ 1;}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (isRLE)}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ rgb[3];}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(rgb,\ \textcolor{keyword}{sizeof}(uint8\_t),\ 3,\ file)\ !=\ 3)}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint8\_t\ i\ =\ 0;\ i\ <\ count;\ ++i)}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pixelIndex\ >=\ raster-\/>totalPixels)}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ raster-\/>pixels[pixelIndex++]\ =\ (255\ <<\ 24)\ |\ (rgb[0]\ <<\ 16)\ |\ (rgb[1]\ <<\ 8)\ |\ rgb[2];}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ uint8\_t\ rgb[3\ *\ 128];\ \textcolor{comment}{//\ Max\ run\ length\ of\ 128}}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fread(rgb,\ \textcolor{keyword}{sizeof}(uint8\_t),\ 3\ *\ count,\ file)\ !=\ 3\ *\ count)}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (uint8\_t\ i\ =\ 0;\ i\ <\ count;\ ++i)}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pixelIndex\ >=\ raster-\/>totalPixels)}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ raster-\/>pixels[pixelIndex++]\ =\ (255\ <<\ 24)\ |\ (rgb[i\ *\ 3\ +\ 0]\ <<\ 16)\ |\ (rgb[i\ *\ 3\ +\ 1]\ <<\ 8)\ |\ rgb[i\ *\ 3\ +\ 2];}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00187\ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \textcolor{comment}{//\ Function\ to\ save\ Raster8888\ as\ a\ TGA\ file}}
+\DoxyCodeLine{00190\ \textcolor{keywordtype}{int}\ saveTGA(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00191\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ FILE\ *file\ =\ fopen(filename,\ \textcolor{stringliteral}{"{}wb"{}});}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00194\ \ \ \ \ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ perror(\textcolor{stringliteral}{"{}Error\ opening\ file"{}});}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00197\ \ \ \ \ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \mbox{\hyperlink{structTGAHeader}{TGAHeader}}\ header\ =\ \{0\};}
+\DoxyCodeLine{00200\ \ \ \ \ header.idLength\ =\ 0;}
+\DoxyCodeLine{00201\ \ \ \ \ header.colorMapType\ =\ 0;}
+\DoxyCodeLine{00202\ \ \ \ \ header.imageType\ =\ 2;\ \textcolor{comment}{//\ Uncompressed\ RGB}}
+\DoxyCodeLine{00203\ \ \ \ \ header.width\ =\ raster-\/>width;}
+\DoxyCodeLine{00204\ \ \ \ \ header.height\ =\ raster-\/>height;}
+\DoxyCodeLine{00205\ \ \ \ \ header.pixelDepth\ =\ 32;\ \textcolor{comment}{//\ 32\ bits\ per\ pixel\ (RGBA)}}
+\DoxyCodeLine{00206\ \ \ \ \ header.imageDescriptor\ =\ 0;}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(\&header,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structTGAHeader}{TGAHeader}}),\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00209\ \ \ \ \ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ TGA\ header\(\backslash\)n"{}});}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00213\ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pixelDataSize\ =\ raster-\/>totalPixels\ *\ \textcolor{keyword}{sizeof}(uint32\_t);}
+\DoxyCodeLine{00216\ \ \ \ \ uint8\_t\ *tempPixels\ =\ (uint8\_t\ *)malloc(pixelDataSize);}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keywordflow}{if}\ (!tempPixels)}
+\DoxyCodeLine{00218\ \ \ \ \ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Memory\ allocation\ failed\(\backslash\)n"{}});}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00222\ \ \ \ \ \}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ raster-\/>totalPixels;\ ++i)}
+\DoxyCodeLine{00225\ \ \ \ \ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ tempPixels[i\ *\ 4\ +\ 0]\ =\ (raster-\/>pixels[i]\ >>\ 16)\ \&\ 0xFF;\ \textcolor{comment}{//\ Red}}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ tempPixels[i\ *\ 4\ +\ 1]\ =\ (raster-\/>pixels[i]\ >>\ 8)\ \&\ 0xFF;\ \ \textcolor{comment}{//\ Green}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ tempPixels[i\ *\ 4\ +\ 2]\ =\ raster-\/>pixels[i]\ \&\ 0xFF;\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Blue}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ tempPixels[i\ *\ 4\ +\ 3]\ =\ (raster-\/>pixels[i]\ >>\ 24)\ \&\ 0xFF;\ \textcolor{comment}{//\ Alpha}}
+\DoxyCodeLine{00230\ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (fwrite(tempPixels,\ pixelDataSize,\ 1,\ file)\ !=\ 1)}
+\DoxyCodeLine{00233\ \ \ \ \ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ free(tempPixels);}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}Error\ writing\ TGA\ pixel\ data\(\backslash\)n"{}});}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00238\ \ \ \ \ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \ \ \ \ free(tempPixels);}
+\DoxyCodeLine{00241\ \ \ \ \ fclose(file);}
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00243\ \}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \textcolor{comment}{//\ Function\ to\ free\ memory\ allocated\ for\ Raster8888}}
+\DoxyCodeLine{00246\ \textcolor{keywordtype}{void}\ freeRaster8888(\mbox{\hyperlink{structRaster8888}{Raster8888}}\ *raster)}
+\DoxyCodeLine{00247\ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordflow}{if}\ (raster)}
+\DoxyCodeLine{00249\ \ \ \ \ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (raster-\/>pixels)}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ free(raster-\/>pixels);}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ free(raster);}
+\DoxyCodeLine{00253\ \ \ \ \ \}}
+\DoxyCodeLine{00254\ \}}
+\DoxyCodeLine{00255\ }
+\DoxyCodeLine{00256\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ IMAGE\_FORMAT\_TGA\_UTILS\_H}}
+
+\end{DoxyCode}

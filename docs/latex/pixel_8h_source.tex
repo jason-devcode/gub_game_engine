@@ -1,0 +1,49 @@
+\doxysection{pixel.\+h}
+\hypertarget{pixel_8h_source}{}\label{pixel_8h_source}\index{include/utils/pixel.h@{include/utils/pixel.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PIXEL\_UTILS}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PIXEL\_UTILS}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/depthbuffer.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/framebuffer.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/screen\_dimensions.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{void}\ pixel(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ color)}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ coordinates\ are\ within\ screen\ bounds}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ 0\ ||\ x\ >=\ gScreenWidth\ ||\ y\ <\ 0\ ||\ y\ >=\ gScreenHeight)}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ pixel\ index\ in\ the\ framebuffer}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ pixelIndex\ =\ (y\ *\ gCorrectPixelsWidth)\ +\ x;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ Set\ the\ pixel\ color}}
+\DoxyCodeLine{00025\ \ \ \ \ framebuffer[pixelIndex]\ =\ color;}
+\DoxyCodeLine{00026\ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{void}\ pixelDepthTest(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y,\ \textcolor{keywordtype}{double}\ Z,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ color)}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ Check\ if\ the\ coordinates\ are\ within\ screen\ bounds}}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ <\ 0\ ||\ x\ >=\ gScreenWidth\ ||\ y\ <\ 0\ ||\ y\ >=\ gScreenHeight)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ pixel\ index\ in\ the\ framebuffer}}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{register}\ uint32\_t\ pixelIndex\ =\ (y\ *\ gCorrectPixelsWidth)\ +\ x;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Get\ the\ pointer\ to\ the\ depth\ value\ at\ the\ pixel}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{double}\ *depthPixel\ =\ (\textcolor{keywordtype}{double}\ *)\&depthbuffer[pixelIndex];}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{comment}{//\ Set\ the\ pixel\ color\ if\ the\ new\ depth\ is\ less\ than\ the\ current\ depth}}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{if}\ (Z\ <\ *depthPixel)}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ *depthPixel\ =\ Z;}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ framebuffer[pixelIndex]\ =\ color;}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#define\ calculatePixelIndex(x,\ y,\ width)\ ((int)(((y)\ *\ width)\ +\ (x)))}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

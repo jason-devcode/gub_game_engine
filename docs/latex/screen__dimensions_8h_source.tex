@@ -1,0 +1,23 @@
+\doxysection{screen\+\_\+dimensions.\+h}
+\hypertarget{screen__dimensions_8h_source}{}\label{screen__dimensions_8h_source}\index{include/core/engine\_properties/screen\_dimensions.h@{include/core/engine\_properties/screen\_dimensions.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SCREEN\_DIMENSIONS\_ENGINE\_PROPS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SCREEN\_DIMENSIONS\_ENGINE\_PROPS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Global\ screen\ dimensions}}
+\DoxyCodeLine{00007\ \textcolor{keywordtype}{int}\ gScreenWidth\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Width\ of\ the\ screen\ in\ pixels}}
+\DoxyCodeLine{00008\ \textcolor{keywordtype}{int}\ gScreenHeight\ =\ 0;\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Height\ of\ the\ screen\ in\ pixels}}
+\DoxyCodeLine{00009\ uint32\_t\ gScreenTotalPixels\ =\ 0;\ \textcolor{comment}{//\ Total\ pixels\ in\ the\ screen}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ gHalfScreenWidth\ (gScreenWidth\ >>\ 1)\ \ \ }\textcolor{comment}{//\ Half\ the\ screen\ width\ in\ pixels}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ gHalfScreenHeight\ (gScreenHeight\ >>\ 1)\ }\textcolor{comment}{//\ Half\ the\ screen\ height\ in\ pixels}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Corrected\ pixel\ width\ for\ handling\ SDL\ screen\ pitch}}
+\DoxyCodeLine{00015\ \textcolor{keywordtype}{int}\ gCorrectPixelsWidth\ =\ 0;\ \textcolor{comment}{//\ Number\ of\ pixels\ per\ row\ in\ framebuffer}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

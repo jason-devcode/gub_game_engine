@@ -1,0 +1,75 @@
+\doxysection{sprite.\+h}
+\hypertarget{sprite_8h_source}{}\label{sprite_8h_source}\index{include/utils/sprite.h@{include/utils/sprite.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SPRITE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SPRITE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}texture.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct__tag__sprite__}{\_tag\_sprite\_}}}
+\DoxyCodeLine{00008\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ Texture\ *texture;\ \textcolor{comment}{//\ Can\ be\ a\ single\ sprite\ texture\ or\ a\ spritesheet}}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordtype}{int}\ numCols;\ \ \ \ \ \ \textcolor{comment}{//\ Number\ of\ Cols\ for\ spritesheet\ textures}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{int}\ numRows;\ \ \ \ \ \ \textcolor{comment}{//\ Number\ of\ Rows\ for\ spritesheet\ textures}}
+\DoxyCodeLine{00012\ \}\ Sprite;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ Sprite\ *createEmptySprite()}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ Sprite\ *out;}
+\DoxyCodeLine{00017\ \ \ \ \ out\ =\ (Sprite\ *)malloc(\textcolor{keyword}{sizeof}(Sprite));}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{if}\ (out\ ==\ NULL)}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ allocate\ memory\ space\ to\ create\ sprite\(\backslash\)n"{}});}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00022\ \ \ \ \ \}}
+\DoxyCodeLine{00023\ \ \ \ \ out-\/>numCols\ =\ 0;}
+\DoxyCodeLine{00024\ \ \ \ \ out-\/>numRows\ =\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ out-\/>texture\ =\ NULL;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00027\ \}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ Sprite\ *loadSpriteFromTextureFile(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *filename,\ \textcolor{keywordtype}{int}\ numCols,\ \textcolor{keywordtype}{int}\ numRows)}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (filename\ ==\ NULL)}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_to\_load\_sprite\_from\_file;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ Sprite\ *out\ =\ createEmptySprite();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (out\ ==\ NULL)}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_to\_load\_sprite\_from\_file;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ out-\/>texture\ =\ loadTextureFromImageFile(filename);}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{if}\ (out-\/>texture\ ==\ NULL)}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_to\_load\_sprite\_from\_file;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ out-\/>numCols\ =\ numCols;}
+\DoxyCodeLine{00045\ \ \ \ \ out-\/>numRows\ =\ numRows;}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ fail\_to\_load\_sprite\_from\_file:}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{if}\ (out)}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ free(out);}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00053\ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keywordtype}{void}\ releaseSpriteResources(Sprite\ *sprite)}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordflow}{if}\ (sprite\ ==\ NULL)}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (sprite-\/>texture)}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ releaseTextureResources(sprite-\/>texture);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ sprite-\/>numCols\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \ \ sprite-\/>numRows\ =\ 0;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ free(sprite);}
+\DoxyCodeLine{00067\ \}}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

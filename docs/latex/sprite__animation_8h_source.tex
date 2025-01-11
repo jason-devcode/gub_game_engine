@@ -1,0 +1,191 @@
+\doxysection{sprite\+\_\+animation.\+h}
+\hypertarget{sprite__animation_8h_source}{}\label{sprite__animation_8h_source}\index{include/utils/sprite\_animation.h@{include/utils/sprite\_animation.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SPRITE\_2D\_ANIMATION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SPRITE\_2D\_ANIMATION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}sprite.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}../core/engine\_properties/deltatime.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string.h>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{int}\ x;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ y;}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{int}\ w;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{int}\ h;}
+\DoxyCodeLine{00018\ \}\ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *frames;\ \ \textcolor{comment}{//\ Animation\ frames}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{int}\ numFrames;\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Total\ number\ of\ frames\ in\ the\ animation}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{double}\ frameDuration;\ \textcolor{comment}{//\ Duration\ to\ show\ each\ frame\ (\ in\ seconds\ )}}
+\DoxyCodeLine{00025\ \}\ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *createEmptySpriteAnimation()}
+\DoxyCodeLine{00028\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *animation\ =\ (\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}));}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation\ ==\ NULL)}
+\DoxyCodeLine{00032\ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ allocate\ memory\ space\ for\ sprite\ animation\(\backslash\)n"{}});}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ memset(animation,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}));}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{return}\ animation;}
+\DoxyCodeLine{00038\ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *createSequenceOfEmptySpriteAnimation(\textcolor{keywordtype}{int}\ numAnimations)}
+\DoxyCodeLine{00041\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *animations\ =\ (\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}[numAnimations]));}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{if}\ (animations\ ==\ NULL)}
+\DoxyCodeLine{00045\ \ \ \ \ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Could\ not\ allocate\ memory\ space\ for\ sequence\ of\ sprite\ animations\(\backslash\)n"{}});}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+\DoxyCodeLine{00049\ \ \ \ \ memset(animations,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}[numAnimations]));}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{return}\ animations;}
+\DoxyCodeLine{00051\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *createSequenceOfEmptyFrames(\textcolor{keywordtype}{int}\ numFrames)}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (numFrames\ ==\ 0)}
+\DoxyCodeLine{00056\ \ \ \ \ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ fprintf(stderr,\ \textcolor{stringliteral}{"{}ERROR:\ Num\ of\ frames\ should\ be\ greater\ than\ 0\(\backslash\)n"{}});}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *frameSequence\ =\ (\mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *)malloc(\textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}[numFrames]));}
+\DoxyCodeLine{00061\ \ \ \ \ memset(frameSequence,\ 0,\ \textcolor{keyword}{sizeof}(\mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}[numFrames]));}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ frameSequence;}
+\DoxyCodeLine{00063\ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ populateSpriteAnimation(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *animation,\ \textcolor{keywordtype}{int}\ startCol,\ \textcolor{keywordtype}{int}\ startRow,\ \textcolor{keywordtype}{int}\ numColFrames,\ \textcolor{keywordtype}{int}\ numRowFrames,\ \textcolor{keywordtype}{double}\ frameDuration,\ Sprite\ *sprite)}
+\DoxyCodeLine{00066\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{comment}{//\ Validate\ input\ parameters}}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation\ ==\ NULL\ ||\ sprite\ ==\ NULL\ ||}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ numColFrames\ <=\ 0\ ||\ numRowFrames\ <=\ 0\ ||\ frameDuration\ <=\ 0.0\ ||}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ startCol\ <\ 0\ ||\ startRow\ <\ 0\ ||}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ startCol\ >=\ sprite-\/>numCols\ ||\ startRow\ >=\ sprite-\/>numRows)}
+\DoxyCodeLine{00072\ \ \ \ \ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00074\ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ width\ and\ height\ of\ each\ frame}}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordtype}{int}\ frameWidth\ =\ (int)((\textcolor{keywordtype}{double})sprite-\/>texture-\/>width\ /\ sprite-\/>numCols\ +\ 0.5);}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{int}\ frameHeight\ =\ (int)((\textcolor{keywordtype}{double})sprite-\/>texture-\/>height\ /\ sprite-\/>numRows\ +\ 0.5);}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ starting\ position\ of\ the\ first\ frame}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ startX\ =\ frameWidth\ *\ startCol;}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{int}\ startY\ =\ frameHeight\ *\ startRow;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ animation\ properties}}
+\DoxyCodeLine{00085\ \ \ \ \ animation-\/>frameDuration\ =\ frameDuration;}
+\DoxyCodeLine{00086\ \ \ \ \ animation-\/>numFrames\ =\ numColFrames\ *\ numRowFrames;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ animation-\/>frames\ =\ createSequenceOfEmptyFrames(animation-\/>numFrames);}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation-\/>frames\ ==\ NULL)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{comment}{//\ Populate\ the\ frames\ in\ the\ animation}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ row\ =\ 0;\ row\ <\ numRowFrames;\ ++row)}
+\DoxyCodeLine{00094\ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ col\ =\ 0;\ col\ <\ numColFrames;\ ++col)}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ frameIndex\ =\ row\ *\ numColFrames\ +\ col;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *frame\ =\ \&animation-\/>frames[frameIndex];}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>x\ =\ startX\ +\ col\ *\ frameWidth;}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>y\ =\ startY\ +\ row\ *\ frameHeight;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>w\ =\ frameWidth;}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>h\ =\ frameHeight;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *createSpriteAnimation(\textcolor{keywordtype}{int}\ startCol,\ \textcolor{keywordtype}{int}\ startRow,\ \textcolor{keywordtype}{int}\ numColFrames,\ \textcolor{keywordtype}{int}\ numRowFrames,\ \textcolor{keywordtype}{double}\ frameDuration,\ Sprite\ *sprite)}
+\DoxyCodeLine{00108\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{comment}{//\ Validate\ input\ parameters}}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ sprite\ ==\ NULL\ ||}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ numColFrames\ ==\ 0\ ||}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ numRowFrames\ ==\ 0\ ||}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ frameDuration\ <=\ 0\ ||}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ startCol\ <\ 0\ ||}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ startRow\ <\ 0\ ||}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ !(startCol\ <\ sprite-\/>numCols)\ ||}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ !(startRow\ <\ sprite-\/>numRows))}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ width\ and\ height\ of\ each\ frame}}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordtype}{int}\ frameWidth\ =\ ((double)sprite-\/>texture-\/>width\ /\ sprite-\/>numCols)\ +\ 0.5;}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordtype}{int}\ frameHeight\ =\ ((double)sprite-\/>texture-\/>height\ /\ sprite-\/>numRows)\ +\ 0.5;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{comment}{//\ Calculate\ the\ starting\ position\ of\ the\ first\ frame}}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordtype}{int}\ startX\ =\ frameWidth\ *\ startCol;}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{int}\ startY\ =\ frameHeight\ *\ startRow;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{comment}{//\ Create\ the\ sprite\ animation\ object}}
+\DoxyCodeLine{00130\ \ \ \ \ \mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *animation\ =\ createEmptySpriteAnimation();}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation\ ==\ NULL)}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{comment}{//\ Initialize\ the\ animation\ properties}}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{comment}{//\ animation-\/>currentFrame\ =\ 0;}}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\ animation-\/>elapsedTime\ =\ 0;}}
+\DoxyCodeLine{00138\ \ \ \ \ animation-\/>frameDuration\ =\ frameDuration;}
+\DoxyCodeLine{00139\ \ \ \ \ animation-\/>numFrames\ =\ numColFrames\ *\ numRowFrames;}
+\DoxyCodeLine{00140\ \ \ \ \ animation-\/>frames\ =\ createSequenceOfEmptyFrames(animation-\/>numFrames);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation-\/>frames\ ==\ NULL)}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ free(animation);}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ NULL;}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{comment}{//\ Populate\ the\ frames\ in\ the\ animation}}
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ row\ =\ 0;\ row\ <\ numRowFrames;\ ++row)}
+\DoxyCodeLine{00150\ \ \ \ \ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ col\ =\ 0;\ col\ <\ numColFrames;\ ++col)}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ frameIndex\ =\ row\ *\ numColFrames\ +\ col;}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structSpriteFrame}{SpriteFrame}}\ *frame\ =\ \&animation-\/>frames[frameIndex];}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>x\ =\ startX\ +\ col\ *\ frameWidth;}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>y\ =\ startY\ +\ row\ *\ frameHeight;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>w\ =\ frameWidth;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ frame-\/>h\ =\ frameHeight;}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{return}\ animation;}
+\DoxyCodeLine{00163\ \}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \textcolor{keywordtype}{void}\ releaseSpriteAnimationResources(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ *animation,\ \textcolor{keywordtype}{bool}\ isStack)}
+\DoxyCodeLine{00166\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation\ ==\ NULL)}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{if}\ (animation-\/>frames)}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ free(animation-\/>frames);}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{if}\ (!isStack)}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ free(animation);}
+\DoxyCodeLine{00173\ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{keywordtype}{void}\ releaseSequenceOfSpriteAnimationResources(\mbox{\hyperlink{structSpriteAnimation}{SpriteAnimation}}\ **animations,\ \textcolor{keywordtype}{int}\ numAnimations)}
+\DoxyCodeLine{00176\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{if}\ (animations\ ==\ NULL)}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ animationIndex\ =\ 0;\ animationIndex\ <\ numAnimations;\ ++animationIndex)}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (animations[animationIndex])}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ releaseSpriteAnimationResources(animations[animationIndex],\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00183\ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

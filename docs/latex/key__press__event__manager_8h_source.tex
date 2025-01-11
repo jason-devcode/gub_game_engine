@@ -1,0 +1,21 @@
+\doxysection{key\+\_\+press\+\_\+event\+\_\+manager.\+h}
+\hypertarget{key__press__event__manager_8h_source}{}\label{key__press__event__manager_8h_source}\index{include/core/managers/key\_press\_event\_manager.h@{include/core/managers/key\_press\_event\_manager.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ KEY\_PRESS\_EVENT\_MANAGER}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ KEY\_PRESS\_EVENT\_MANAGER}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{event__manager_8h}{event\_manager.h}}"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ global\ key\ event\ manager}}
+\DoxyCodeLine{00007\ \mbox{\hyperlink{structEventManager}{EventManager}}\ gKeyPressEventManager\ =\ \{NULL,\ 0\};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ addKeyPressEventListener(key,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\ \ \ \ addEventListener(\&gKeyPressEventManager,\ key,\ listener)}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ removeKeyPressEventListener(key,\ listener)\ \(\backslash\)}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\ \ \ \ removeEventListener(\&gKeyPressEventManager,\ key,\ listener)}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

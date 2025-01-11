@@ -1,0 +1,16 @@
+\doxysection{deltatime.\+h}
+\hypertarget{deltatime_8h_source}{}\label{deltatime_8h_source}\index{include/core/engine\_properties/deltatime.h@{include/core/engine\_properties/deltatime.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ DELTATIME\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ DELTATIME\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{double}\ deltatime\ =\ 0.0;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ getDeltatime()\ deltatime}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ calculateDeltatime(currentTime,\ previousTime)\ (((double)(currentTime\ -\/\ previousTime))\ /\ 1000.0)}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

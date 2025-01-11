@@ -1,0 +1,126 @@
+\chapter{GUB Game Engine}
+\hypertarget{md_README}{}\label{md_README}\index{GUB Game Engine@{GUB Game Engine}}
+\label{md_README_autotoc_md0}%
+\Hypertarget{md_README_autotoc_md0}%
+
+
+ 
+\begin{DoxyImage}
+\includegraphics[width=\textwidth,height=\textheight/2,keepaspectratio=true]{image_z_buffer.png}
+\doxyfigcaption{z\+\_\+buffer}
+\end{DoxyImage}
+   
+
+GUB Game Engine is a powerful and versatile engine designed for the development of game and graphic applications across multiple platforms, including Android, Linux, and Windows. Whether you\textquotesingle{}re building a 2D or 3D game, GUB provides the tools and flexibility you need to bring your projects to life.\hypertarget{md_README_autotoc_md1}{}\doxysection{\texorpdfstring{Features}{Features}}\label{md_README_autotoc_md1}
+
+\begin{DoxyItemize}
+\item {\bfseries{Cross-\/\+Platform Support}}\+: Develop once, deploy on Android, Linux, and Windows.
+\item {\bfseries{Customizable Components}}\+: Design custom UI components, inspired by React, for dynamic and interactive game interfaces.
+\item {\bfseries{Software Rendering}}\+: Pure software rendering engine, with no hardware acceleration required, suitable for projects where control over every pixel is essential.
+\item {\bfseries{Z-\/\+Buffer Implementation}}\+: Efficient depth management for 3D rendering.
+\item {\bfseries{Event Handling System}}\+:
+\begin{DoxyItemize}
+\item Utilizes a pattern involving hash tables of lists of nodes.
+\item Each node contains a listener that handles events, with functionalities for adding listeners similar to how Java\+Script manages events.
+\item Includes support for keyboard, mouse, and joystick event handling, providing comprehensive input management for diverse gaming experiences.
+\end{DoxyItemize}
+\item {\bfseries{Extensible Architecture with Facade Pattern}}\+: The engine can be easily extended with other graphic libraries via the facade pattern. This is how it supports both SDL 1 and SDL 2, providing flexibility in choosing or integrating other libraries.
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Getting Started}{Getting Started}}\label{md_README_autotoc_md2}
+\hypertarget{md_README_autotoc_md3}{}\doxysubsection{\texorpdfstring{Requirements}{Requirements}}\label{md_README_autotoc_md3}
+\hypertarget{md_README_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{Windows}{Windows}}\label{md_README_autotoc_md4}
+
+\begin{DoxyItemize}
+\item {\bfseries{Min\+GW-\/w64}}\+: A 64-\/bit version of the Min\+GW compiler.
+\item {\bfseries{SDL 2 Development Libraries}} (recommended)\+: Download and install the SDL 2 development dependencies. Place these in the compiler\textquotesingle{}s directory.
+\begin{DoxyItemize}
+\item SDL 2 is recommended as it\textquotesingle{}s easier to download and set up on Windows.
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md5}{}\doxysubsubsection{\texorpdfstring{Linux}{Linux}}\label{md_README_autotoc_md5}
+{\bfseries{Debian/\+Ubuntu}}\+:
+\begin{DoxyItemize}
+\item GCC or Clang compiler
+\item SDL 2 Development Libraries\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ apt-\/get\ install\ libsdl2-\/dev}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}
+
+{\bfseries{Arch Linux}}\+:
+\begin{DoxyItemize}
+\item GCC or Clang compiler
+\item SDL 2 Development Libraries\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{sudo\ pacman\ -\/S\ sdl2}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md6}{}\doxysubsection{\texorpdfstring{Compilation Instructions}{Compilation Instructions}}\label{md_README_autotoc_md6}
+\hypertarget{md_README_autotoc_md7}{}\doxysubsubsection{\texorpdfstring{Windows}{Windows}}\label{md_README_autotoc_md7}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Clone the Repository}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/jason-\/devcode/gub-\/game-\/engine.git}
+\DoxyCodeLine{cd\ gub-\/game-\/engine}
+
+\end{DoxyCode}
+
+\item {\bfseries{Edit {\ttfamily build.\+bat}}}\+:
+\begin{DoxyItemize}
+\item Open the {\ttfamily build.\+bat} file in a text editor.
+\item Uncomment the section corresponding to the sample you wish to build.
+\end{DoxyItemize}
+\item {\bfseries{Run the Build Script}}\+:
+\begin{DoxyItemize}
+\item Double-\/click on {\ttfamily build.\+bat} to start the build process.
+\item The compiled binaries will be placed in the {\ttfamily build} directory.
+\end{DoxyItemize}
+\item {\bfseries{SDL Version}}\+:
+\begin{DoxyItemize}
+\item By default, the engine is configured to use SDL 2. If you wish to use SDL 1, you can adjust the build script accordingly, but SDL 2 is recommended for ease of use.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_README_autotoc_md8}{}\doxysubsubsection{\texorpdfstring{Linux}{Linux}}\label{md_README_autotoc_md8}
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Clone the Repository}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ https://github.com/jason-\/devcode/gub-\/game-\/engine.git}
+\DoxyCodeLine{cd\ gub-\/game-\/engine}
+
+\end{DoxyCode}
+
+\item {\bfseries{Build the Engine}}\+:
+\begin{DoxyItemize}
+\item Run the build script\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./build.sh}
+
+\end{DoxyCode}
+
+\end{DoxyItemize}
+\item {\bfseries{Run the Engine}}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./build/gub\_engine}
+
+\end{DoxyCode}
+
+\begin{DoxyItemize}
+\item The engine will automatically detect the platform and use the appropriate SDL version. Ensure you have SDL 2 installed as per the requirements.
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{md_README_autotoc_md9}{}\doxysubsection{\texorpdfstring{Extending the Engine}{Extending the Engine}}\label{md_README_autotoc_md9}
+GUB Game Engine\textquotesingle{}s architecture allows for easy extension with other graphic libraries using the facade pattern. This design pattern abstracts the underlying graphic library, enabling seamless support for SDL 1, SDL 2, and potential future libraries. To integrate a new library, implement the necessary facade interfaces in the engine and adjust the build scripts to include the new library.\hypertarget{md_README_autotoc_md10}{}\doxysubsection{\texorpdfstring{Sample Projects}{Sample Projects}}\label{md_README_autotoc_md10}
+The engine comes with several sample projects that demonstrate various features\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Basic 3D Rendering}}\+: A simple 3D scene with z-\/buffering.
+\item {\bfseries{Custom UI Components}}\+: Demonstrates how to create and manage custom UI elements.
+\item {\bfseries{Event Handling}}\+: Showcases the engine\textquotesingle{}s event management system, utilizing hash tables of lists of nodes with listener functionalities similar to Java\+Script, including joystick event handling.
+\end{DoxyItemize}
+
+To build a sample, follow the instructions in the {\ttfamily Compilation Instructions} section.\hypertarget{md_README_autotoc_md11}{}\doxysection{\texorpdfstring{Documentation}{Documentation}}\label{md_README_autotoc_md11}
+{\bfseries{Documentation of use is coming soon!}} Stay tuned for comprehensive guides, tutorials, and API references that will help you make the most of the GUB Game Engine.\hypertarget{md_README_autotoc_md12}{}\doxysection{\texorpdfstring{Contributing}{Contributing}}\label{md_README_autotoc_md12}
+We welcome contributions to the GUB Game Engine! If you find a bug or have a feature request, please open an issue. Contributions can be made via pull requests. Please ensure that your code follows the project\textquotesingle{}s coding standards and includes appropriate documentation.\hypertarget{md_README_autotoc_md13}{}\doxysection{\texorpdfstring{License}{License}}\label{md_README_autotoc_md13}
+This project is licensed under the MIT License -\/ see the \href{./LICENSE}{\texttt{ LICENSE}} file for details. 

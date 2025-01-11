@@ -1,0 +1,147 @@
+\doxysection{event\+\_\+handler.\+h}
+\hypertarget{sdl1_2event__handler_8h_source}{}\label{sdl1_2event__handler_8h_source}\index{include/core/apis/sdl1/event\_handler.h@{include/core/apis/sdl1/event\_handler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ EVENT\_API\_HANDLER\_SDL\_2\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ EVENT\_API\_HANDLER\_SDL\_2\_IMPLEMENTATION\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <SDL/SDL.h>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}graphic\_environment.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/running\_state.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}../../engine\_properties/pause\_gameloop\_for\_rendering.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}../../../utils/keyboard.h"{}}\ \textcolor{comment}{//\ For\ keyboard\ utils}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}../../../utils/mouse.h"{}}\ \ \ \ \textcolor{comment}{//\ For\ mouse\ utils}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}../../managers/event\_processors.h"{}}\ \textcolor{comment}{//\ For\ main\ event\ processors}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}../../constants/joystick\_init\_possible\_results.h"{}}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ "{}joystick\_event\_handler.h"{}}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ renderDelay(delayValue)\ SDL\_Delay(delayValue)}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{bool}\ initializeEventManagers()}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//\ Initialize\ Key\ Event\ Manager}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\&gKeyPressEventManager,\ MAX\_KEY\_LISTENER\_LISTS\_COUNT))}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ key\ press\ event\ manager\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_initialization;}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\&gKeyReleaseEventManager,\ MAX\_KEY\_LISTENER\_LISTS\_COUNT))}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ key\ release\ event\ manager\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_initialization;}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\&gMouseEventManager,\ MOUSE\_LAST))}
+\DoxyCodeLine{00054\ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ mouse\ event\ manager\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_initialization;}
+\DoxyCodeLine{00057\ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{event__manager_8h_a79cc92d20b07aea02d851a2d545ee2a5}{initializeEventManager}}(\&gMouseEventManager,\ MOUSE\_LAST))}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ mouse\ event\ manager\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_initialization;}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ initJoystickResult\ =\ initializeJoystickEventHandler();}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (initJoystickResult\ !=\ NOT\_FOUND\_JOYSTICK\ \&\&\ !initJoystickResult)}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ fputs(\textcolor{stringliteral}{"{}ERROR:\ Could\ not\ initialize\ joystick\ events\ handler\(\backslash\)n"{}},\ stderr);}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{goto}\ fail\_initialization;}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{goto}\ success\_initalization;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ fail\_initialization:}
+\DoxyCodeLine{00076\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gKeyPressEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00077\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gKeyReleaseEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00078\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gMouseEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00079\ \ \ \ \ closeJoystickEventHandler();}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ success\_initalization:}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00084\ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00093\ \textcolor{keywordtype}{void}\ processAllEvents()}
+\DoxyCodeLine{00094\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ SDL\_Event\ event;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ Process\ all\ pending\ events}}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{while}\ (SDL\_PollEvent(\&event))}
+\DoxyCodeLine{00099\ \ \ \ \ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (event.type)}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYDOWN:}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_KEYDOWN(event);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_KEYUP:}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_KEYUP(event);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_MOUSEMOTION:}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_MOUSEMOTION(event);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_MOUSEBUTTONDOWN:}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_MOUSEBUTTONDOWN(event);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_MOUSEBUTTONUP:}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_MOUSEBUTTONUP(event);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ SDL\_QUIT:}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ PROCESS\_QUIT(event);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ handleJoystickEvents(\&event);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\ Trigger\ events\ for\ all\ joystick\ buttons\ still\ pressed}}
+\DoxyCodeLine{00138\ \ \ \ \ TRIGGER\_PRESSED\_JOYSTICKS\_BUTTONS();}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{comment}{//\ Trigger\ events\ for\ all\ keys\ still\ pressed}}
+\DoxyCodeLine{00141\ \ \ \ \ TRIGGER\_PRESSED\_KEYS();}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{comment}{//\ Trigger\ events\ for\ all\ mouse\ buttons\ still\ pressed}}
+\DoxyCodeLine{00144\ \ \ \ \ TRIGGER\_PRESSED\_MOUSE\_BUTTONS();}
+\DoxyCodeLine{00145\ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00153\ \textcolor{keywordtype}{void}\ loopEventHandlerApi()}
+\DoxyCodeLine{00154\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{do}}
+\DoxyCodeLine{00156\ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ processAllEvents();}
+\DoxyCodeLine{00158\ \ \ \ \ \}\ \textcolor{keywordflow}{while}\ (isGameRunning);}
+\DoxyCodeLine{00159\ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00167\ \textcolor{keywordtype}{void}\ closeEventManagers()}
+\DoxyCodeLine{00168\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gMouseEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00170\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gKeyPressEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00171\ \ \ \ \ \mbox{\hyperlink{event__manager_8h_a94559910de43732dc2da469b42f69298}{freeEventManager}}(\&gKeyReleaseEventManager,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00172\ \ \ \ \ closeJoystickEventHandler();}
+\DoxyCodeLine{00173\ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
